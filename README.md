@@ -25,15 +25,25 @@ docker-compose up --build
 - Frontend: http://localhost/
 
 ### Configurando React
+
 ```
-bash
-cd C:\Work\poc.cqrs.api.net8\front-end\poc.admin.react
+cd C:\Work\poc.vertical.slices-full-stack-react.net8
+```
+```
 npm install
-yarn install
-npm start
-yarn start
-Acesso: http://localhost/ - Falta iniciar o projeto
 ```
+```
+yarn install
+```
+```
+npm start
+```
+```
+yarn start
+```
+
+- Acesso: http://localhost/ - Falta iniciar o projeto
+
 
 ### SQL Server
 
