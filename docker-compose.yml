@@ -15,7 +15,7 @@ services:
     container_name: poc.admin.react.webapi
     restart: always
     build:
-      context: ./poc.admin.react
+      context: ./frontend/poc.admin.react
       dockerfile: Dockerfile
     expose:
       - 3000
@@ -23,7 +23,7 @@ services:
       - '80:3000'
     volumes:
       - .:/app
-      - /app/node_modules
+      - /frontend/poc.admin.react/app/node_modules
     networks:
       - app-frontend 
     depends_on:
@@ -37,7 +37,7 @@ services:
     restart: always
     build:
       context: .
-      dockerfile: src/poc.admin/Dockerfile
+      dockerfile: backend/poc.admin/Dockerfile
     expose:
       - 5075
     ports:

@@ -29,15 +29,19 @@ docker-compose up --build
 ```
 cd C:\Work\poc.vertical.slices-full-stack-react.net8
 ```
+
 ```
 npm install
 ```
+
 ```
 yarn install
 ```
+
 ```
 npm start
 ```
+
 ```
 yarn start
 ```

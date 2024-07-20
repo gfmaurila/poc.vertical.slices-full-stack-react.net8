@@ -10,10 +10,10 @@ RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /
 USER appuser
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
+WORKDIR /backend
 
 # Copia o arquivo .csproj para o diret rio de trabalho atual no cont iner
-COPY src/poc.admin/poc.admin.csproj .
+COPY backend/poc.admin/poc.admin.csproj .
 
 # Restaura as depend ncias do projeto
 RUN dotnet restore poc.admin.csproj
@@ -22,11 +22,11 @@ RUN dotnet restore poc.admin.csproj
 COPY . .
 
 # Define o diret rio de trabalho e constr i o projeto
-WORKDIR /src
-RUN dotnet build src/poc.admin/poc.admin.csproj -c Release -o /app/build
+WORKDIR /backend
+RUN dotnet build backend/poc.admin/poc.admin.csproj -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish src/poc.admin/poc.admin.csproj -c Release -o /app/publish
+RUN dotnet publish backend/poc.admin/poc.admin.csproj -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
