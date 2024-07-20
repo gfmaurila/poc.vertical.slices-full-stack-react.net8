@@ -1,7 +1,7 @@
 ﻿using poc.core.api.net8;
 using poc.core.api.net8.api.net8.api.net8.Abstractions;
 
-namespace poc.vertical.slices.net8.Domain;
+namespace poc.admin.Domain;
 
 public class Article : BaseEntity, IAggregateRoot
 {

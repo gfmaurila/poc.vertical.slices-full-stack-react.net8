@@ -1,8 +1,8 @@
 ﻿using Ardalis.Result;
 using FluentValidation;
 using MediatR;
+using poc.admin.Domain;
 using poc.vertical.slices.net8.Database;
-using poc.vertical.slices.net8.Domain;
 
 namespace poc.admin.Feature.Articles.CreateArticle;
 

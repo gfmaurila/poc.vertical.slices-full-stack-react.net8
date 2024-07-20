@@ -1,10 +1,10 @@
 ﻿using poc.admin.Domain.User.DTO;
-using poc.admin.Domain.User.Events.Auth;
 using poc.admin.Domain.User.Events;
+using poc.admin.Domain.User.Events.Auth;
+using poc.core.api.net8;
 using poc.core.api.net8.api.net8.api.net8.Abstractions;
 using poc.core.api.net8.Enumerado;
 using poc.core.api.net8.ValueObjects;
-using poc.core.api.net8;
 
 namespace poc.admin.Domain.User;
 

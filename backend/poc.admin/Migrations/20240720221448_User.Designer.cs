@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using poc.vertical.slices.net8.Database;
 
@@ -11,9 +12,11 @@ using poc.vertical.slices.net8.Database;
 namespace poc.vertical.slices.net8.Migrations
 {
     [DbContext(typeof(EFSqlServerContext))]
-    partial class EFSqlServerContextModelSnapshot : ModelSnapshot
+    [Migration("20240720221448_User")]
+    partial class User
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

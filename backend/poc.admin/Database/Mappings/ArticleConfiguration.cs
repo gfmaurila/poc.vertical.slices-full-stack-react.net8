@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using poc.vertical.slices.net8.Domain;
+using poc.admin.Domain;
 using poc.vertical.slices.net8.Extensions;
 
 namespace poc.vertical.slices.net8.Database.Mappings;

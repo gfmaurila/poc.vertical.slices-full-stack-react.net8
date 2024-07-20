@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using poc.admin.Database.Mappings;
+using poc.admin.Domain;
+using poc.admin.Domain.User;
 using poc.vertical.slices.net8.Database.Mappings;
-using poc.vertical.slices.net8.Domain;
 
 namespace poc.vertical.slices.net8.Database;
 
@@ -14,9 +16,12 @@ public class EFSqlServerContext : DbContext
 
     public virtual DbSet<Article> Article { get; set; }
 
+    public virtual DbSet<UserEntity> User { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new ArticleConfiguration());
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
