@@ -1,6 +1,7 @@
 ﻿using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
 using poc.admin.Feature.Articles;
 using poc.admin.Feature.Articles.GetArticle;
 using poc.core.api.net8.API.Models;
@@ -28,6 +29,19 @@ public class GetArticleEndpoint : ICarterModule
         {
             var result = await sender.Send(new GetArticleQuery());
             return Results.Ok(result.Value);
+        })
+        .WithName("GetArticles")
+        .WithOpenApi(x => new OpenApiOperation(x)
+        {
+            Summary = "Buscar todos artigos",
+            Description = "Buscar todos artigos",
+            Tags = new List<OpenApiTag>
+            {
+                new OpenApiTag
+                {
+                    Name = "Artigos"
+                }
+            }
         });
     }
 }

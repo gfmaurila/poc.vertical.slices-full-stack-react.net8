@@ -2,6 +2,7 @@
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
 using poc.admin.Feature.Articles;
 using poc.admin.Feature.Users.CreateUser;
 using poc.core.api.net8.API.Models;
@@ -23,6 +24,7 @@ public class CreateUserEndpoint : ICarterModule
     [ProducesResponseType(typeof(ApiResponse<ArticleResponse>), StatusCodes.Status200OK)] // Adapte o tipo conforme necessário
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
+    //[Authorize(Roles = $"{RoleUserAuthConstants.User}, {RoleUserAuthConstants.PostUser}")]
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost("api/User", async (CreateUserCommand command, ISender sender) =>
@@ -31,6 +33,19 @@ public class CreateUserEndpoint : ICarterModule
             if (!result.IsSuccess)
                 return Results.BadRequest(result.Errors);
             return Results.Ok(result.Value);
+        })
+        .WithName("CreateUser")
+        .WithOpenApi(x => new OpenApiOperation(x)
+        {
+            Summary = "Inserir usuários",
+            Description = "Inserir usuários",
+            Tags = new List<OpenApiTag>
+            {
+                new OpenApiTag
+                {
+                    Name = "Usuários"
+                }
+            }
         });
     }
 }

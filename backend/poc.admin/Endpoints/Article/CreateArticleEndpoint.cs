@@ -2,6 +2,7 @@
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
 using poc.admin.Feature.Articles;
 using poc.admin.Feature.Articles.CreateArticle;
 using poc.core.api.net8.API.Models;
@@ -37,6 +38,19 @@ public class CreateArticleEndpoint : ICarterModule
                 return Results.BadRequest(result.Errors);
 
             return Results.Ok(result.Value);
+        })
+        .WithName("CreateArticles")
+        .WithOpenApi(x => new OpenApiOperation(x)
+        {
+            Summary = "Inserir artigos",
+            Description = "Inserir artigos",
+            Tags = new List<OpenApiTag>
+            {
+                new OpenApiTag
+                {
+                    Name = "Artigos"
+                }
+            }
         });
     }
 }

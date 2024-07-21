@@ -1,6 +1,7 @@
 ﻿using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
 using poc.admin.Feature.Articles.DeleteArticle;
 using poc.core.api.net8.API.Models;
 using System.Net.Mime;
@@ -37,6 +38,19 @@ public class DeleteArticleEndpoint : ICarterModule
                 return Results.BadRequest(result.Errors);
 
             return Results.Ok(result.Value);
+        })
+        .WithName("DeleteArticles")
+        .WithOpenApi(x => new OpenApiOperation(x)
+        {
+            Summary = "Deletar artigos",
+            Description = "deletar artigos",
+            Tags = new List<OpenApiTag>
+            {
+                new OpenApiTag
+                {
+                    Name = "Artigos"
+                }
+            }
         });
     }
 }

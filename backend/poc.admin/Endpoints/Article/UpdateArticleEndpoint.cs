@@ -2,6 +2,7 @@
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
 using poc.admin.Feature.Articles.UpdateArticle;
 using poc.core.api.net8.API.Models;
 using System.Net.Mime;
@@ -30,15 +31,26 @@ public class UpdateArticleEndpoint : ICarterModule
     {
         app.MapPut("api/articles", async (UpdateArticleRequest request, ISender sender) =>
         {
-
             var command = request.Adapt<UpdateArticleCommand>();
-
             var result = await sender.Send(command);
 
             if (!result.IsSuccess)
                 return Results.BadRequest(result.Errors);
 
             return Results.Ok(result.Value);
+        })
+        .WithName("PutArticles")
+        .WithOpenApi(x => new OpenApiOperation(x)
+        {
+            Summary = "Atualizar artigos",
+            Description = "Atualizar artigos",
+            Tags = new List<OpenApiTag>
+            {
+                new OpenApiTag
+                {
+                    Name = "Artigos"
+                }
+            }
         });
     }
 }

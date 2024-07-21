@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using poc.admin.Database.Repositories;
 using poc.admin.Database.Repositories.Interfaces;
+using poc.admin.Extensions;
 using poc.core.api.net8.DistributedCache;
 using poc.vertical.slices.net8.Database;
 using poc.vertical.slices.net8.Extensions;
@@ -11,9 +12,15 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
 
+// Swagger
 builder.Services.AddControllers();
+builder.Services.AddConnections();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerConfig(builder.Configuration);
+
+
+
+
 
 builder.Services.AddDbContext<EFSqlServerContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
 
