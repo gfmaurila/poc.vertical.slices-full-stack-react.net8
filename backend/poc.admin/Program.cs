@@ -1,8 +1,12 @@
 using Carter;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using poc.admin.Database.Repositories;
+using poc.admin.Database.Repositories.Interfaces;
+using poc.core.api.net8.DistributedCache;
 using poc.vertical.slices.net8.Database;
 using poc.vertical.slices.net8.Extensions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,9 +21,23 @@ var assembly = typeof(Program).Assembly;
 
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(assembly));
 
+DistributedCacheInitializer.Initialize(builder.Services, builder.Configuration);
+
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+
+
+
 builder.Services.AddCarter();
 
 builder.Services.AddValidatorsFromAssembly(assembly);
+
+builder.Services.AddAuthorization();
+
+builder.Host.UseSerilog((context, config) =>
+{
+    config.ReadFrom.Configuration(builder.Configuration);
+});
+
 
 var app = builder.Build();
 
