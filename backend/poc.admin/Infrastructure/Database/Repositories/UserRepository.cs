@@ -37,8 +37,10 @@ public class UserRepository : BaseRepository<UserEntity>, IUserRepository
     #region Mapper
     private UserQueryModel MapperModelToEntity(UserEntity entity)
     {
+
         return new UserQueryModel()
         {
+            Id = entity.Id,
             FirstName = entity.FirstName,
             LastName = entity.LastName,
             Gender = entity.Gender,
@@ -56,6 +58,7 @@ public class UserRepository : BaseRepository<UserEntity>, IUserRepository
         {
             model.Add(new UserQueryModel
             {
+                Id = entityItem.Id,
                 FirstName = entityItem.FirstName,
                 LastName = entityItem.LastName,
                 Gender = entityItem.Gender,
