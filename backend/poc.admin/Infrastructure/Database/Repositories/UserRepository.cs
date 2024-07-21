@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using poc.admin.Database.Repositories.Interfaces;
 using poc.admin.Domain.User;
 using poc.admin.Feature.Users.GetArticle;
+using poc.admin.Infrastructure.Database.Repositories.Interfaces;
 using poc.core.api.net8.ValueObjects;
-using poc.vertical.slices.net8.Database;
 
-namespace poc.admin.Database.Repositories;
+namespace poc.admin.Infrastructure.Database.Repositories;
 
 public class UserRepository : BaseRepository<UserEntity>, IUserRepository
 {

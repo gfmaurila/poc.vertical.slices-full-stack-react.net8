@@ -1,7 +1,7 @@
 ﻿using Ardalis.Result;
 using MediatR;
-using poc.admin.Database.Repositories.Interfaces;
 using poc.admin.Domain.User;
+using poc.admin.Infrastructure.Database.Repositories.Interfaces;
 using poc.core.api.net8.Extensions;
 using poc.core.api.net8.ValueObjects;
 

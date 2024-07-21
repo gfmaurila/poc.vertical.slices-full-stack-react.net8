@@ -60,4 +60,10 @@
 	  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Infrastructure\Integration\Auth\" />
+    <Folder Include="Infrastructure\Integration\Kafka\" />
+    <Folder Include="Infrastructure\Integration\RabbiMQ\" />
+  </ItemGroup>
+
 </Project>

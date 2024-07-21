@@ -1,11 +1,11 @@
 using Carter;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using poc.admin.Database.Repositories;
-using poc.admin.Database.Repositories.Interfaces;
 using poc.admin.Extensions;
+using poc.admin.Infrastructure.Database;
+using poc.admin.Infrastructure.Database.Repositories;
+using poc.admin.Infrastructure.Database.Repositories.Interfaces;
 using poc.core.api.net8.DistributedCache;
-using poc.vertical.slices.net8.Database;
 using poc.vertical.slices.net8.Extensions;
 using Serilog;
 

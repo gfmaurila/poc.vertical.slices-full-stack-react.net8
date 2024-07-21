@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using poc.admin.Database.Repositories.Interfaces;
 using poc.admin.Domain.User.Events;
 using poc.admin.Feature.Users.GetArticle;
+using poc.admin.Infrastructure.Database.Repositories.Interfaces;
 using poc.core.api.net8.Interface;
 
 namespace poc.admin.Feature.Users.CreateUser.Events;

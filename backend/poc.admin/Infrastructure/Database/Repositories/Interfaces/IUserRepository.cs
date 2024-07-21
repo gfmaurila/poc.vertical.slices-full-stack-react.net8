@@ -3,7 +3,7 @@ using poc.admin.Feature.Users.GetArticle;
 using poc.core.api.net8.Abstractions;
 using poc.core.api.net8.ValueObjects;
 
-namespace poc.admin.Database.Repositories.Interfaces;
+namespace poc.admin.Infrastructure.Database.Repositories.Interfaces;
 
 public interface IUserRepository : IBaseRepository<UserEntity>
 {

@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using poc.admin.Database.Mappings;
 using poc.admin.Domain;
 using poc.admin.Domain.User;
-using poc.vertical.slices.net8.Database.Mappings;
+using poc.admin.Infrastructure.Database.Mappings;
 
-namespace poc.vertical.slices.net8.Database;
+namespace poc.admin.Infrastructure.Database;
 
 public class EFSqlServerContext : DbContext
 {
@@ -30,7 +29,7 @@ public class EFSqlServerContext : DbContext
         base.OnConfiguring(optionsBuilder);
     }
 
-    public static readonly Microsoft.Extensions.Logging.LoggerFactory _loggerFactory = new LoggerFactory(new[] {
+    public static readonly LoggerFactory _loggerFactory = new LoggerFactory(new[] {
         new Microsoft.Extensions.Logging.Debug.DebugLoggerProvider()
     });
 }

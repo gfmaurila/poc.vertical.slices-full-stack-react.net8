@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using poc.vertical.slices.net8.Database;
+using poc.admin.Infrastructure.Database;
 
 namespace poc.vertical.slices.net8.Extensions;
 

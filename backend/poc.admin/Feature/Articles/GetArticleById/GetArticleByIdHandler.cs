@@ -1,7 +1,7 @@
 ﻿using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using poc.vertical.slices.net8.Database;
+using poc.admin.Infrastructure.Database;
 
 namespace poc.admin.Feature.Articles.GetArticleById;
 

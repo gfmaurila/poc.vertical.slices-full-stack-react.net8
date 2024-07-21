@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using poc.core.api.net8;
 using poc.core.api.net8.Abstractions;
-using poc.vertical.slices.net8.Database;
 
-namespace poc.admin.Database.Repositories;
+namespace poc.admin.Infrastructure.Database.Repositories;
 
 public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
 {

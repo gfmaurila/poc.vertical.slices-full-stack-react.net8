@@ -4,7 +4,7 @@ using poc.admin.Domain.User;
 using poc.vertical.slices.net8.Extensions;
 using System.Text.Json;
 
-namespace poc.admin.Database.Mappings;
+namespace poc.admin.Infrastructure.Database.Mappings;
 
 public class UserConfiguration : IEntityTypeConfiguration<UserEntity>
 {

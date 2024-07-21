@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using poc.admin.Domain;
 using poc.vertical.slices.net8.Extensions;
 
-namespace poc.vertical.slices.net8.Database.Mappings;
+namespace poc.admin.Infrastructure.Database.Mappings;
 
 public class ArticleConfiguration : IEntityTypeConfiguration<Article>
 {
