@@ -10,5 +10,6 @@ public interface IUserRepository : IBaseRepository<UserEntity>
     Task<bool> ExistsByEmailAsync(Email email);
     Task<bool> ExistsByEmailAsync(Email email, Guid currentId);
     Task<List<UserQueryModel>> GetAllAsync();
+    Task<UserQueryModel> GetByIdAsync(Guid id);
 }
 

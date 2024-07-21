@@ -50,8 +50,6 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
 
         await _repo.Create(entity);
 
-        //await _unitOfWork.SaveChangesAsync();
-
         // Executa eventos
         foreach (var domainEvent in entity.DomainEvents)
             await _mediator.Publish(domainEvent);

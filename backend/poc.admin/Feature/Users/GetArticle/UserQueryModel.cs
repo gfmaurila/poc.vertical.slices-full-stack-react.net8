@@ -16,7 +16,7 @@ public class UserQueryModel : BaseQueryModel
     public string Email { get; init; }
     public string Phone { get; init; }
 
-    public string Password { get; init; }
+    //public string Password { get; init; }
 
     public List<string> RoleUserAuth { get; init; } = new List<string>();
 }

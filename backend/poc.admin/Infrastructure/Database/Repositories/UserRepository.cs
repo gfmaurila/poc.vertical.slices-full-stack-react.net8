@@ -23,7 +23,32 @@ public class UserRepository : BaseRepository<UserEntity>, IUserRepository
     public async Task<List<UserQueryModel>> GetAllAsync()
         => MapperModelToEntity(await _context.User.AsNoTracking().ToListAsync());
 
+    public async Task<UserQueryModel> GetByIdAsync(Guid id)
+    {
+        var entity = await _context.User.AsNoTracking()
+                                   .Where(u => u.Id == id)
+                                   .FirstOrDefaultAsync();
+        if (entity is not null)
+            return MapperModelToEntity(entity);
+
+        return null;
+    }
+
     #region Mapper
+    private UserQueryModel MapperModelToEntity(UserEntity entity)
+    {
+        return new UserQueryModel()
+        {
+            FirstName = entity.FirstName,
+            LastName = entity.LastName,
+            Gender = entity.Gender,
+            Email = entity.Email.Address,
+            Phone = entity.Phone.Phone,
+            RoleUserAuth = entity.RoleUserAuth,
+            DateOfBirth = entity.DateOfBirth
+        };
+    }
+
     private List<UserQueryModel> MapperModelToEntity(List<UserEntity> entity)
     {
         var model = new List<UserQueryModel>();
@@ -37,7 +62,7 @@ public class UserRepository : BaseRepository<UserEntity>, IUserRepository
                 Email = entityItem.Email.Address,
                 Phone = entityItem.Phone.Phone,
                 RoleUserAuth = entityItem.RoleUserAuth,
-                Password = entityItem.Password,
+                //Password = entityItem.Password,
                 DateOfBirth = entityItem.DateOfBirth
             });
         }

@@ -10,18 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Feature\Users\DeleteUser\**" />
     <Compile Remove="Feature\Users\GetUser\**" />
-    <Compile Remove="Feature\Users\UpdateUser\**" />
-    <Content Remove="Feature\Users\DeleteUser\**" />
     <Content Remove="Feature\Users\GetUser\**" />
-    <Content Remove="Feature\Users\UpdateUser\**" />
-    <EmbeddedResource Remove="Feature\Users\DeleteUser\**" />
     <EmbeddedResource Remove="Feature\Users\GetUser\**" />
-    <EmbeddedResource Remove="Feature\Users\UpdateUser\**" />
-    <None Remove="Feature\Users\DeleteUser\**" />
     <None Remove="Feature\Users\GetUser\**" />
-    <None Remove="Feature\Users\UpdateUser\**" />
   </ItemGroup>
 
   <ItemGroup>

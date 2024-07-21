@@ -11,4 +11,6 @@ public class UpdateUserDTO
     public EGender Gender { get; set; }
     public ENotificationType Notification { get; set; }
     public DateTime DateOfBirth { get; set; }
+
+
 }

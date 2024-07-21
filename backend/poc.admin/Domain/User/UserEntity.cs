@@ -1,6 +1,6 @@
-﻿using poc.admin.Domain.User.DTO;
-using poc.admin.Domain.User.Events;
+﻿using poc.admin.Domain.User.Events;
 using poc.admin.Domain.User.Events.Auth;
+using poc.admin.Feature.Users.UpdateUser;
 using poc.core.api.net8;
 using poc.core.api.net8.api.net8.api.net8.Abstractions;
 using poc.core.api.net8.Enumerado;
@@ -99,7 +99,7 @@ public class UserEntity : BaseEntity, IAggregateRoot
     /// Altera registros
     /// </summary>
     /// <param name="dto"></param>
-    public void Update(UpdateUserDTO dto)
+    public void Update(UpdateUserCommand dto)
     {
         FirstName = dto.FirstName;
         LastName = dto.LastName;
