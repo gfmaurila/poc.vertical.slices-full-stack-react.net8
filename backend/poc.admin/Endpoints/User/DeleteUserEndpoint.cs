@@ -1,12 +1,9 @@
 ﻿using Carter;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
-using poc.admin.Feature.Articles.DeleteArticle;
 using poc.admin.Feature.Users.DeleteUser;
 using poc.core.api.net8.API.Models;
-using poc.core.api.net8.User;
 using System.Net.Mime;
 
 namespace poc.vertical.slices.net8.Endpoints.User;
