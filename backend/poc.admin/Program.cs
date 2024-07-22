@@ -6,7 +6,6 @@ using poc.admin.Infrastructure.Database;
 using poc.admin.Infrastructure.Database.Repositories;
 using poc.admin.Infrastructure.Database.Repositories.Interfaces;
 using poc.core.api.net8.DistributedCache;
-using poc.vertical.slices.net8.Extensions;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,9 +48,9 @@ builder.Host.UseSerilog((context, config) =>
 var app = builder.Build();
 
 if (app.Environment.IsEnvironment("Test") ||
-    app.Environment.IsDevelopment() || 
+    app.Environment.IsDevelopment() ||
     app.Environment.IsEnvironment("Docker") ||
-    app.Environment.IsStaging() || 
+    app.Environment.IsStaging() ||
     app.Environment.IsProduction())
 {
     app.UseSwagger();

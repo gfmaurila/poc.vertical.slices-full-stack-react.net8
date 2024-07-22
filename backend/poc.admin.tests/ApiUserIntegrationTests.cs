@@ -1,12 +1,7 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using poc.admin.Feature.Users.GetArticle;
+using System.Net;
+using System.Net.Http.Json;
 
 namespace poc.admin.tests;
 
