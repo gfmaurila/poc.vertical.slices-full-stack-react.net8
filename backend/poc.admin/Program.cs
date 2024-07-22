@@ -48,7 +48,11 @@ builder.Host.UseSerilog((context, config) =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker") || app.Environment.IsStaging())
+if (app.Environment.IsEnvironment("Test") ||
+    app.Environment.IsDevelopment() || 
+    app.Environment.IsEnvironment("Docker") ||
+    app.Environment.IsStaging() || 
+    app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -64,6 +68,16 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-await app.MigrateAsync(); // Aqui faz migrations
+
+if (app.Environment.IsEnvironment("Test") ||
+    app.Environment.IsDevelopment() ||
+    app.Environment.IsEnvironment("Docker") ||
+    app.Environment.IsStaging() ||
+    app.Environment.IsProduction())
+{
+    //await app.MigrateAsync(); // Aqui faz migrations
+}
 
 app.Run();
+
+public partial class Program { }

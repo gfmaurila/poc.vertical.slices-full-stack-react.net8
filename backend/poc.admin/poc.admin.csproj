@@ -58,4 +58,8 @@
     <Folder Include="Infrastructure\Integration\RabbiMQ\" />
   </ItemGroup>
 
+  <ItemGroup>
+	  <InternalsVisibleTo Include="poc.admin.tests" />
+  </ItemGroup>
+
 </Project>

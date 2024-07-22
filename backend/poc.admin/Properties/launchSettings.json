@@ -42,6 +42,15 @@
       }
     },
 
+    "TEST": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Test"
+      }
+    },
+
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
