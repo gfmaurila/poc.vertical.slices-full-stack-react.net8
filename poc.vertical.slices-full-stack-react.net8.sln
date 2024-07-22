@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "poc.admin", "backend\poc.ad
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "poc.admin.tests", "backend\poc.admin.tests\poc.admin.tests.csproj", "{FF613475-4D6B-48E2-A56A-C8F6D77C93F8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Admin", "01 - Admin", "{54D15489-9CD9-4612-8A6E-11C5F52F1C9E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7899788D-E25C-4397-8FEF-CD8D57C89394} = {54D15489-9CD9-4612-8A6E-11C5F52F1C9E}
+		{FF613475-4D6B-48E2-A56A-C8F6D77C93F8} = {54D15489-9CD9-4612-8A6E-11C5F52F1C9E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3EEA466-727D-4860-AAEB-6763D5A16B28}
