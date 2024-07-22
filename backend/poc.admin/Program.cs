@@ -17,10 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddConnections();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfig(builder.Configuration);
-
-
-
-
+builder.Services.UseAuthentication(builder.Configuration);
 
 builder.Services.AddDbContext<EFSqlServerContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
 

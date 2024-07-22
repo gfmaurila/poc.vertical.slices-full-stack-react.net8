@@ -1,4 +1,8 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using poc.core.api.net8.API.Models;
+using System.Text;
 
 namespace poc.admin.Extensions;
 
@@ -46,5 +50,36 @@ public static class SwaggerConfig
             });
         });
         return services;
+    }
+
+
+    public static void UseAuthentication(this IServiceCollection services, IConfiguration configuration)
+    {
+        services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+
+                    ValidIssuer = configuration.GetValue<string>(ConfigConsts.Issuer),
+                    ValidAudience = configuration.GetValue<string>(ConfigConsts.Audience),
+                    IssuerSigningKey = new SymmetricSecurityKey
+                    (Encoding.UTF8.GetBytes(configuration.GetValue<string>(ConfigConsts.Key)))
+                };
+            });
+    }
+
+    public static void UseDevelopmentSwagger(this IApplicationBuilder app)
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "poc.admin");
+        });
     }
 }
