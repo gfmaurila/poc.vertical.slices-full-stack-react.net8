@@ -1,13 +1,13 @@
-﻿using Ardalis.Result;
-using MediatR;
+﻿using MediatR;
 using poc.admin.Domain.User;
 using poc.admin.Infrastructure.Database.Repositories.Interfaces;
 using poc.core.api.net8.Extensions;
+using poc.core.api.net8.Response;
 using poc.core.api.net8.ValueObjects;
 
 namespace poc.admin.Feature.Users.CreateUser;
 
-public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Result<CreateUserResponse>>
+public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ApiResult<CreateUserResponse>>
 {
     private readonly CreateUserCommandValidator _validator;
     private readonly IUserRepository _repo;
@@ -23,20 +23,23 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
         _validator = validator;
         _mediator = mediator;
     }
-    public async Task<Result<CreateUserResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResult<CreateUserResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
-            return Result.Invalid(validationResult.Errors.Select(e => new ValidationError
-            {
-                ErrorMessage = e.ErrorMessage
-            }).ToList());
+        {
+            var errors = validationResult.Errors.Select(e => new ErrorDetail(e.ErrorMessage)).ToList();
+            return ApiResult<CreateUserResponse>.CreateError(errors, 400);
+        }
 
         var email = new Email(request.Email);
         var phone = new PhoneNumber(request.Phone);
 
         if (await _repo.ExistsByEmailAsync(email))
-            return Result.Error("O endereço de e-mail informado já está sendo utilizado.");
+        {
+            var errorMessage = new List<ErrorDetail> { new ErrorDetail("O endereço de e-mail informado já está sendo utilizado.") };
+            return ApiResult<CreateUserResponse>.CreateError(errorMessage, 400);
+        }
 
         var entity = new UserEntity(request.FirstName,
             request.LastName,
@@ -53,9 +56,8 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
         // Executa eventos
         foreach (var domainEvent in entity.DomainEvents)
             await _mediator.Publish(domainEvent);
-
         entity.ClearDomainEvents();
 
-        return Result.Success(new CreateUserResponse(entity.Id), "Cadastrado com sucesso!");
+        return ApiResult<CreateUserResponse>.CreateSuccess(new CreateUserResponse(entity.Id), "Cadastrado com sucesso!");
     }
 }

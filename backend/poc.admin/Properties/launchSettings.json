@@ -13,7 +13,7 @@
       }
     },
 
-    "DEV": {
+    "DevTest": {
       "commandName": "IISExpress",
       "launchBrowser": true,
       "launchUrl": "swagger",
@@ -22,6 +22,15 @@
       },
       "applicationUrl": "http://localhost:5025",
       "dotnetRunMessages": true
+    },
+
+    "Dev": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Dev"
+      }
     },
 
     "HML": {

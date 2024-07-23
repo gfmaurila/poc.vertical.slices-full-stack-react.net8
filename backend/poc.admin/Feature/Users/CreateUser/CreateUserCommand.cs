@@ -1,11 +1,11 @@
-﻿using Ardalis.Result;
-using MediatR;
+﻿using MediatR;
 using poc.core.api.net8.Enumerado;
+using poc.core.api.net8.Response;
 using System.ComponentModel.DataAnnotations;
 
 namespace poc.admin.Feature.Users.CreateUser;
 
-public class CreateUserCommand : IRequest<Result<CreateUserResponse>>
+public class CreateUserCommand : IRequest<ApiResult<CreateUserResponse>>
 {
     [Required]
     [MaxLength(100)]

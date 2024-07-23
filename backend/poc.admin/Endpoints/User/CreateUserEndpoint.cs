@@ -1,8 +1,6 @@
 ﻿using Carter;
-using Mapster;
 using MediatR;
 using Microsoft.OpenApi.Models;
-using poc.admin.Feature.Articles;
 using poc.admin.Feature.Users.CreateUser;
 using poc.core.api.net8.API.Models;
 
@@ -16,7 +14,7 @@ public class CreateUserEndpoint : ICarterModule
     {
         app.MapPost("api/User", HandleCreateUser)
             .WithName("CreateUser")
-            .Produces<ArticleResponse>(StatusCodes.Status200OK)
+            .Produces<CreateUserResponse>(StatusCodes.Status200OK)
             .Produces<ApiResponse>(StatusCodes.Status400BadRequest)
             .Produces<ApiResponse>(StatusCodes.Status500InternalServerError)
             .WithOpenApi(x =>
@@ -33,11 +31,14 @@ public class CreateUserEndpoint : ICarterModule
 
     private async Task<IResult> HandleCreateUser(CreateUserCommand command, ISender sender)
     {
-        var result = await sender.Send(command.Adapt<CreateUserCommand>());
-        if (!result.IsSuccess)
-            return Results.BadRequest(result.Errors);
-        return Results.Ok(result.Value);
+        var result = await sender.Send(command);
+        if (!result.Success)
+            return Results.BadRequest(result);
+        return Results.Ok(result);
     }
+
+    //private async Task<IActionResult> HandleCreateUser(CreateUserCommand command, ISender sender)
+    //    => (await sender.Send(command.Adapt<CreateUserCommand>())).ToActionResult();
 }
 
 

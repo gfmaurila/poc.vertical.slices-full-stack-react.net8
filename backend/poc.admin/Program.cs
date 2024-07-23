@@ -28,8 +28,13 @@ builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(assemb
 DistributedCacheInitializer.Initialize(builder.Services, builder.Configuration);
 
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+//builder.Services.Configure<CacheOptions1>(builder.Configuration.GetSection("CacheOptions"));
 
+//builder.Services.AddSingleton<IConfiguration>(provider => builder.Configuration);
+//builder.Services.AddSingleton<RedisConnection>();
 
+//builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("CacheConnection")));
+//builder.Services.AddScoped(typeof(IRedisCacheService<>), typeof(RedisCacheService<>));
 
 builder.Services.AddCarter();
 
@@ -45,7 +50,7 @@ builder.Host.UseSerilog((context, config) =>
 
 var app = builder.Build();
 
-if (app.Environment.IsEnvironment("Test") ||
+if (app.Environment.IsEnvironment("Dev") ||
     app.Environment.IsDevelopment() ||
     app.Environment.IsEnvironment("Docker") ||
     app.Environment.IsStaging() ||
