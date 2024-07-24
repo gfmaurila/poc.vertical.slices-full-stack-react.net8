@@ -1,6 +1,7 @@
 ﻿using Bogus;
 using poc.admin.Domain.User;
 using poc.admin.Feature.Users.CreateUser;
+using poc.admin.Feature.Users.UpdatePassword;
 using poc.admin.Feature.Users.UpdateUser;
 using poc.core.api.net8.Enumerado;
 using poc.core.api.net8.Extensions;
@@ -126,6 +127,32 @@ internal static class UserFake
             Notification = ENotificationType.WhatsApp,
             DateOfBirth = new DateTime(1990, 1, 1),
             Phone = faker.Person.Phone
+        };
+        return command;
+    }
+
+    public static UpdatePasswordUserCommand UpdatePasswordUserCommand(Guid id)
+    {
+        var faker = new Faker("pt_BR");
+
+        var command = new UpdatePasswordUserCommand()
+        {
+            Id = id,
+            Password = "@G18u03i1986",
+            ConfirmPassword = "@G18u03i1986"
+        };
+        return command;
+    }
+
+    public static UpdatePasswordUserCommand UpdatePasswordUserInvalidCommand(Guid id)
+    {
+        var faker = new Faker("pt_BR");
+
+        var command = new UpdatePasswordUserCommand()
+        {
+            Id = id,
+            Password = "@G18u03i198",
+            ConfirmPassword = "@G18u03i1986"
         };
         return command;
     }
