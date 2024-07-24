@@ -35,9 +35,9 @@ public class GetAllUsersEndpoint : ICarterModule
         var result = await sender.Send(new GetUserQuery());
 
         if (!result.Success)
-            return Results.BadRequest(result.Errors);
+            return Results.BadRequest(result);
 
-        return Results.Ok(result.Data);
+        return Results.Ok(result);
     }
 }
 

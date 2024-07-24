@@ -27,19 +27,19 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ApiRe
     {
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
-        {
-            var errors = validationResult.Errors.Select(e => new ErrorDetail(e.ErrorMessage)).ToList();
-            return ApiResult<CreateUserResponse>.CreateError(errors, 400);
-        }
+            return ApiResult<CreateUserResponse>.CreateError(
+                validationResult.Errors.Select(e => new ErrorDetail(e.ErrorMessage)).ToList(),
+                400);
 
         var email = new Email(request.Email);
         var phone = new PhoneNumber(request.Phone);
 
         if (await _repo.ExistsByEmailAsync(email))
-        {
-            var errorMessage = new List<ErrorDetail> { new ErrorDetail("O endereço de e-mail informado já está sendo utilizado.") };
-            return ApiResult<CreateUserResponse>.CreateError(errorMessage, 400);
-        }
+            return ApiResult<CreateUserResponse>.CreateError(
+                new List<ErrorDetail> {
+                    new ErrorDetail("O endereço de e-mail informado já está sendo utilizado.")
+                },
+                400);
 
         var entity = new UserEntity(request.FirstName,
             request.LastName,

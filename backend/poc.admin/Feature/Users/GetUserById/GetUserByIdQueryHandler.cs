@@ -1,12 +1,12 @@
-﻿using Ardalis.Result;
-using MediatR;
+﻿using MediatR;
 using poc.admin.Feature.Users.GetArticle;
 using poc.admin.Infrastructure.Database.Repositories.Interfaces;
 using poc.core.api.net8.Interface;
+using poc.core.api.net8.Response;
 
 namespace poc.admin.Feature.Users.GetUserById;
 
-public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result<UserQueryModel>>
+public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, ApiResult<UserQueryModel>>
 {
     private readonly IUserRepository _repo;
     private readonly IRedisCacheService<UserQueryModel> _cacheService;
@@ -20,31 +20,33 @@ public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result<
         _validator = validator;
     }
 
-    public async Task<Result<UserQueryModel>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+    public async Task<ApiResult<UserQueryModel>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
-            return Result.Invalid(validationResult.Errors.Select(e => new ValidationError
-            {
-                ErrorMessage = e.ErrorMessage
-            }).ToList());
+            return ApiResult<UserQueryModel>.CreateError(
+                validationResult.Errors.Select(e => new ErrorDetail(e.ErrorMessage)).ToList(),
+                400);
 
         var cacheKey = $"{nameof(GetUserByIdQuery)}_{request.Id}";
 
         var modelRedis = await _cacheService.GetAsync(cacheKey);
 
+        // Db Redis
         if (modelRedis is not null)
-            return Result.Success(modelRedis);
+            return ApiResult<UserQueryModel>.CreateSuccess(
+                modelRedis,
+                "Usuário recuperado com sucesso.");
 
         var entity = await _repo.GetByIdAsync(request.Id);
 
+        // DB SQL Server
         if (entity is not null)
-        {
-            var model = await _cacheService.GetOrCreateAsync(cacheKey, () => _repo.GetByIdAsync(request.Id), TimeSpan.FromHours(2));
-            return Result.Success(model);
-        }
+            return ApiResult<UserQueryModel>.CreateSuccess(
+                await _cacheService.GetOrCreateAsync(cacheKey, () => _repo.GetByIdAsync(request.Id), TimeSpan.FromHours(2)),
+                "Usuário recuperado com sucesso.");
 
-        return Result.NotFound($"Nenhum registro encontrado pelo Id: {request.Id}");
+        return ApiResult<UserQueryModel>.CreateSuccess(entity, "Nenhum registro encontrado!");
     }
 
 }

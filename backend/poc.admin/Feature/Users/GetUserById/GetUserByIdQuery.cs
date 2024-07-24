@@ -1,11 +1,11 @@
-﻿using Ardalis.Result;
-using MediatR;
+﻿using MediatR;
 using poc.admin.Feature.Users.GetArticle;
+using poc.core.api.net8.Response;
 
 namespace poc.admin.Feature.Users.GetUserById;
 
 
-public class GetUserByIdQuery : IRequest<Result<UserQueryModel>>
+public class GetUserByIdQuery : IRequest<ApiResult<UserQueryModel>>
 {
     public GetUserByIdQuery(Guid id)
     {

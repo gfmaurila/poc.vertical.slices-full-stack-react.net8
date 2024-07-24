@@ -30,10 +30,37 @@ public class UserMockData
         }
     }
 
-    public static async Task DeleteUser(AdminApiApplication application, bool delete)
+    public static async Task<Guid> CreateUser(AdminApiApplication application)
     {
         using var scope = application.Services.CreateScope();
 
+        var provider = scope.ServiceProvider;
+        using var dbContext = provider.GetRequiredService<EFSqlServerContext>();
+
+        await dbContext.Database.EnsureCreatedAsync();
+
+        var user = await dbContext.User.AddAsync(UserFake.Insert());
+        await dbContext.SaveChangesAsync();
+
+        return user.Entity.Id;
+    }
+
+    public static async Task CreateUserExistingData(AdminApiApplication application)
+    {
+        using var scope = application.Services.CreateScope();
+
+        var provider = scope.ServiceProvider;
+        using var dbContext = provider.GetRequiredService<EFSqlServerContext>();
+
+        await dbContext.Database.EnsureCreatedAsync();
+
+        await dbContext.User.AddAsync(UserFake.InsertExistingData());
+        await dbContext.SaveChangesAsync();
+    }
+
+    public static async Task DeleteUser(AdminApiApplication application, bool delete)
+    {
+        using var scope = application.Services.CreateScope();
         var provider = scope.ServiceProvider;
         using var dbContext = provider.GetRequiredService<EFSqlServerContext>();
 
