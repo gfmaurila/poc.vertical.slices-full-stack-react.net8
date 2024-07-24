@@ -1,5 +1,6 @@
 ﻿using poc.admin.Feature.Users.CreateUser;
 using poc.admin.Feature.Users.GetArticle;
+using poc.admin.Feature.Users.UpdateUser;
 using poc.admin.tests.User.Data;
 using poc.admin.tests.User.Fakes;
 using poc.core.api.net8.API.Models;
@@ -191,6 +192,120 @@ public class ApiCatalogoIntegrationTests
         // Verifica se a quantidade de erros é a esperada
         Assert.Equal(expectedErrors.Count, jsonResponse.Errors.Count());
 
+    }
+
+
+    [Fact(DisplayName = "07 - PUT - Deve alterar usuários por id")]
+    [Trait("Integração", "UpdateUserEndpoint")]
+    public async Task PUT_USER_ID()
+    {
+        await using var application = new AdminApiApplication();
+
+        await UserMockData.DeleteUser(application, true);
+
+        var idUser = await UserMockData.CreateUser(application);
+
+        var command = UserFake.UpdateUserCommand(idUser);
+        var client = application.CreateClient();
+        var url = "/api/user";
+
+        // Envia o comando para criar um usuário
+        var response = await client.PutAsJsonAsync(url, command);
+
+        // Verifica se a resposta HTTP está correta
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        // Extrai o JSON da resposta
+        var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse<UpdateUserResponse>>();
+
+        // Verifica se o JSON tem os resultados esperados
+        Assert.NotNull(jsonResponse);
+        Assert.Equal("Atualizado com sucesso!", jsonResponse.SuccessMessage);
+        Assert.True(jsonResponse.Success);
+        Assert.Empty(jsonResponse.Errors);
+
+
+        // Limpa a base
+        await UserMockData.DeleteUser(application, true);
+    }
+
+    [Fact(DisplayName = "08 - PUT - Deve dar erro ao tentar alterar um usuário")]
+    [Trait("Integração", "UpdateUserEndpoint")]
+    public async Task PUT_USER_ID_INVALID_DATA()
+    {
+        await using var application = new AdminApiApplication();
+
+        await UserMockData.DeleteUser(application, true);
+
+        var idUser = await UserMockData.CreateUser(application);
+
+        var command = UserFake.UpdateUserInvalidDataCommand(idUser);
+        var client = application.CreateClient();
+        var url = "/api/user";
+
+        // Envia o comando para criar um usuário
+        var response = await client.PutAsJsonAsync(url, command);
+
+        // Extrai o JSON da resposta
+        var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+
+        // Verifica se o campo "success" é false
+        Assert.False(jsonResponse.Success);
+
+        // Verifica se a lista de erros contém as mensagens específicas
+        var expectedErrors = new List<string>
+        {
+            "'First Name' deve ser informado.",
+            "'Last Name' deve ser informado."
+        };
+
+        Assert.All(expectedErrors, error => Assert.Contains(jsonResponse.Errors.Select(e => e.Message), e => e == error));
+
+        // Verifica se a quantidade de erros é a esperada
+        Assert.Equal(expectedErrors.Count, jsonResponse.Errors.Count());
+
+
+        // Limpa a base
+        await UserMockData.DeleteUser(application, true);
+    }
+
+    [Fact(DisplayName = "09 - PUT - Deve dar erro ao tentar alterar um usuário")]
+    [Trait("Integração", "UpdateUserEndpoint")]
+    public async Task PUT_USER_ID_NOT_FOUND()
+    {
+        await using var application = new AdminApiApplication();
+
+        await UserMockData.DeleteUser(application, true);
+
+        Guid id = Guid.NewGuid();
+
+        var command = UserFake.UpdateUserCommand(id);
+        var client = application.CreateClient();
+        var url = "/api/user";
+
+        // Envia o comando para criar um usuário
+        var response = await client.PutAsJsonAsync(url, command);
+
+        // Extrai o JSON da resposta
+        var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+
+        // Verifica se o campo "success" é false
+        Assert.False(jsonResponse.Success);
+
+        // Verifica se a lista de erros contém as mensagens específicas
+        var expectedErrors = new List<string>
+        {
+            $"Nenhum registro encontrado pelo Id: {id}"
+        };
+
+        Assert.All(expectedErrors, error => Assert.Contains(jsonResponse.Errors.Select(e => e.Message), e => e == error));
+
+        // Verifica se a quantidade de erros é a esperada
+        Assert.Equal(expectedErrors.Count, jsonResponse.Errors.Count());
+
+
+        // Limpa a base
+        await UserMockData.DeleteUser(application, true);
     }
 
 }

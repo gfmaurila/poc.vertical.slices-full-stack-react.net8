@@ -1,11 +1,11 @@
-﻿using Ardalis.Result;
-using MediatR;
+﻿using MediatR;
 using poc.core.api.net8.Enumerado;
+using poc.core.api.net8.Response;
 using System.ComponentModel.DataAnnotations;
 
 namespace poc.admin.Feature.Users.UpdateUser;
 
-public class UpdateUserCommand : IRequest<Result>
+public class UpdateUserCommand : IRequest<ApiResult<UpdateUserResponse>>
 {
     [Required]
     public Guid Id { get; set; }

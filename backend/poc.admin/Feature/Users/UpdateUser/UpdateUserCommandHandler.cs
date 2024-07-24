@@ -1,10 +1,10 @@
-﻿using Ardalis.Result;
-using MediatR;
+﻿using MediatR;
 using poc.admin.Infrastructure.Database.Repositories.Interfaces;
+using poc.core.api.net8.Response;
 
 namespace poc.admin.Feature.Users.UpdateUser;
 
-public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Result>
+public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, ApiResult<UpdateUserResponse>>
 {
     private readonly UpdateUserCommandValidator _validator;
     private readonly IUserRepository _repo;
@@ -20,20 +20,23 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Resul
         _validator = validator;
         _mediator = mediator;
     }
-    public async Task<Result> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResult<UpdateUserResponse>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         // Validanto a requisição.
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
-            return Result.Invalid(validationResult.Errors.Select(e => new ValidationError
-            {
-                ErrorMessage = e.ErrorMessage
-            }).ToList());
+            return ApiResult<UpdateUserResponse>.CreateError(
+                validationResult.Errors.Select(e => new ErrorDetail(e.ErrorMessage)).ToList(),
+                400);
 
         // Obtendo o registro da base.
         var entity = await _repo.Get(request.Id);
         if (entity == null)
-            return Result.NotFound($"Nenhum registro encontrado pelo Id: {request.Id}");
+            return ApiResult<UpdateUserResponse>.CreateError(
+                new List<ErrorDetail> {
+                    new ErrorDetail($"Nenhum registro encontrado pelo Id: {request.Id}")
+                },
+                400);
 
         entity.Update(request);
 
@@ -45,6 +48,6 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Resul
 
         entity.ClearDomainEvents();
 
-        return Result.SuccessWithMessage("Atualizado com sucesso!");
+        return ApiResult<UpdateUserResponse>.CreateSuccess(new UpdateUserResponse(entity.Id), "Atualizado com sucesso!");
     }
 }

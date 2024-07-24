@@ -1,7 +1,9 @@
 ﻿using Bogus;
 using poc.admin.Domain.User;
 using poc.admin.Feature.Users.CreateUser;
+using poc.admin.Feature.Users.UpdateUser;
 using poc.core.api.net8.Enumerado;
+using poc.core.api.net8.Extensions;
 using poc.core.api.net8.User;
 using poc.core.api.net8.ValueObjects;
 
@@ -23,7 +25,7 @@ internal static class UserFake
             ENotificationType.WhatsApp,
             email,
             phone,
-            "@G21r03a1985",
+            Password.ComputeSha256Hash("@G21r03a1985"),
             RoleUserAuth(),
             new DateTime(1990, 1, 1));
 
@@ -104,11 +106,45 @@ internal static class UserFake
             ENotificationType.WhatsApp,
             email,
             phone,
-            "@G21r03a1985",
+            Password.ComputeSha256Hash("@G21r03a1985"),
             RoleUserAuth(),
             new DateTime(1990, 1, 1));
 
         return newUser;
+    }
+
+    public static UpdateUserCommand UpdateUserCommand(Guid id)
+    {
+        var faker = new Faker("pt_BR");
+
+        var command = new UpdateUserCommand()
+        {
+            Id = id,
+            FirstName = faker.Person.FirstName,
+            LastName = faker.Person.LastName,
+            Gender = EGender.Male,
+            Notification = ENotificationType.WhatsApp,
+            DateOfBirth = new DateTime(1990, 1, 1),
+            Phone = faker.Person.Phone
+        };
+        return command;
+    }
+
+    public static UpdateUserCommand UpdateUserInvalidDataCommand(Guid id)
+    {
+        var faker = new Faker("pt_BR");
+
+        var command = new UpdateUserCommand()
+        {
+            Id = id,
+            FirstName = "",
+            LastName = "",
+            Gender = EGender.Male,
+            Notification = ENotificationType.WhatsApp,
+            DateOfBirth = new DateTime(1990, 1, 1),
+            Phone = ""
+        };
+        return command;
     }
 
     public static List<string> RoleUserAuth()
