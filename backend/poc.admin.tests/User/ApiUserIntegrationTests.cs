@@ -1,4 +1,5 @@
-﻿using poc.admin.Feature.Users.CreateUser;
+﻿using Bogus;
+using poc.admin.Feature.Users.CreateUser;
 using poc.admin.Feature.Users.GetArticle;
 using poc.admin.Feature.Users.UpdatePassword;
 using poc.admin.Feature.Users.UpdateUser;
@@ -195,7 +196,6 @@ public class ApiCatalogoIntegrationTests
 
     }
 
-
     [Fact(DisplayName = "07 - PUT - Deve alterar usuários por id")]
     [Trait("Integração", "UpdateUserEndpoint")]
     public async Task PUT_USER_ID()
@@ -342,7 +342,6 @@ public class ApiCatalogoIntegrationTests
         await UserMockData.DeleteUser(application, true);
     }
 
-
     [Fact(DisplayName = "11 - PUT - Deve dar erro ao tentar alterar senha de usuário")]
     [Trait("Integração", "UpdatePasswordUserEndpoint")]
     public async Task PUT_USER_PASSWORD_INVALID()
@@ -409,6 +408,162 @@ public class ApiCatalogoIntegrationTests
         var expectedErrors = new List<string>
         {
             $"Nenhum registro encontrado pelo Id: {id}"
+        };
+
+        Assert.All(expectedErrors, error => Assert.Contains(jsonResponse.Errors.Select(e => e.Message), e => e == error));
+
+        // Verifica se a quantidade de erros é a esperada
+        Assert.Equal(expectedErrors.Count, jsonResponse.Errors.Count());
+
+
+        // Limpa a base
+        await UserMockData.DeleteUser(application, true);
+    }
+
+    [Fact(DisplayName = "13 - PUT - Deve alterar EMAIL de usuário")]
+    [Trait("Integração", "UpdateEmailUserEndpoint")]
+    public async Task PUT_USER_EMAIL()
+    {
+        await using var application = new AdminApiApplication();
+
+        await UserMockData.DeleteUser(application, true);
+
+        var idUser = await UserMockData.CreateUser(application);
+
+        var command = UserFake.UpdateEmailUserCommand(idUser);
+        var client = application.CreateClient();
+        var url = "/api/user/updateemail";
+
+        // Envia o comando para criar um usuário
+        var response = await client.PutAsJsonAsync(url, command);
+
+        // Verifica se a resposta HTTP está correta
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        // Extrai o JSON da resposta
+        var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse<UpdateEmailUserResponse>>();
+
+        // Verifica se o JSON tem os resultados esperados
+        Assert.NotNull(jsonResponse);
+        Assert.Equal("Atualizado com sucesso!", jsonResponse.SuccessMessage);
+        Assert.True(jsonResponse.Success);
+        Assert.Empty(jsonResponse.Errors);
+
+        // Limpa a base
+        await UserMockData.DeleteUser(application, true);
+    }
+
+    [Fact(DisplayName = "14 - PUT - Deve dar erro ao tentar alterar email de usuário")]
+    [Trait("Integração", "UpdateEmailUserEndpoint")]
+    public async Task PUT_USER_EMAIL_INVALID()
+    {
+        await using var application = new AdminApiApplication();
+
+        await UserMockData.DeleteUser(application, true);
+
+        var idUser = await UserMockData.CreateUser(application);
+
+        var command = UserFake.UpdateEmailUserInvalidCommand(idUser);
+        var client = application.CreateClient();
+        var url = "/api/user/updateemail";
+
+        // Envia o comando para criar um usuário
+        var response = await client.PutAsJsonAsync(url, command);
+
+        // Extrai o JSON da resposta
+        var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+
+        // Verifica se o campo "success" é false
+        Assert.False(jsonResponse.Success);
+
+        // Verifica se a lista de erros contém as mensagens específicas
+        var expectedErrors = new List<string>
+        {
+            "'Email' é um endereço de email inválido."
+        };
+
+        Assert.All(expectedErrors, error => Assert.Contains(jsonResponse.Errors.Select(e => e.Message), e => e == error));
+
+        // Verifica se a quantidade de erros é a esperada
+        Assert.Equal(expectedErrors.Count, jsonResponse.Errors.Count());
+
+        // Limpa a base
+        await UserMockData.DeleteUser(application, true);
+    }
+
+    [Fact(DisplayName = "15 - PUT - Deve dar erro ao tentar alterar email de usuário")]
+    [Trait("Integração", "UpdateEmailUserEndpoint")]
+    public async Task PUT_USER_EMAIL_ID_NOT_FOUND()
+    {
+        await using var application = new AdminApiApplication();
+
+        await UserMockData.DeleteUser(application, true);
+
+        Guid id = Guid.NewGuid();
+
+        var command = UserFake.UpdateEmailUserCommand(id);
+        var client = application.CreateClient();
+        var url = "/api/user/updateemail";
+
+        // Envia o comando para criar um usuário
+        var response = await client.PutAsJsonAsync(url, command);
+
+        // Extrai o JSON da resposta
+        var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+
+        // Verifica se o campo "success" é false
+        Assert.False(jsonResponse.Success);
+
+        // Verifica se a lista de erros contém as mensagens específicas
+        var expectedErrors = new List<string>
+        {
+            $"Nenhum registro encontrado pelo Id: {id}"
+        };
+
+        Assert.All(expectedErrors, error => Assert.Contains(jsonResponse.Errors.Select(e => e.Message), e => e == error));
+
+        // Verifica se a quantidade de erros é a esperada
+        Assert.Equal(expectedErrors.Count, jsonResponse.Errors.Count());
+
+
+        // Limpa a base
+        await UserMockData.DeleteUser(application, true);
+    }
+
+    [Fact(DisplayName = "16 - PUT - Deve dar erro ao tentar alterar email de usuário")]
+    [Trait("Integração", "UpdateEmailUserEndpoint")]
+    public async Task PUT_USER_EMAIL_EXISTING_FOUND()
+    {
+        await using var application = new AdminApiApplication();
+
+        await UserMockData.DeleteUser(application, true);
+
+        var faker = new Faker("pt_BR");
+
+        string email = faker.Person.Email;
+
+        // Email ja existente
+        await UserMockData.CreateUser(application, email);
+
+        var id = await UserMockData.CreateUser(application);
+
+        var command = UserFake.UpdateEmailUserCommand(id, email);
+        var client = application.CreateClient();
+        var url = "/api/user/updateemail";
+
+        // Envia o comando para criar um usuário
+        var response = await client.PutAsJsonAsync(url, command);
+
+        // Extrai o JSON da resposta
+        var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+
+        // Verifica se o campo "success" é false
+        Assert.False(jsonResponse.Success);
+
+        // Verifica se a lista de erros contém as mensagens específicas
+        var expectedErrors = new List<string>
+        {
+            $"O endereço de e-mail informado já está sendo utilizado."
         };
 
         Assert.All(expectedErrors, error => Assert.Contains(jsonResponse.Errors.Select(e => e.Message), e => e == error));

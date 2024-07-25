@@ -36,10 +36,10 @@ public class UpdateEmailUserEndpoint : ICarterModule
     {
         var result = await sender.Send(command);
 
-        if (!result.IsSuccess)
-            return Results.BadRequest(result.Errors);
+        if (!result.Success)
+            return Results.BadRequest(result);
 
-        return Results.Ok(result.Value);
+        return Results.Ok(result);
     }
 }
 

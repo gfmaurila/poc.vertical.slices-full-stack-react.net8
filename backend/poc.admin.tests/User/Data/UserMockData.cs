@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Bogus;
+using Microsoft.Extensions.DependencyInjection;
 using poc.admin.Feature.Users.GetArticle;
 using poc.admin.Infrastructure.Database;
 using poc.admin.tests.Redis;
 using poc.admin.tests.User.Fakes;
 using poc.core.api.net8.Interface;
+using poc.core.api.net8.ValueObjects;
 
 namespace poc.admin.tests.User.Data;
 
@@ -40,6 +42,22 @@ public class UserMockData
         await dbContext.Database.EnsureCreatedAsync();
 
         var user = await dbContext.User.AddAsync(UserFake.Insert());
+        await dbContext.SaveChangesAsync();
+
+        return user.Entity.Id;
+    }
+
+    public static async Task<Guid> CreateUser(AdminApiApplication application, string email)
+    {
+        using var scope = application.Services.CreateScope();
+
+        var provider = scope.ServiceProvider;
+        using var dbContext = provider.GetRequiredService<EFSqlServerContext>();
+        await dbContext.Database.EnsureCreatedAsync();
+
+        var emailL = new Email(email);
+
+        var user = await dbContext.User.AddAsync(UserFake.Insert(emailL));
         await dbContext.SaveChangesAsync();
 
         return user.Entity.Id;

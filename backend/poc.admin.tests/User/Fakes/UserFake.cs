@@ -1,6 +1,7 @@
 ﻿using Bogus;
 using poc.admin.Domain.User;
 using poc.admin.Feature.Users.CreateUser;
+using poc.admin.Feature.Users.UpdateEmail;
 using poc.admin.Feature.Users.UpdatePassword;
 using poc.admin.Feature.Users.UpdateUser;
 using poc.core.api.net8.Enumerado;
@@ -17,6 +18,26 @@ internal static class UserFake
         var faker = new Faker("pt_BR");
 
         var email = new Email(faker.Person.Email);
+        var phone = new PhoneNumber(faker.Person.Phone);
+
+        var newUser = new UserEntity(
+            faker.Person.FirstName,
+            faker.Person.LastName,
+            EGender.Male,
+            ENotificationType.WhatsApp,
+            email,
+            phone,
+            Password.ComputeSha256Hash("@G21r03a1985"),
+            RoleUserAuth(),
+            new DateTime(1990, 1, 1));
+
+        return newUser;
+    }
+
+    public static UserEntity Insert(Email email)
+    {
+        var faker = new Faker("pt_BR");
+
         var phone = new PhoneNumber(faker.Person.Phone);
 
         var newUser = new UserEntity(
@@ -144,6 +165,31 @@ internal static class UserFake
         return command;
     }
 
+
+    public static UpdateEmailUserCommand UpdateEmailUserCommand(Guid id)
+    {
+        var faker = new Faker("pt_BR");
+
+        var command = new UpdateEmailUserCommand()
+        {
+            Id = id,
+            Email = faker.Person.Email
+        };
+        return command;
+    }
+
+    public static UpdateEmailUserCommand UpdateEmailUserCommand(Guid id, string email)
+    {
+        var faker = new Faker("pt_BR");
+
+        var command = new UpdateEmailUserCommand()
+        {
+            Id = id,
+            Email = email
+        };
+        return command;
+    }
+
     public static UpdatePasswordUserCommand UpdatePasswordUserInvalidCommand(Guid id)
     {
         var faker = new Faker("pt_BR");
@@ -153,6 +199,18 @@ internal static class UserFake
             Id = id,
             Password = "@G18u03i198",
             ConfirmPassword = "@G18u03i1986"
+        };
+        return command;
+    }
+
+    public static UpdateEmailUserCommand UpdateEmailUserInvalidCommand(Guid id)
+    {
+        var faker = new Faker("pt_BR");
+
+        var command = new UpdateEmailUserCommand()
+        {
+            Id = id,
+            Email = "teste"
         };
         return command;
     }

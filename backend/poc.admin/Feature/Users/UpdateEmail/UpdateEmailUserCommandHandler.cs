@@ -1,11 +1,12 @@
-﻿using Ardalis.Result;
-using MediatR;
+﻿using MediatR;
+using poc.admin.Feature.Users.UpdatePassword;
 using poc.admin.Infrastructure.Database.Repositories.Interfaces;
+using poc.core.api.net8.Response;
 using poc.core.api.net8.ValueObjects;
 
 namespace poc.admin.Feature.Users.UpdateEmail;
 
-public class UpdateEmailUserCommandHandler : IRequestHandler<UpdateEmailUserCommand, Result>
+public class UpdateEmailUserCommandHandler : IRequestHandler<UpdateEmailUserCommand, ApiResult<UpdateEmailUserResponse>>
 {
     private readonly UpdateEmailUserCommandValidator _validator;
     private readonly IUserRepository _repo;
@@ -22,27 +23,35 @@ public class UpdateEmailUserCommandHandler : IRequestHandler<UpdateEmailUserComm
         _mediator = mediator;
     }
 
-    public async Task<Result> Handle(UpdateEmailUserCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResult<UpdateEmailUserResponse>> Handle(UpdateEmailUserCommand request, CancellationToken cancellationToken)
     {
         // Validanto a requisição.
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
-            return Result.Invalid(validationResult.Errors.Select(e => new ValidationError
-            {
-                ErrorMessage = e.ErrorMessage
-            }).ToList());
+            return ApiResult<UpdateEmailUserResponse>.CreateError(
+                validationResult.Errors.Select(e => new ErrorDetail(e.ErrorMessage)).ToList(),
+                400);
 
         // Obtendo o registro da base.
         var entity = await _repo.Get(request.Id);
         if (entity == null)
-            return Result.NotFound($"Nenhum registro encontrado pelo Id: {request.Id}");
+            if (entity == null)
+                return ApiResult<UpdateEmailUserResponse>.CreateError(
+                    new List<ErrorDetail> {
+                    new ErrorDetail($"Nenhum registro encontrado pelo Id: {request.Id}")
+                    },
+                    400);
 
         // Instanciando o VO Email.
         var newEmail = new Email(request.Email);
 
         // Verificiando se já existe um cliente com o endereço de e-mail.
         if (await _repo.ExistsByEmailAsync(newEmail, entity.Id))
-            return Result.Error("O endereço de e-mail informado já está sendo utilizado.");
+            return ApiResult<UpdateEmailUserResponse>.CreateError(
+                new List<ErrorDetail> {
+                    new ErrorDetail("O endereço de e-mail informado já está sendo utilizado.")
+                },
+                400);
 
         entity.ChangeEmail(newEmail);
 
@@ -54,6 +63,6 @@ public class UpdateEmailUserCommandHandler : IRequestHandler<UpdateEmailUserComm
 
         entity.ClearDomainEvents();
 
-        return Result.SuccessWithMessage("Atualizado com sucesso!");
+        return ApiResult<UpdateEmailUserResponse>.CreateSuccess(new UpdateEmailUserResponse(entity.Id), "Atualizado com sucesso!");
     }
 }
