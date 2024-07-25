@@ -1,25 +1,25 @@
-﻿using API.Admin.Feature.Users.DeleteUser;
+﻿using API.Admin.Feature.Users.CreateUser;
+using API.Admin.Feature.Users.DeleteUser;
 using API.Admin.Feature.Users.GetUser;
 using API.Admin.Feature.Users.UpdateEmail;
 using API.Admin.Feature.Users.UpdatePassword;
 using API.Admin.Feature.Users.UpdateUser;
-using API.Admin.Tests.User.Data;
-using API.Admin.Tests.User.Fakes;
+using API.Admin.Tests.Feature.Users.Data;
+using API.Admin.Tests.Feature.Users.Fakes;
 using Bogus;
 using poc.core.api.net8.API.Models;
 using poc.core.api.net8.Response;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace API.Admin.Tests.User;
+namespace API.Admin.Tests.Feature.Users;
 
 public class ApiCatalogoIntegrationTests
 {
-    // Não OK
     #region GET ALL
-    [Fact(DisplayName = "01 - GET - Deve recuperar sem usuários a API")]
+    [Fact(DisplayName = "01 - API Get User null")]
     [Trait("Integração", "GetUserEndpoint")]
-    public async Task GET_USER_NULL()
+    public async Task GetUserNull()
     {
         await using var application = new AdminApiApplication();
 
@@ -39,9 +39,9 @@ public class ApiCatalogoIntegrationTests
         Assert.Empty(json.Errors);
     }
 
-    [Fact(DisplayName = "02 - GET - Deve recuperar todos os usuários da API")]
+    [Fact(DisplayName = "02 - API Get User")]
     [Trait("Integração", "GetUserEndpoint")]
-    public async Task GET_ALL_USER()
+    public async Task GetUser()
     {
         await using var application = new AdminApiApplication();
 
@@ -67,9 +67,9 @@ public class ApiCatalogoIntegrationTests
     #endregion
 
     #region GET By ID
-    [Fact(DisplayName = "03 - GET - Deve recuperar usuários por id")]
+    [Fact(DisplayName = "03 - API Get User By Id")]
     [Trait("Integração", "GetUserByIdEndpoint")]
-    public async Task GET_USER_ID()
+    public async Task GetUserById()
     {
         await using var application = new AdminApiApplication();
 
@@ -95,120 +95,119 @@ public class ApiCatalogoIntegrationTests
     }
     #endregion
 
-    // OK
     #region POST
-    //[Fact(DisplayName = "04 – POST – Deve criar um usuário")]
-    //[Trait("Integracao", "CreateUserEndpoint")]
-    //public async Task POST_CREATE_NEW_USER()
-    //{
-    //    await using var application = new AdminApiApplication();
-    //    await UserMockData.DeleteUser(application, true);
+    [Fact(DisplayName = "04 – API Create User")]
+    [Trait("Integracao", "CreateUserEndpoint")]
+    public async Task CreateUser()
+    {
+        await using var application = new AdminApiApplication();
+        await UserMockData.DeleteUser(application, true);
 
-    //    var command = UserFake.CreateUserCommand();
-    //    var client = application.CreateClient();
-    //    var url = "/api/user";
+        var command = UserFake.CreateUserCommand();
+        var client = application.CreateClient();
+        var url = "/api/user";
 
-    //    // Envia o comando para criar um usuário
-    //    var response = await client.PostAsJsonAsync(url, command);
+        // Envia o comando para criar um usuário
+        var response = await client.PostAsJsonAsync(url, command);
 
-    //    // Verifica se a resposta HTTP está correta
-    //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        // Verifica se a resposta HTTP está correta
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-    //    // Extrai o JSON da resposta
-    //    var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse<CreateUserResponse>>();
+        // Extrai o JSON da resposta
+        var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse<CreateUserResponse>>();
 
-    //    // Verifica se o JSON tem os resultados esperados
-    //    Assert.NotNull(jsonResponse);
-    //    Assert.Equal("Cadastrado com sucesso!", jsonResponse.SuccessMessage);
-    //    Assert.True(jsonResponse.Success);
-    //    Assert.Empty(jsonResponse.Errors);
-    //}
+        // Verifica se o JSON tem os resultados esperados
+        Assert.NotNull(jsonResponse);
+        Assert.Equal("Cadastrado com sucesso!", jsonResponse.SuccessMessage);
+        Assert.True(jsonResponse.Success);
+        Assert.Empty(jsonResponse.Errors);
+    }
 
-    //[Fact(DisplayName = "05 – POST – Deve dar erro ao tentar criar um usuário")]
-    //[Trait("Integracao", "CreateUserEndpoint")]
-    //public async Task POST_CREATE_NEW_USER_INVALID()
-    //{
-    //    await using var application = new AdminApiApplication();
-    //    await UserMockData.DeleteUser(application, true);
+    [Fact(DisplayName = "05 – API Create User ERROR")]
+    [Trait("Integracao", "CreateUserEndpoint")]
+    public async Task CreateUserError1()
+    {
+        await using var application = new AdminApiApplication();
+        await UserMockData.DeleteUser(application, true);
 
-    //    var command = UserFake.CreateUserInvalidDataCommand();
-    //    var client = application.CreateClient();
-    //    var url = "/api/user";
+        var command = UserFake.CreateUserInvalidDataCommand();
+        var client = application.CreateClient();
+        var url = "/api/user";
 
-    //    var response = await client.PostAsJsonAsync(url, command);
+        var response = await client.PostAsJsonAsync(url, command);
 
-    //    // Verifica se a resposta HTTP é 400 - Bad Request
-    //    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        // Verifica se a resposta HTTP é 400 - Bad Request
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
 
-    //    // Extrai o JSON da resposta
-    //    var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+        // Extrai o JSON da resposta
+        var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
 
-    //    // Verifica se o campo "success" é false
-    //    Assert.False(jsonResponse.Success);
+        // Verifica se o campo "success" é false
+        Assert.False(jsonResponse.Success);
 
-    //    // Verifica se a lista de erros contém as mensagens específicas
-    //    var expectedErrors = new List<string>
-    //    {
-    //        "'First Name' deve ser informado.",
-    //        "'Last Name' deve ser informado.",
-    //        "'Email' deve ser informado.",
-    //        "'Email' é um endereço de email inválido.",
-    //        "'Password' deve ser informado.",
-    //        "'Password' deve ser maior ou igual a 8 caracteres. Você digitou 0 caracteres.",
-    //        "'Password' não está no formato correto.",
-    //        "'Password' não está no formato correto.",
-    //        "'Password' não está no formato correto.",
-    //        "'Password' não está no formato correto."
-    //    };
+        // Verifica se a lista de erros contém as mensagens específicas
+        var expectedErrors = new List<string>
+        {
+            "'First Name' deve ser informado.",
+            "'Last Name' deve ser informado.",
+            "'Email' deve ser informado.",
+            "'Email' é um endereço de email inválido.",
+            "'Password' deve ser informado.",
+            "'Password' deve ser maior ou igual a 8 caracteres. Você digitou 0 caracteres.",
+            "'Password' não está no formato correto.",
+            "'Password' não está no formato correto.",
+            "'Password' não está no formato correto.",
+            "'Password' não está no formato correto."
+        };
 
-    //    Assert.All(expectedErrors, error => Assert.Contains(jsonResponse.Errors.Select(e => e.Message), e => e == error));
+        Assert.All(expectedErrors, error => Assert.Contains(jsonResponse.Errors.Select(e => e.Message), e => e == error));
 
-    //    // Verifica se a quantidade de erros é a esperada
-    //    Assert.Equal(expectedErrors.Count, jsonResponse.Errors.Count());
+        // Verifica se a quantidade de erros é a esperada
+        Assert.Equal(expectedErrors.Count, jsonResponse.Errors.Count());
 
-    //}
+    }
 
-    //[Fact(DisplayName = "06 – POST – Deve dar erro ao tentar criar um usuário existente")]
-    //[Trait("Integracao", "CreateUserEndpoint")]
-    //public async Task POST_CREATE_NEW_USER_EXISTING()
-    //{
-    //    await using var application = new AdminApiApplication();
-    //    await UserMockData.DeleteUser(application, true);
-    //    await UserMockData.CreateUserExistingData(application);
+    [Fact(DisplayName = "06 – API Create User ERROR")]
+    [Trait("Integracao", "CreateUserEndpoint")]
+    public async Task CreateUserError2()
+    {
+        await using var application = new AdminApiApplication();
+        await UserMockData.DeleteUser(application, true);
+        await UserMockData.CreateUserExistingData(application);
 
-    //    var command = UserFake.CreateUserExistingDataCommand();
-    //    var client = application.CreateClient();
-    //    var url = "/api/user";
+        var command = UserFake.CreateUserExistingDataCommand();
+        var client = application.CreateClient();
+        var url = "/api/user";
 
-    //    var response = await client.PostAsJsonAsync(url, command);
+        var response = await client.PostAsJsonAsync(url, command);
 
-    //    // Verifica se a resposta HTTP é 400 - Bad Request
-    //    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        // Verifica se a resposta HTTP é 400 - Bad Request
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
 
-    //    // Extrai o JSON da resposta
-    //    var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+        // Extrai o JSON da resposta
+        var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
 
-    //    // Verifica se o campo "success" é false
-    //    Assert.False(jsonResponse.Success);
+        // Verifica se o campo "success" é false
+        Assert.False(jsonResponse.Success);
 
-    //    // Verifica se a lista de erros contém as mensagens específicas
-    //    var expectedErrors = new List<string>
-    //    {
-    //        "O endereço de e-mail informado já está sendo utilizado."
-    //    };
+        // Verifica se a lista de erros contém as mensagens específicas
+        var expectedErrors = new List<string>
+        {
+            "O endereço de e-mail informado já está sendo utilizado."
+        };
 
-    //    Assert.All(expectedErrors, error => Assert.Contains(jsonResponse.Errors.Select(e => e.Message), e => e == error));
+        Assert.All(expectedErrors, error => Assert.Contains(jsonResponse.Errors.Select(e => e.Message), e => e == error));
 
-    //    // Verifica se a quantidade de erros é a esperada
-    //    Assert.Equal(expectedErrors.Count, jsonResponse.Errors.Count());
+        // Verifica se a quantidade de erros é a esperada
+        Assert.Equal(expectedErrors.Count, jsonResponse.Errors.Count());
 
-    //}
+    }
     #endregion
 
     #region PUT - Update
-    [Fact(DisplayName = "07 - PUT - Deve alterar usuários por id")]
+    [Fact(DisplayName = "07 - API Update User")]
     [Trait("Integração", "UpdateUserEndpoint")]
-    public async Task PUT_USER_ID()
+    public async Task UpdateUser()
     {
         await using var application = new AdminApiApplication();
 
@@ -240,9 +239,9 @@ public class ApiCatalogoIntegrationTests
         await UserMockData.DeleteUser(application, true);
     }
 
-    [Fact(DisplayName = "08 - PUT - Deve dar erro ao tentar alterar um usuário")]
+    [Fact(DisplayName = "08 - API Update User ERROR")]
     [Trait("Integração", "UpdateUserEndpoint")]
-    public async Task PUT_USER_ID_INVALID()
+    public async Task UpdateUserError1()
     {
         await using var application = new AdminApiApplication();
 
@@ -280,9 +279,9 @@ public class ApiCatalogoIntegrationTests
         await UserMockData.DeleteUser(application, true);
     }
 
-    [Fact(DisplayName = "09 - PUT - Deve dar erro ao tentar alterar um usuário")]
+    [Fact(DisplayName = "09 - API Update User ERROR")]
     [Trait("Integração", "UpdateUserEndpoint")]
-    public async Task PUT_USER_ID_NOT_FOUND()
+    public async Task UpdateUserError2()
     {
         await using var application = new AdminApiApplication();
 
@@ -321,9 +320,9 @@ public class ApiCatalogoIntegrationTests
     #endregion
 
     #region PUT - Password
-    [Fact(DisplayName = "10 - PUT - Deve alterar senha de usuário")]
+    [Fact(DisplayName = "10 - API Update Password User")]
     [Trait("Integração", "UpdatePasswordUserEndpoint")]
-    public async Task PUT_USER_PASSWORD()
+    public async Task UpdatePasswordUser()
     {
         await using var application = new AdminApiApplication();
 
@@ -354,9 +353,9 @@ public class ApiCatalogoIntegrationTests
         await UserMockData.DeleteUser(application, true);
     }
 
-    [Fact(DisplayName = "11 - PUT - Deve dar erro ao tentar alterar senha de usuário")]
+    [Fact(DisplayName = "11 - API Update Password User ERROR")]
     [Trait("Integração", "UpdatePasswordUserEndpoint")]
-    public async Task PUT_USER_PASSWORD_INVALID()
+    public async Task UpdatePasswordUserError1()
     {
         await using var application = new AdminApiApplication();
 
@@ -393,9 +392,9 @@ public class ApiCatalogoIntegrationTests
         await UserMockData.DeleteUser(application, true);
     }
 
-    [Fact(DisplayName = "12 - PUT - Deve dar erro ao tentar alterar um usuário")]
+    [Fact(DisplayName = "12 - API Update Password User ERROR")]
     [Trait("Integração", "UpdatePasswordUserEndpoint")]
-    public async Task PUT_USER_PASSWORD_ID_NOT_FOUND()
+    public async Task UpdatePasswordUserError2()
     {
         await using var application = new AdminApiApplication();
 
@@ -434,9 +433,9 @@ public class ApiCatalogoIntegrationTests
     #endregion
 
     #region PUT - Email
-    [Fact(DisplayName = "13 - PUT - Deve alterar EMAIL de usuário")]
+    [Fact(DisplayName = "13 - API Update Email")]
     [Trait("Integração", "UpdateEmailUserEndpoint")]
-    public async Task PUT_USER_EMAIL()
+    public async Task UpdateEmail()
     {
         await using var application = new AdminApiApplication();
 
@@ -467,9 +466,9 @@ public class ApiCatalogoIntegrationTests
         await UserMockData.DeleteUser(application, true);
     }
 
-    [Fact(DisplayName = "14 - PUT - Deve dar erro ao tentar alterar email de usuário")]
+    [Fact(DisplayName = "14 - API Update Email ERROR")]
     [Trait("Integração", "UpdateEmailUserEndpoint")]
-    public async Task PUT_USER_EMAIL_INVALID()
+    public async Task UpdateEmailError1()
     {
         await using var application = new AdminApiApplication();
 
@@ -505,9 +504,9 @@ public class ApiCatalogoIntegrationTests
         await UserMockData.DeleteUser(application, true);
     }
 
-    [Fact(DisplayName = "15 - PUT - Deve dar erro ao tentar alterar email de usuário")]
+    [Fact(DisplayName = "15 - API Update Email ERROR")]
     [Trait("Integração", "UpdateEmailUserEndpoint")]
-    public async Task PUT_USER_EMAIL_ID_NOT_FOUND()
+    public async Task UpdateEmailError2()
     {
         await using var application = new AdminApiApplication();
 
@@ -544,9 +543,9 @@ public class ApiCatalogoIntegrationTests
         await UserMockData.DeleteUser(application, true);
     }
 
-    [Fact(DisplayName = "16 - PUT - Deve dar erro ao tentar alterar email de usuário")]
+    [Fact(DisplayName = "16 - API Update Email ERROR")]
     [Trait("Integração", "UpdateEmailUserEndpoint")]
-    public async Task PUT_USER_EMAIL_EXISTING_FOUND()
+    public async Task UpdateEmailError3()
     {
         await using var application = new AdminApiApplication();
 
@@ -592,9 +591,9 @@ public class ApiCatalogoIntegrationTests
     #endregion
 
     #region PUT - ROLE
-    [Fact(DisplayName = "17 - PUT - Deve alterar Role de usuário")]
+    [Fact(DisplayName = "17 - API Update Role User")]
     [Trait("Integração", "UpdateRoleUserEndpoint")]
-    public async Task PUT_USER_ROLE()
+    public async Task UpdateRoleUser()
     {
         await using var application = new AdminApiApplication();
 
@@ -625,9 +624,9 @@ public class ApiCatalogoIntegrationTests
         await UserMockData.DeleteUser(application, true);
     }
 
-    [Fact(DisplayName = "18 - PUT - Deve dar erro ao tentar alterar role de usuário")]
+    [Fact(DisplayName = "18 - API Update Role User ERROR")]
     [Trait("Integração", "UpdateRoleUserEndpoint")]
-    public async Task PUT_USER_ROLE_ID_NOT_FOUND()
+    public async Task UpdateRoleUserError1()
     {
         await using var application = new AdminApiApplication();
 
@@ -664,9 +663,9 @@ public class ApiCatalogoIntegrationTests
         await UserMockData.DeleteUser(application, true);
     }
 
-    [Fact(DisplayName = "19 - DELETE - Deve deletar usuário")]
+    [Fact(DisplayName = "19 - API Update Role User ERROR")]
     [Trait("Integração", "DeleteUserEndpoint")]
-    public async Task DELETE_USER_ROLE()
+    public async Task UpdateRoleUserError2()
     {
         await using var application = new AdminApiApplication();
 
@@ -698,46 +697,45 @@ public class ApiCatalogoIntegrationTests
     }
     #endregion
 
-    // OK
     #region DELETE
-    //[Fact(DisplayName = "20 - DELETE - Deve retornar erro ao tentar remover usuário")]
-    //[Trait("Integração", "DeleteUserEndpoint")]
-    //public async Task DELETE_USER_ID_ROLE()
-    //{
-    //    await using var application = new AdminApiApplication();
+    [Fact(DisplayName = "20 - API Delete User")]
+    [Trait("Integração", "DeleteUserEndpoint")]
+    public async Task DeleteUser()
+    {
+        await using var application = new AdminApiApplication();
 
-    //    await UserMockData.DeleteUser(application, true);
+        await UserMockData.DeleteUser(application, true);
 
-    //    var id = Guid.NewGuid();
+        var id = Guid.NewGuid();
 
-    //    var command = new DeleteUserCommand(id);
-    //    var client = application.CreateClient();
-    //    var url = $"/api/user/{id}";
+        var command = new DeleteUserCommand(id);
+        var client = application.CreateClient();
+        var url = $"/api/user/{id}";
 
-    //    // Envia o comando para criar um usuário
-    //    var response = await client.DeleteAsync(url);
+        // Envia o comando para criar um usuário
+        var response = await client.DeleteAsync(url);
 
-    //    // Extrai o JSON da resposta
-    //    var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+        // Extrai o JSON da resposta
+        var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
 
-    //    // Verifica se o campo "success" é false
-    //    Assert.False(jsonResponse.Success);
+        // Verifica se o campo "success" é false
+        Assert.False(jsonResponse.Success);
 
-    //    // Verifica se a lista de erros contém as mensagens específicas
-    //    var expectedErrors = new List<string>
-    //    {
-    //        $"Nenhum registro encontrado pelo Id: {id}"
-    //    };
+        // Verifica se a lista de erros contém as mensagens específicas
+        var expectedErrors = new List<string>
+        {
+            $"Nenhum registro encontrado pelo Id: {id}"
+        };
 
-    //    Assert.All(expectedErrors, error => Assert.Contains(jsonResponse.Errors.Select(e => e.Message), e => e == error));
+        Assert.All(expectedErrors, error => Assert.Contains(jsonResponse.Errors.Select(e => e.Message), e => e == error));
 
-    //    // Verifica se a quantidade de erros é a esperada
-    //    Assert.Equal(expectedErrors.Count, jsonResponse.Errors.Count());
+        // Verifica se a quantidade de erros é a esperada
+        Assert.Equal(expectedErrors.Count, jsonResponse.Errors.Count());
 
 
-    //    // Limpa a base
-    //    await UserMockData.DeleteUser(application, true);
-    //}
+        // Limpa a base
+        await UserMockData.DeleteUser(application, true);
+    }
     #endregion
 
 }

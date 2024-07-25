@@ -9,7 +9,7 @@ using poc.core.api.net8.Extensions;
 using poc.core.api.net8.User;
 using poc.core.api.net8.ValueObjects;
 
-namespace API.Admin.Tests.User.Fakes;
+namespace API.Admin.Tests.Feature.Users.Fakes;
 
 internal static class UserFake
 {

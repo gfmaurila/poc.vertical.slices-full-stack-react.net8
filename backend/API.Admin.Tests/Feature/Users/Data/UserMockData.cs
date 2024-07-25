@@ -1,12 +1,12 @@
 ﻿using API.Admin.Feature.Users.GetUser;
 using API.Admin.Infrastructure.Database;
+using API.Admin.Tests.Feature.Users.Fakes;
 using API.Admin.Tests.Redis;
-using API.Admin.Tests.User.Fakes;
 using Microsoft.Extensions.DependencyInjection;
 using poc.core.api.net8.Interface;
 using poc.core.api.net8.ValueObjects;
 
-namespace API.Admin.Tests.User.Data;
+namespace API.Admin.Tests.Feature.Users.Data;
 
 public class UserMockData
 {
