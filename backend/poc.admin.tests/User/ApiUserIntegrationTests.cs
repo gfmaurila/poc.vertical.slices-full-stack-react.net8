@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using poc.admin.Feature.Users.CreateUser;
+using poc.admin.Feature.Users.DeleteUser;
 using poc.admin.Feature.Users.GetArticle;
 using poc.admin.Feature.Users.UpdateEmail;
 using poc.admin.Feature.Users.UpdatePassword;
@@ -119,7 +120,7 @@ public class ApiCatalogoIntegrationTests
 
     [Fact(DisplayName = "05 – POST – Deve dar erro ao tentar criar um usuário")]
     [Trait("Integracao", "CreateUserEndpoint")]
-    public async Task POST_CREATE_NEW_USER_INVALID_DATA()
+    public async Task POST_CREATE_NEW_USER_INVALID()
     {
         await using var application = new AdminApiApplication();
         await UserMockData.DeleteUser(application, true);
@@ -163,7 +164,7 @@ public class ApiCatalogoIntegrationTests
 
     [Fact(DisplayName = "06 – POST – Deve dar erro ao tentar criar um usuário existente")]
     [Trait("Integracao", "CreateUserEndpoint")]
-    public async Task POST_CREATE_NEW_USER_EXISTING_DATA()
+    public async Task POST_CREATE_NEW_USER_EXISTING()
     {
         await using var application = new AdminApiApplication();
         await UserMockData.DeleteUser(application, true);
@@ -233,7 +234,7 @@ public class ApiCatalogoIntegrationTests
 
     [Fact(DisplayName = "08 - PUT - Deve dar erro ao tentar alterar um usuário")]
     [Trait("Integração", "UpdateUserEndpoint")]
-    public async Task PUT_USER_ID_INVALID_DATA()
+    public async Task PUT_USER_ID_INVALID()
     {
         await using var application = new AdminApiApplication();
 
@@ -648,4 +649,77 @@ public class ApiCatalogoIntegrationTests
         // Limpa a base
         await UserMockData.DeleteUser(application, true);
     }
+
+    [Fact(DisplayName = "19 - DELETE - Deve deletar usuário")]
+    [Trait("Integração", "DeleteUserEndpoint")]
+    public async Task DELETE_USER_ROLE()
+    {
+        await using var application = new AdminApiApplication();
+
+        await UserMockData.DeleteUser(application, true);
+
+        var idUser = await UserMockData.CreateUser(application);
+
+        var command = new DeleteUserCommand(idUser);
+        var client = application.CreateClient();
+        var url = $"/api/user/{idUser}";
+
+        // Envia o comando para criar um usuário
+        var response = await client.DeleteAsync(url);
+
+        // Verifica se a resposta HTTP está correta
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        // Extrai o JSON da resposta
+        var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse<DeleteUserResponse>>();
+
+        // Verifica se o JSON tem os resultados esperados
+        Assert.NotNull(jsonResponse);
+        Assert.Equal("Removido com sucesso!", jsonResponse.SuccessMessage);
+        Assert.True(jsonResponse.Success);
+        Assert.Empty(jsonResponse.Errors);
+
+        // Limpa a base
+        await UserMockData.DeleteUser(application, true);
+    }
+
+    [Fact(DisplayName = "20 - DELETE - Deve retornar erro ao tentar remover usuário")]
+    [Trait("Integração", "DeleteUserEndpoint")]
+    public async Task DELETE_USER_ID_ROLE()
+    {
+        await using var application = new AdminApiApplication();
+
+        await UserMockData.DeleteUser(application, true);
+
+        var id = Guid.NewGuid();
+
+        var command = new DeleteUserCommand(id);
+        var client = application.CreateClient();
+        var url = $"/api/user/{id}";
+
+        // Envia o comando para criar um usuário
+        var response = await client.DeleteAsync(url);
+
+        // Extrai o JSON da resposta
+        var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+
+        // Verifica se o campo "success" é false
+        Assert.False(jsonResponse.Success);
+
+        // Verifica se a lista de erros contém as mensagens específicas
+        var expectedErrors = new List<string>
+        {
+            $"Nenhum registro encontrado pelo Id: {id}"
+        };
+
+        Assert.All(expectedErrors, error => Assert.Contains(jsonResponse.Errors.Select(e => e.Message), e => e == error));
+
+        // Verifica se a quantidade de erros é a esperada
+        Assert.Equal(expectedErrors.Count, jsonResponse.Errors.Count());
+
+
+        // Limpa a base
+        await UserMockData.DeleteUser(application, true);
+    }
+
 }

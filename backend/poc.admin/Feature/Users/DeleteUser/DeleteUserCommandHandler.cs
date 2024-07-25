@@ -1,10 +1,10 @@
-﻿using Ardalis.Result;
-using MediatR;
+﻿using MediatR;
 using poc.admin.Infrastructure.Database.Repositories.Interfaces;
+using poc.core.api.net8.Response;
 
 namespace poc.admin.Feature.Users.DeleteUser;
 
-public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Result>
+public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, ApiResult<DeleteUserResponse>>
 {
     private readonly DeleteUserCommandValidator _validator;
     private readonly IUserRepository _repo;
@@ -21,20 +21,23 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Resul
         _mediator = mediator;
     }
 
-    public async Task<Result> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResult<DeleteUserResponse>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
         // Validanto a requisição.
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
-            return Result.Invalid(validationResult.Errors.Select(e => new ValidationError
-            {
-                ErrorMessage = e.ErrorMessage
-            }).ToList());
+            return ApiResult<DeleteUserResponse>.CreateError(
+                validationResult.Errors.Select(e => new ErrorDetail(e.ErrorMessage)).ToList(),
+                400);
 
         // Obtendo o registro da base.
         var entity = await _repo.Get(request.Id);
         if (entity == null)
-            return Result.NotFound($"Nenhum registro encontrado pelo Id: {request.Id}");
+            return ApiResult<DeleteUserResponse>.CreateError(
+                new List<ErrorDetail> {
+                    new ErrorDetail($"Nenhum registro encontrado pelo Id: {request.Id}")
+                },
+                400);
 
         entity.Delete();
 
@@ -46,6 +49,6 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Resul
 
         entity.ClearDomainEvents();
 
-        return Result.SuccessWithMessage("Removido com sucesso!");
+        return ApiResult<DeleteUserResponse>.CreateSuccess(new DeleteUserResponse(request.Id), "Removido com sucesso!");
     }
 }

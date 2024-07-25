@@ -36,10 +36,10 @@ public class DeleteUserEndpoint : ICarterModule
     {
         var result = await sender.Send(new DeleteUserCommand(id));
 
-        if (!result.IsSuccess)
-            return Results.BadRequest(result.Errors);
+        if (!result.Success)
+            return Results.BadRequest(result);
 
-        return Results.Ok(result.Value);
+        return Results.Ok(result);
     }
 }
 

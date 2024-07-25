@@ -178,6 +178,7 @@ internal static class UserFake
         return command;
     }
 
+
     public static UpdateEmailUserCommand UpdateEmailUserCommand(Guid id, string email)
     {
         var faker = new Faker("pt_BR");

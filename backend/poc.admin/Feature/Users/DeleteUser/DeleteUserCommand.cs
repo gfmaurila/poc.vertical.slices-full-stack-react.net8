@@ -1,9 +1,9 @@
-﻿using Ardalis.Result;
-using MediatR;
+﻿using MediatR;
+using poc.core.api.net8.Response;
 
 namespace poc.admin.Feature.Users.DeleteUser;
 
-public class DeleteUserCommand : IRequest<Result>
+public class DeleteUserCommand : IRequest<ApiResult<DeleteUserResponse>>
 {
     public DeleteUserCommand(Guid id) => Id = id;
 

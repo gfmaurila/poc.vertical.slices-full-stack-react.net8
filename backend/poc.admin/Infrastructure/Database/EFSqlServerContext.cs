@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using poc.admin.Domain;
 using poc.admin.Domain.User;
 using poc.admin.Infrastructure.Database.Mappings;
 
@@ -13,13 +12,10 @@ public class EFSqlServerContext : DbContext
     public EFSqlServerContext(DbContextOptions<EFSqlServerContext> options) : base(options)
     { }
 
-    public virtual DbSet<Article> Article { get; set; }
-
     public virtual DbSet<UserEntity> User { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new ArticleConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
     }
 

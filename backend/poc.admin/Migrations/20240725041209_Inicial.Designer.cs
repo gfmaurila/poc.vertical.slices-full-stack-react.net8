@@ -7,14 +7,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using poc.admin.Infrastructure.Database;
 
-
 #nullable disable
 
-namespace poc.vertical.slices.net8.Migrations
+namespace poc.admin.Migrations
 {
     [DbContext(typeof(EFSqlServerContext))]
-    [Migration("20240720221448_User")]
-    partial class User
+    [Migration("20240725041209_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,32 +24,6 @@ namespace poc.vertical.slices.net8.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("poc.admin.Domain.Article", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedOnUtc")
-                        .HasColumnType("DATE");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(max)");
-
-                    b.Property<DateTime?>("PublishedOnUtc")
-                        .HasColumnType("DATE");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Article");
-                });
 
             modelBuilder.Entity("poc.admin.Domain.User.UserEntity", b =>
                 {
