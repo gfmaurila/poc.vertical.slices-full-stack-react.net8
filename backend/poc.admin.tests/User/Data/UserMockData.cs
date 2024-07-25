@@ -1,5 +1,4 @@
-﻿using Bogus;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using poc.admin.Feature.Users.GetArticle;
 using poc.admin.Infrastructure.Database;
 using poc.admin.tests.Redis;

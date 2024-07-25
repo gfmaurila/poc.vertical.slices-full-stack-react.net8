@@ -1,10 +1,10 @@
-﻿using Ardalis.Result;
-using MediatR;
+﻿using MediatR;
 using poc.admin.Infrastructure.Database.Repositories.Interfaces;
+using poc.core.api.net8.Response;
 
 namespace poc.admin.Feature.Users.UpdateRole;
 
-public class UpdateRoleUserCommandHandler : IRequestHandler<UpdateRoleUserCommand, Result>
+public class UpdateRoleUserCommandHandler : IRequestHandler<UpdateRoleUserCommand, ApiResult<UpdateRoleUserResponse>>
 {
     private readonly UpdateRoleUserCommandValidator _validator;
     private readonly IUserRepository _repo;
@@ -20,12 +20,17 @@ public class UpdateRoleUserCommandHandler : IRequestHandler<UpdateRoleUserComman
         _validator = validator;
         _mediator = mediator;
     }
-    public async Task<Result> Handle(UpdateRoleUserCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResult<UpdateRoleUserResponse>> Handle(UpdateRoleUserCommand request, CancellationToken cancellationToken)
     {
         // Obtendo o registro da base.
         var entity = await _repo.Get(request.Id);
         if (entity == null)
-            return Result.NotFound($"Nenhum registro encontrado pelo Id: {request.Id}");
+            if (entity == null)
+                return ApiResult<UpdateRoleUserResponse>.CreateError(
+                    new List<ErrorDetail> {
+                    new ErrorDetail($"Nenhum registro encontrado pelo Id: {request.Id}")
+                    },
+                    400);
 
         entity.UpdateRole(request.RoleUserAuth);
 
@@ -37,6 +42,6 @@ public class UpdateRoleUserCommandHandler : IRequestHandler<UpdateRoleUserComman
 
         entity.ClearDomainEvents();
 
-        return Result.SuccessWithMessage("Atualizado com sucesso!");
+        return ApiResult<UpdateRoleUserResponse>.CreateSuccess(new UpdateRoleUserResponse(entity.Id), "Atualizado com sucesso!");
     }
 }

@@ -1,10 +1,10 @@
-﻿using Ardalis.Result;
-using MediatR;
+﻿using MediatR;
+using poc.core.api.net8.Response;
 using System.ComponentModel.DataAnnotations;
 
 namespace poc.admin.Feature.Users.UpdateRole;
 
-public class UpdateRoleUserCommand : IRequest<Result>
+public class UpdateRoleUserCommand : IRequest<ApiResult<UpdateRoleUserResponse>>
 {
     [Required]
     public Guid Id { get; set; }

@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using poc.admin.Feature.Users.UpdatePassword;
 using poc.admin.Infrastructure.Database.Repositories.Interfaces;
 using poc.core.api.net8.Response;
 using poc.core.api.net8.ValueObjects;
