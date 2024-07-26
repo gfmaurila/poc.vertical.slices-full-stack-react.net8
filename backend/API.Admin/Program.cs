@@ -50,7 +50,7 @@ builder.Host.UseSerilog((context, config) =>
 
 var app = builder.Build();
 
-if (app.Environment.IsEnvironment("Dev") ||
+if (app.Environment.IsEnvironment("Test") ||
     app.Environment.IsDevelopment() ||
     app.Environment.IsEnvironment("Docker") ||
     app.Environment.IsStaging() ||

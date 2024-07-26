@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace API.Admin.Tests;
-public static class AdminDb
+namespace API.Admin.Tests.Integration.Utilities;
+
+public static class Config
 {
     public static string ConnectionString()
     {

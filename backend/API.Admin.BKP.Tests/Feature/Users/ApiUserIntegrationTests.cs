@@ -1,18 +1,18 @@
-﻿using API.Admin.Feature.Users.CreateUser;
+﻿using API.Admin.BKP.Tests.Feature.Users.Data;
+using API.Admin.BKP.Tests.Feature.Users.Fakes;
+using API.Admin.Feature.Users.CreateUser;
 using API.Admin.Feature.Users.DeleteUser;
 using API.Admin.Feature.Users.GetUser;
 using API.Admin.Feature.Users.UpdateEmail;
 using API.Admin.Feature.Users.UpdatePassword;
 using API.Admin.Feature.Users.UpdateUser;
-using API.Admin.Tests.Feature.Users.Data;
-using API.Admin.Tests.Feature.Users.Fakes;
 using Bogus;
 using poc.core.api.net8.API.Models;
 using poc.core.api.net8.Response;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace API.Admin.Tests.Feature.Users;
+namespace API.Admin.BKP.Tests.Feature.Users;
 
 public class ApiCatalogoIntegrationTests
 {

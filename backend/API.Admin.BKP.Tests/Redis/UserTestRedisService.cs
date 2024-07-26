@@ -1,7 +1,7 @@
 ﻿using API.Admin.Feature.Users.GetUser;
 using poc.core.api.net8.Interface;
 
-namespace API.Admin.Tests.Redis;
+namespace API.Admin.BKP.Tests.Redis;
 
 public class UserTestRedisService
 {

@@ -15,8 +15,7 @@ public static class WebApplicationExtensions
         }
         catch (Exception ex)
         {
-            app.Logger.LogError(ex, "Ocorreu uma exceção ao iniciar a aplicação: {Message}", ex.Message);
-            throw;
+            app.Logger.LogError(ex, "Ocorreu uma exceção ao iniciar a aplicação: {Message}", ex.Message); throw;
         }
     }
 
