@@ -1,5 +1,6 @@
 version: '3.9'
 # docker-compose up --build
+# docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
 networks:
   app-backend:
     driver: bridge
@@ -53,7 +54,8 @@ services:
       - sqlserver
       - mongoserver
       - kafka
-      - rabbitmq
+      - rabbitmq 
+  
 
 # APIS END -----------------------------------------------------------------------------
 

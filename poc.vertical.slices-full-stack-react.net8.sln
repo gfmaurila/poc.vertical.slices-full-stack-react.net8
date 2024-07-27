@@ -7,8 +7,6 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.Admin", "backend\API.Admin\API.Admin.csproj", "{772CAEDA-0FB0-40F5-9270-11EE3E3B06E4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - API-Core", "01 - API-Core", "{1AA7DC8E-92FC-460A-B2CF-361605114DE4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.Admin.Tests", "backend\API.Admin.Tests\API.Admin.Tests.csproj", "{951D8EF6-2405-48D6-A837-A35278044F81}"
 EndProject
 Global
@@ -32,10 +30,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{772CAEDA-0FB0-40F5-9270-11EE3E3B06E4} = {1AA7DC8E-92FC-460A-B2CF-361605114DE4}
-		{951D8EF6-2405-48D6-A837-A35278044F81} = {1AA7DC8E-92FC-460A-B2CF-361605114DE4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3EEA466-727D-4860-AAEB-6763D5A16B28}
