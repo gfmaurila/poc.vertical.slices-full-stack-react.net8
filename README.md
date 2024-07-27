@@ -73,54 +73,59 @@
         </tr>
         <tr>
             <td>Configurando o Docker e Docker Compose</td>
+            <td>docker-compose up --build</td>
+        </tr>
+    </table>    
+</div>
+
+<div>
+    <h2>Configurando projeto</h2>
+    <table>
+        <tr>
+            <td>Frontend:</td>
+            <td>http://localhost/</td>
+        </tr>
+        <tr>
+            <td>Backend:</td>
+            <td>http://localhost:5075/swagger/index.html</td>
+        </tr>
+        <tr>
+            <td>Pasta:</td>
+            <td>cd C:\Work\poc.vertical.slices-full-stack-react.net8</td>
+        </tr>
+        <tr>
+            <td>Rodando a aplicação</td>
+            <td>docker-compose up --build</td>
+        </tr>
+        <tr>
+            <td>React</td>
             <td>
-                ```
-                    docker-compose up --build
-                ```
+                <ul>
+                    <li>npm install ou yarn install</li>
+                    <li>npm install</li>
+                    <li>npm start ou yarn start</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>SQL Server</td>
+            <td>
+                <ul>
+                    <li>Add-Migration Inicial -Context EFSqlServerContext</li>
+                    <li>Update-Database -Context EFSqlServerContext</li>
+                </ul>
             </td>
         </tr>
     </table>    
 </div>
 
 
-- Backend: http://localhost:5075/swagger/index.html
-- Frontend: http://localhost/
-
-### Configurando React
-
-```
-cd C:\Work\poc.vertical.slices-full-stack-react.net8
-```
-
-```
-npm install
-```
-
-```
-yarn install
-```
-
-```
-npm start
-```
-
-```
-yarn start
-```
-
-- Acesso: http://localhost/ - Falta iniciar o projeto
-
-
-### SQL Server
-
-```
-Add-Migration Inicial -Context EFSqlServerContext
-```
-
-```
-Update-Database -Context EFSqlServerContext
-```
-
+<div>
+    <h2>Frontend - Ainda não foi concluido</h2>
+    <ul>
+        <li>React</li>
+    </ul>    
+</div>
 
 ## Youtube
 - ......
