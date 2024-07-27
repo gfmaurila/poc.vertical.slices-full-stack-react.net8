@@ -14,6 +14,35 @@
     </ul>    
 </div>
 
+<div>
+    <h2>Features</h2>
+    <ul>
+        <li>Entity Framework (code first)</li>               
+        <li>MediatR</li>
+        <li>Mapster</li>
+        <li>JWT auth</li>
+        <li>Carter</li>
+        <li>Ardalis Result</li>
+        <li>Fluent Validation</li>
+        <li>Swagger</li>
+        <li>Serilog</li>
+        <li>MongoDB</li>
+        <li>Redis</li>
+        <li>SQL Server</li>
+        <li>Serilog</li>
+        <li>Integration Tests</li>
+            <ul>
+                <li>In-memory DB</li>
+                <li>Sqlite</li>
+                <li>Sql Server</li>
+                <li>XUnit</li>
+                <li>NUnit</li>
+                <li>Moq</li>
+                <li>Bogus</li>
+            </ul>
+        </ul>    
+</div>
+
 ## Configuração e Instalação
 
 ### Clonando o Repositório
