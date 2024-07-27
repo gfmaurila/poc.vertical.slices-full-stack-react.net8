@@ -15,9 +15,20 @@
 </div>
 
 <div>
+    <h2>Vertical Slice Architecture</h2>
+    <ul>
+        <li>Event Sourcing</li>               
+        <li>Repository Pattern</li>
+        <li>Resut Pattern</li>
+        <li>Domain Events</li>
+    </ul>    
+</div>
+
+<div>
     <h2>Features</h2>
     <ul>
-        <li>Entity Framework (code first)</li>               
+        <li>EASP.NET Core 8.0: Framework para desenvolvimento da Microsoft.</li>
+        <li>Entity Framework</li>               
         <li>MediatR</li>
         <li>Mapster</li>
         <li>JWT auth</li>
@@ -30,6 +41,9 @@
         <li>Redis</li>
         <li>SQL Server</li>
         <li>Serilog</li>
+        <li>RabbitMQ</li>
+        <li>Kafka</li>
+        <li>Docker & Docker Compose</li>
         <li>Integration Tests</li>
             <ul>
                 <li>In-memory DB</li>
@@ -43,15 +57,31 @@
         </ul>    
 </div>
 
-## Configuração e Instalação
+<div>
+    <h2>Frontend - Ainda não foi concluido</h2>
+    <ul>
+        <li>React</li>
+    </ul>    
+</div>
 
-### Clonando o Repositório
-Clone o repositório usando: https://github.com/gfmaurila/poc.vertical.slices-full-stack-react.net8.git
+<div>
+    <h2>Configuração e Instalação</h2>
+    <table>
+        <tr>
+            <td>Clone o repositório usando:</td>
+            <td>https://github.com/gfmaurila/poc.vertical.slices-full-stack-react.net8.git</td>
+        </tr>
+        <tr>
+            <td>Configurando o Docker e Docker Compose</td>
+            <td>
+                ```
+                    docker-compose up --build
+                ```
+            </td>
+        </tr>
+    </table>    
+</div>
 
-### Configurando o Docker e Docker Compose
-```
-docker-compose up --build
-```
 
 - Backend: http://localhost:5075/swagger/index.html
 - Frontend: http://localhost/
