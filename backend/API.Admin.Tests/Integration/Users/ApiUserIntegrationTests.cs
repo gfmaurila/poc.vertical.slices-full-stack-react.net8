@@ -96,6 +96,10 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
     [Trait("Integração", "GetUserByIdEndpoint")]
     public async Task GetUserById()
     {
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
+
         await UserMockData.DeleteUser(_factory, true);
 
         var id = await UserMockData.CreateUser(_factory);
@@ -104,6 +108,7 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
 
         var result = await _client.GetAsync(url);
         var json = await _client.GetFromJsonAsync<ApiResult<UserQueryModel>>(url);
+        _client.DefaultRequestHeaders.Clear();
 
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.NotNull(json);
@@ -121,6 +126,9 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
     [Trait("Integracao", "CreateUserEndpoint")]
     public async Task CreateUser()
     {
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
 
         await UserMockData.DeleteUser(_factory, true);
 
@@ -129,6 +137,7 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
 
         // Envia o comando para criar um usuário
         var response = await _client.PostAsJsonAsync(url, command);
+        _client.DefaultRequestHeaders.Clear();
 
         // Verifica se a resposta HTTP está correta
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -147,6 +156,9 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
     [Trait("Integracao", "CreateUserEndpoint")]
     public async Task CreateUserError1()
     {
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
 
         await UserMockData.DeleteUser(_factory, true);
 
@@ -154,6 +166,7 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
         var url = "/api/v1/user";
 
         var response = await _client.PostAsJsonAsync(url, command);
+        _client.DefaultRequestHeaders.Clear();
 
         // Verifica se a resposta HTTP é 400 - Bad Request
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -190,6 +203,10 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
     [Trait("Integracao", "CreateUserEndpoint")]
     public async Task CreateUserError2()
     {
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
+
 
         await UserMockData.DeleteUser(_factory, true);
         await UserMockData.CreateUserExistingData(_factory);
@@ -198,6 +215,7 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
         var url = "/api/v1/user";
 
         var response = await _client.PostAsJsonAsync(url, command);
+        _client.DefaultRequestHeaders.Clear();
 
         // Verifica se a resposta HTTP é 400 - Bad Request
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -227,7 +245,9 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
     [Trait("Integração", "UpdateUserEndpoint")]
     public async Task UpdateUser()
     {
-
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
 
         await UserMockData.DeleteUser(_factory, true);
 
@@ -238,6 +258,7 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
 
         // Envia o comando para criar um usuário
         var response = await _client.PutAsJsonAsync(url, command);
+        _client.DefaultRequestHeaders.Clear();
 
         // Verifica se a resposta HTTP está correta
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -260,7 +281,9 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
     [Trait("Integração", "UpdateUserEndpoint")]
     public async Task UpdateUserError1()
     {
-
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
 
         await UserMockData.DeleteUser(_factory, true);
 
@@ -271,6 +294,7 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
 
         // Envia o comando para criar um usuário
         var response = await _client.PutAsJsonAsync(url, command);
+        _client.DefaultRequestHeaders.Clear();
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
@@ -299,7 +323,9 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
     [Trait("Integração", "UpdateUserEndpoint")]
     public async Task UpdateUserError2()
     {
-
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
 
         await UserMockData.DeleteUser(_factory, true);
 
@@ -310,6 +336,7 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
 
         // Envia o comando para criar um usuário
         var response = await _client.PutAsJsonAsync(url, command);
+        _client.DefaultRequestHeaders.Clear();
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
@@ -339,7 +366,9 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
     [Trait("Integração", "UpdatePasswordUserEndpoint")]
     public async Task UpdatePasswordUser()
     {
-
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
 
         await UserMockData.DeleteUser(_factory, true);
 
@@ -350,6 +379,7 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
 
         // Envia o comando para criar um usuário
         var response = await _client.PutAsJsonAsync(url, command);
+        _client.DefaultRequestHeaders.Clear();
 
         // Verifica se a resposta HTTP está correta
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -371,7 +401,9 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
     [Trait("Integração", "UpdatePasswordUserEndpoint")]
     public async Task UpdatePasswordUserError1()
     {
-
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
 
         await UserMockData.DeleteUser(_factory, true);
 
@@ -382,6 +414,7 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
 
         // Envia o comando para criar um usuário
         var response = await _client.PutAsJsonAsync(url, command);
+        _client.DefaultRequestHeaders.Clear();
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
@@ -409,7 +442,9 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
     [Trait("Integração", "UpdatePasswordUserEndpoint")]
     public async Task UpdatePasswordUserError2()
     {
-
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
 
         await UserMockData.DeleteUser(_factory, true);
 
@@ -420,6 +455,7 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
 
         // Envia o comando para criar um usuário
         var response = await _client.PutAsJsonAsync(url, command);
+        _client.DefaultRequestHeaders.Clear();
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
@@ -449,7 +485,9 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
     [Trait("Integração", "UpdateEmailUserEndpoint")]
     public async Task UpdateEmail()
     {
-
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
 
         await UserMockData.DeleteUser(_factory, true);
 
@@ -460,6 +498,7 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
 
         // Envia o comando para criar um usuário
         var response = await _client.PutAsJsonAsync(url, command);
+        _client.DefaultRequestHeaders.Clear();
 
         // Verifica se a resposta HTTP está correta
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -481,7 +520,9 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
     [Trait("Integração", "UpdateEmailUserEndpoint")]
     public async Task UpdateEmailError1()
     {
-
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
 
         await UserMockData.DeleteUser(_factory, true);
 
@@ -492,6 +533,7 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
 
         // Envia o comando para criar um usuário
         var response = await _client.PutAsJsonAsync(url, command);
+        _client.DefaultRequestHeaders.Clear();
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
@@ -518,7 +560,9 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
     [Trait("Integração", "UpdateEmailUserEndpoint")]
     public async Task UpdateEmailError2()
     {
-
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
 
         await UserMockData.DeleteUser(_factory, true);
 
@@ -529,6 +573,8 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
 
         // Envia o comando para criar um usuário
         var response = await _client.PutAsJsonAsync(url, command);
+
+        _client.DefaultRequestHeaders.Clear();
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
@@ -556,7 +602,9 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
     [Trait("Integração", "UpdateEmailUserEndpoint")]
     public async Task UpdateEmailError3()
     {
-
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
 
         await UserMockData.DeleteUser(_factory, true);
 
@@ -574,6 +622,7 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
 
         // Envia o comando para criar um usuário
         var response = await _client.PutAsJsonAsync(url, command);
+        _client.DefaultRequestHeaders.Clear();
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
@@ -603,7 +652,9 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
     [Trait("Integração", "UpdateRoleUserEndpoint")]
     public async Task UpdateRoleUser()
     {
-
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
 
         await UserMockData.DeleteUser(_factory, true);
 
@@ -614,6 +665,7 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
 
         // Envia o comando para criar um usuário
         var response = await _client.PutAsJsonAsync(url, command);
+        _client.DefaultRequestHeaders.Clear();
 
         // Verifica se a resposta HTTP está correta
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -635,7 +687,9 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
     [Trait("Integração", "UpdateRoleUserEndpoint")]
     public async Task UpdateRoleUserError1()
     {
-
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
 
         await UserMockData.DeleteUser(_factory, true);
 
@@ -646,6 +700,7 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
 
         // Envia o comando para criar um usuário
         var response = await _client.PutAsJsonAsync(url, command);
+        _client.DefaultRequestHeaders.Clear();
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
@@ -673,7 +728,9 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
     [Trait("Integração", "DeleteUserEndpoint")]
     public async Task UpdateRoleUserError2()
     {
-
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
 
         await UserMockData.DeleteUser(_factory, true);
 
@@ -684,6 +741,7 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
 
         // Envia o comando para criar um usuário
         var response = await _client.DeleteAsync(url);
+        _client.DefaultRequestHeaders.Clear();
 
         // Verifica se a resposta HTTP está correta
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -707,7 +765,9 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
     [Trait("Integração", "DeleteUserEndpoint")]
     public async Task DeleteUser()
     {
-
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
 
         await UserMockData.DeleteUser(_factory, true);
 
@@ -718,6 +778,7 @@ public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory
 
         // Envia o comando para criar um usuário
         var response = await _client.DeleteAsync(url);
+        _client.DefaultRequestHeaders.Clear();
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();

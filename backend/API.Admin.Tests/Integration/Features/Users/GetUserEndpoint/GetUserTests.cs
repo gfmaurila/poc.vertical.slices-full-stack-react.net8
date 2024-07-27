@@ -29,19 +29,20 @@ public class GetUserTests : IClassFixture<CustomWebApplicationFactory<Program>>
     [Fact]
     public async Task ShouldUser()
     {
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
+
         // Limpa base
         await UserRepo.ClearDatabaseAsync(_factory);
+
+        // Arrange
         await UserRepo.GetUserById(_factory);
-
-        var token = await _auth.GetAuthAsync(_factory, _client);
-
-        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
 
         var httpResponse = await _client.GetAsync("/api/v1/user");
         httpResponse.EnsureSuccessStatusCode();
         var stringResponse = await httpResponse.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<ApiResult<List<UserQueryModel>>>(stringResponse);
-
         _client.DefaultRequestHeaders.Clear();
 
         Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);

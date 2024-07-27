@@ -1,4 +1,5 @@
 ﻿using API.Admin.Feature.Users.UpdateUser;
+using API.Admin.Tests.Integration.Features.Auth.AuthEndpoint;
 using API.Admin.Tests.Integration.Features.Users.Data;
 using API.Admin.Tests.Integration.Features.Users.Fakes;
 using API.Admin.Tests.Integration.Utilities;
@@ -6,17 +7,20 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using poc.core.api.net8.API.Models;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace API.Admin.Tests.Integration.Features.Users.UpdateUserEndpoint;
 
 public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program>>
 {
+    private readonly AuthToken _auth;
     private readonly HttpClient _client;
     private readonly CustomWebApplicationFactory<Program> _factory;
 
     public UpdateUserTests(CustomWebApplicationFactory<Program> factory)
     {
+        _auth = new AuthToken();
         _factory = factory;
         _client = factory.CreateClient(new WebApplicationFactoryClientOptions
         {
@@ -27,6 +31,10 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program
     [Fact]
     public async Task ShouldUser()
     {
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
+
         // Limpa base
         await UserRepo.ClearDatabaseAsync(_factory);
 
@@ -42,6 +50,7 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program
         // Envia o comando para criar um usuário
         var httpResponse = await _client.PutAsJsonAsync(url, command);
         httpResponse.EnsureSuccessStatusCode();
+        _client.DefaultRequestHeaders.Clear();
 
         // Verifica se a resposta HTTP está correta
         Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);

@@ -1,20 +1,24 @@
-﻿using API.Admin.Tests.Integration.Features.Users.Data;
+﻿using API.Admin.Tests.Integration.Features.Auth.AuthEndpoint;
+using API.Admin.Tests.Integration.Features.Users.Data;
 using API.Admin.Tests.Integration.Features.Users.Fakes;
 using API.Admin.Tests.Integration.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using poc.core.api.net8.API.Models;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace API.Admin.Tests.Integration.Features.Users.UpdateEmailUserEndpoint;
 
 public class UpdatePasswordUserInvalidIdTests : IClassFixture<CustomWebApplicationFactory<Program>>
 {
+    private readonly AuthToken _auth;
     private readonly HttpClient _client;
     private readonly CustomWebApplicationFactory<Program> _factory;
 
     public UpdatePasswordUserInvalidIdTests(CustomWebApplicationFactory<Program> factory)
     {
+        _auth = new AuthToken();
         _factory = factory;
         _client = factory.CreateClient(new WebApplicationFactoryClientOptions
         {
@@ -25,6 +29,10 @@ public class UpdatePasswordUserInvalidIdTests : IClassFixture<CustomWebApplicati
     [Fact]
     public async Task ShouldUser()
     {
+        // Arrange - Auth
+        var token = await _auth.GetAuthAsync(_factory, _client);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
+
         // Limpa base
         await UserRepo.ClearDatabaseAsync(_factory);
 
@@ -37,6 +45,7 @@ public class UpdatePasswordUserInvalidIdTests : IClassFixture<CustomWebApplicati
 
         // Envia o comando para criar um usuário
         var response = await _client.PutAsJsonAsync(url, command);
+        _client.DefaultRequestHeaders.Clear();
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();

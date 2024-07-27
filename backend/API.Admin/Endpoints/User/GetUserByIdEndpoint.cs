@@ -2,8 +2,10 @@
 using API.Admin.Feature.Users.GetUserById;
 using Carter;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 using poc.core.api.net8.API.Models;
+using poc.core.api.net8.User;
 
 namespace poc.vertical.slices.net8.Endpoints.User;
 public class GetUserByIdEndpoint : ICarterModule
@@ -28,7 +30,7 @@ public class GetUserByIdEndpoint : ICarterModule
                     }
                 }
             })
-            //.RequireAuthorization(new AuthorizeAttribute { Roles = $"{RoleUserAuthConstants.User}, {RoleUserAuthConstants.GetUserById}" })
+            .RequireAuthorization(new AuthorizeAttribute { Roles = $"{RoleUserAuthConstants.User}, {RoleUserAuthConstants.GetUserById}" })
             ;
     }
     private async Task<IResult> HandleGetUserById(Guid id, ISender sender)
