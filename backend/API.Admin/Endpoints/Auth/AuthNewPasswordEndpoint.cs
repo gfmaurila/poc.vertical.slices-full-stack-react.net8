@@ -17,9 +17,9 @@ public class AuthNewPasswordEndpoint : ICarterModule
             .Produces<ApiResponse>(StatusCodes.Status500InternalServerError)
             .WithOpenApi(x =>
             {
-                x.OperationId = "AuthResetPassword";
-                x.Summary = "Auth Reset Password";
-                x.Description = "Auth Reset Password";
+                x.OperationId = "AuthNewPassword";
+                x.Summary = "AuthNewPassword";
+                x.Description = "AuthNewPassword";
                 x.Tags = new List<OpenApiTag> { new OpenApiTag { Name = "Auth" } };
                 return x;
             })

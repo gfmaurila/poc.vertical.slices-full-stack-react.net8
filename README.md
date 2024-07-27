@@ -121,13 +121,67 @@
 
 ## API - Swagger
 
-### 1.1 - GET
+## API - Swagger - Auth
+### 1.1 - POST - login
     ```
-    curl -X 'GET' \
-    'https://localhost:44375/api/v1/User' \
+    curl -X 'POST' \
+    'https://localhost:44375/api/v1/login' \
     -H 'accept: application/json' \
-    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImdmbWF1cmlsYUBnbWFpbC5jb20iLCJpZCI6IjhhOGNhY2JlLTI2NDUtNDA5MC1hYzgwLTQwNTAyMTRkNGRlOSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6WyJVU0VSIiwiQ1JFQVRFX1VTRVIiLCJVUERBVEVfVVNFUiIsIkRFTEVURV9VU0VSIiwiR0VUX1VTRVIiLCJHRVRfQllfSURfVVNFUiIsIk5PVElGSUNBVElPTiIsIkNSRUFURV9OT1RJRklDQVRJT04iLCJERUxFVEVfTk9USUZJQ0FUSU9OIiwiR0VUX05PVElGSUNBVElPTiIsIlJFR0lPTiIsIkNPVU5UUkkiLCJERVBBUlRNRU5UIiwiRU1QTE9ZRUUiLCJKT0IiLCJKT0JfSElTVE9SWSIsIkxPQ0FUSU9OIiwiTUtUX1BPU1QiXSwiZXhwIjoxNzIxMjgwMjA3LCJpc3MiOiJKd3RBcGlBdXRoIiwiYXVkIjoiSnd0QXBpQXV0aCJ9.XQX5mkAxlMo8R29MOvuSiPEmRY29ANHz-OdwlL9-R1M'
+    -H 'Content-Type: application/json' \
+    -d '{
+    "email": "user@example.com",
+    "password": "string"
+    }'
     ```
+
+### 1.2 - POST - resetpassword
+    ```
+    curl -X 'POST' \
+    'https://localhost:44375/api/v1/resetpassword' \
+    -H 'accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -d '{
+    "email": "user@example.com"
+    }'
+    ```
+
+### 1.3 - POST - newpassword
+    ```
+    curl -X 'POST' \
+    'https://localhost:44375/api/v1/newpassword' \
+    -H 'accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -d '{
+    "password": "string",
+    "confirmPassword": "string",
+    "token": "string"
+    }'
+    ```
+
+## API - Swagger - User
+### 1.1 - POST - login
+    ```
+    curl -X 'POST' \
+  'https://localhost:44375/api/v1/user' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "firstName": "string",
+  "lastName": "string",
+  "gender": 0,
+  "notification": 0,
+  "dateOfBirth": "2024-07-27",
+  "email": "user@example.com",
+  "phone": "string",
+  "password": "string",
+  "confirmPassword": "string",
+  "roleUserAuth": [
+    "string"
+  ]
+}'
+    ```
+
+
 
 ## Youtube
 - ......
