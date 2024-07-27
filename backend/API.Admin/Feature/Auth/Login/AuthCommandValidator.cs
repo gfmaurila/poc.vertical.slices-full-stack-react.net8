@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace API.Admin.Feature.Auth;
+namespace API.Admin.Feature.Auth.Login;
 
 public class AuthCommandValidator : AbstractValidator<AuthCommand>
 {

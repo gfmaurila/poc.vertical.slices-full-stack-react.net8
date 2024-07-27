@@ -46,6 +46,17 @@ public class UserRepository : BaseRepository<UserEntity>, IUserRepository
         return entity;
     }
 
+    public async Task<UserEntity> GetByEmailAsync(string email)
+    {
+        var entity = await _context.User.AsNoTracking()
+                                   .Where(u => u.Email.Address == email)
+                                   .FirstOrDefaultAsync();
+
+        //var model = _mapper.Map<UserQueryModel>(entity);
+
+        return entity;
+    }
+
     #region Mapper
     private UserQueryModel MapperModelToEntity(UserEntity entity)
     {

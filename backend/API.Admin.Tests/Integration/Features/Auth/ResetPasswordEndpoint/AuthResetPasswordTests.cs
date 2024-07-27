@@ -1,4 +1,4 @@
-﻿using API.Admin.Feature.Auth.Login;
+﻿using API.Admin.Feature.Auth.ResetPassword;
 using API.Admin.Tests.Integration.Features.Auth.Fakes;
 using API.Admin.Tests.Integration.Features.Users.Data;
 using API.Admin.Tests.Integration.Utilities;
@@ -7,14 +7,14 @@ using poc.core.api.net8.Response;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace API.Admin.Tests.Integration.Features.Auth.AuthEndpoint;
+namespace API.Admin.Tests.Integration.Features.Auth.ResetPasswordEndpoint;
 
-public class AuthTests : IClassFixture<CustomWebApplicationFactory<Program>>
+public class AuthResetPasswordTests : IClassFixture<CustomWebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
     private readonly CustomWebApplicationFactory<Program> _factory;
 
-    public AuthTests(CustomWebApplicationFactory<Program> factory)
+    public AuthResetPasswordTests(CustomWebApplicationFactory<Program> factory)
     {
         _factory = factory;
         _client = factory.CreateClient(new WebApplicationFactoryClientOptions
@@ -31,17 +31,16 @@ public class AuthTests : IClassFixture<CustomWebApplicationFactory<Program>>
         await UserRepo.GetUserById(_factory);
 
         // Arrange
-        var command = AuthFake.AuthCommand();
+        var command = AuthFake.AuthResetPasswordCommand();
 
-        var httpResponse = await _client.PostAsJsonAsync("/api/v1/login", command);
+        var httpResponse = await _client.PostAsJsonAsync("/api/v1/resetpassword", command);
         httpResponse.EnsureSuccessStatusCode();
 
         Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
-        var jsonResponse = await httpResponse.Content.ReadFromJsonAsync<ApiResult<AuthTokenResponse>>();
+        var jsonResponse = await httpResponse.Content.ReadFromJsonAsync<ApiResult<AuthResetPasswordResponse>>();
 
         //Assert
         Assert.NotNull(jsonResponse);
-        Assert.Equal("Sucesso!", jsonResponse.SuccessMessage);
         Assert.True(jsonResponse.Success);
         Assert.Empty(jsonResponse.Errors);
 

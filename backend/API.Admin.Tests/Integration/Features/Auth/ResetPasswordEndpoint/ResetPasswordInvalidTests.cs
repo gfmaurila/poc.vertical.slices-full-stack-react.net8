@@ -1,4 +1,4 @@
-﻿using API.Admin.Feature.Auth.Login;
+﻿using API.Admin.Feature.Auth.ResetPassword;
 using API.Admin.Tests.Integration.Features.Auth.Fakes;
 using API.Admin.Tests.Integration.Features.Users.Data;
 using API.Admin.Tests.Integration.Utilities;
@@ -7,14 +7,14 @@ using poc.core.api.net8.API.Models;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace API.Admin.Tests.Integration.Features.Auth.AuthEndpoint;
+namespace API.Admin.Tests.Integration.Features.Auth.ResetPasswordEndpoint;
 
-public class AuthExistingTests : IClassFixture<CustomWebApplicationFactory<Program>>
+public class ResetPasswordInvalidTests : IClassFixture<CustomWebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
     private readonly CustomWebApplicationFactory<Program> _factory;
 
-    public AuthExistingTests(CustomWebApplicationFactory<Program> factory)
+    public ResetPasswordInvalidTests(CustomWebApplicationFactory<Program> factory)
     {
         _factory = factory;
         _client = factory.CreateClient(new WebApplicationFactoryClientOptions
@@ -30,12 +30,12 @@ public class AuthExistingTests : IClassFixture<CustomWebApplicationFactory<Progr
         await UserRepo.ClearDatabaseAsync(_factory);
 
         // Arrange
-        var command = AuthFake.AuthCommand();
+        var command = AuthFake.AuthResetPasswordInvalidCommand();
 
-        var httpResponse = await _client.PostAsJsonAsync("/api/v1/login", command);
+        var httpResponse = await _client.PostAsJsonAsync("/api/v1/resetpassword", command);
 
         Assert.Equal(HttpStatusCode.BadRequest, httpResponse.StatusCode);
-        var jsonResponse = await httpResponse.Content.ReadFromJsonAsync<ApiResponse<AuthTokenResponse>>();
+        var jsonResponse = await httpResponse.Content.ReadFromJsonAsync<ApiResponse<AuthResetPasswordResponse>>();
 
         //Assert
         Assert.NotNull(jsonResponse);

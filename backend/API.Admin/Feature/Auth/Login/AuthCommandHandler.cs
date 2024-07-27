@@ -4,7 +4,7 @@ using poc.core.api.net8.Extensions;
 using poc.core.api.net8.Interface;
 using poc.core.api.net8.Response;
 
-namespace API.Admin.Feature.Auth;
+namespace API.Admin.Feature.Auth.Login;
 
 public class AuthCommandHandler : IRequestHandler<AuthCommand, ApiResult<AuthTokenResponse>>
 {

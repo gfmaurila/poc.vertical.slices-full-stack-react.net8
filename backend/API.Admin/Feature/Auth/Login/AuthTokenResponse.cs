@@ -1,6 +1,6 @@
 ﻿using poc.core.api.net8;
 
-namespace API.Admin.Feature.Auth;
+namespace API.Admin.Feature.Auth.Login;
 
 public class AuthTokenResponse : BaseResponse
 {

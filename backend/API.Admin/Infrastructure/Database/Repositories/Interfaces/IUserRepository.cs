@@ -12,5 +12,6 @@ public interface IUserRepository : IBaseRepository<UserEntity>
     Task<List<UserQueryModel>> GetAllAsync();
     Task<UserQueryModel> GetByIdAsync(Guid id);
     Task<UserEntity> GetAuthByEmailPassword(string email, string passwordHash);
+    Task<UserEntity> GetByEmailAsync(string email);
 }
 

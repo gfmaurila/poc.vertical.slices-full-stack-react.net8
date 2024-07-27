@@ -2,15 +2,12 @@
 using poc.core.api.net8.Response;
 using System.ComponentModel.DataAnnotations;
 
-namespace API.Admin.Feature.Auth;
+namespace API.Admin.Feature.Auth.ResetPassword;
 
-public class AuthCommand : IRequest<ApiResult<AuthTokenResponse>>
+public class AuthResetPasswordCommand : IRequest<ApiResult<AuthResetPasswordResponse>>
 {
     [Required]
     [MaxLength(200)]
     [DataType(DataType.EmailAddress)]
     public string Email { get; set; }
-
-    [Required]
-    public string Password { get; set; }
 }
