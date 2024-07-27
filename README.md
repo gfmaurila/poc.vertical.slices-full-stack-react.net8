@@ -119,6 +119,24 @@
     </table>    
 </div>
 
+<div>
+    <h2>Teste Unitário</h2>
+    <table>
+        <tr>
+            <th>Projeto</th>
+            <th>Desenvolvedor</th>
+            <th>-</th>
+            <th>Line Coverage %</th>
+        </tr>
+        <tr>
+            <th>API.Admin</th>
+            <th>Guilherme F Maurila</th>
+            <th>-</th>
+            <th>96.4%</th>
+        </tr>
+    </table>    
+</div>
+
 ## API - Swagger
 
 ## API - Swagger - Auth
