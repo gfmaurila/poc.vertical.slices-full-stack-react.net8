@@ -1,36 +1,46 @@
-﻿using API.Admin.BKP.Tests.Feature.Users.Data;
-using API.Admin.BKP.Tests.Feature.Users.Fakes;
-using API.Admin.Feature.Users.CreateUser;
+﻿using API.Admin.Feature.Users.CreateUser;
 using API.Admin.Feature.Users.DeleteUser;
 using API.Admin.Feature.Users.GetUser;
 using API.Admin.Feature.Users.UpdateEmail;
 using API.Admin.Feature.Users.UpdatePassword;
 using API.Admin.Feature.Users.UpdateUser;
+using API.Admin.Tests.Integration.Users.Data;
+using API.Admin.Tests.Integration.Users.Fakes;
+using API.Admin.Tests.Integration.Utilities;
 using Bogus;
+using Microsoft.AspNetCore.Mvc.Testing;
 using poc.core.api.net8.API.Models;
 using poc.core.api.net8.Response;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace API.Admin.BKP.Tests.Feature.Users;
+namespace API.Admin.Tests.Integration.Users;
 
-public class ApiCatalogoIntegrationTests
+public class ApiCatalogoIntegrationTests : IClassFixture<CustomWebApplicationFactory<Program>>
 {
+    private readonly HttpClient _client;
+    private readonly CustomWebApplicationFactory<Program> _factory;
+
+    public ApiCatalogoIntegrationTests(CustomWebApplicationFactory<Program> factory)
+    {
+        _factory = factory;
+        _client = factory.CreateClient(new WebApplicationFactoryClientOptions
+        {
+            AllowAutoRedirect = false
+        });
+    }
+
     #region GET ALL
     [Fact(DisplayName = "01 - API Get User null")]
     [Trait("Integração", "GetUserEndpoint")]
     public async Task GetUserNull()
     {
-        await using var application = new AdminApiApplication();
-
         // Limpa a base
-        await UserMockData.DeleteUser(application, true);
-        var url = "/api/user";
+        await UserMockData.DeleteUser(_factory, true);
+        var url = "/api/v1/user";
 
-        var client = application.CreateClient();
-
-        var result = await client.GetAsync(url);
-        var json = await client.GetFromJsonAsync<ApiResult<List<UserQueryModel>>>(url);
+        var result = await _client.GetAsync(url);
+        var json = await _client.GetFromJsonAsync<ApiResult<List<UserQueryModel>>>(url);
 
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.NotNull(json);
@@ -43,17 +53,13 @@ public class ApiCatalogoIntegrationTests
     [Trait("Integração", "GetUserEndpoint")]
     public async Task GetUser()
     {
-        await using var application = new AdminApiApplication();
+        await UserMockData.DeleteUser(_factory, true);
+        await UserMockData.CreateUser(_factory, true);
 
-        await UserMockData.DeleteUser(application, true);
-        await UserMockData.CreateUser(application, true);
+        var url = "/api/v1/user";
 
-        var url = "/api/user";
-
-        var client = application.CreateClient();
-
-        var result = await client.GetAsync(url);
-        var json = await client.GetFromJsonAsync<ApiResult<List<UserQueryModel>>>(url);
+        var result = await _client.GetAsync(url);
+        var json = await _client.GetFromJsonAsync<ApiResult<List<UserQueryModel>>>(url);
 
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.NotNull(json);
@@ -62,7 +68,7 @@ public class ApiCatalogoIntegrationTests
         Assert.Empty(json.Errors);
 
         // Limpa a base
-        await UserMockData.DeleteUser(application, true);
+        await UserMockData.DeleteUser(_factory, true);
     }
     #endregion
 
@@ -71,18 +77,16 @@ public class ApiCatalogoIntegrationTests
     [Trait("Integração", "GetUserByIdEndpoint")]
     public async Task GetUserById()
     {
-        await using var application = new AdminApiApplication();
 
-        await UserMockData.DeleteUser(application, true);
 
-        var id = await UserMockData.CreateUser(application);
+        await UserMockData.DeleteUser(_factory, true);
 
-        var url = $"/api/user/{id}";
+        var id = await UserMockData.CreateUser(_factory);
 
-        var client = application.CreateClient();
+        var url = $"/api/v1/user/{id}";
 
-        var result = await client.GetAsync(url);
-        var json = await client.GetFromJsonAsync<ApiResult<UserQueryModel>>(url);
+        var result = await _client.GetAsync(url);
+        var json = await _client.GetFromJsonAsync<ApiResult<UserQueryModel>>(url);
 
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.NotNull(json);
@@ -91,7 +95,7 @@ public class ApiCatalogoIntegrationTests
         Assert.Empty(json.Errors);
 
         // Limpa a base
-        await UserMockData.DeleteUser(application, true);
+        await UserMockData.DeleteUser(_factory, true);
     }
     #endregion
 
@@ -100,15 +104,14 @@ public class ApiCatalogoIntegrationTests
     [Trait("Integracao", "CreateUserEndpoint")]
     public async Task CreateUser()
     {
-        await using var application = new AdminApiApplication();
-        await UserMockData.DeleteUser(application, true);
+
+        await UserMockData.DeleteUser(_factory, true);
 
         var command = UserFake.CreateUserCommand();
-        var client = application.CreateClient();
-        var url = "/api/user";
+        var url = "/api/v1/user";
 
         // Envia o comando para criar um usuário
-        var response = await client.PostAsJsonAsync(url, command);
+        var response = await _client.PostAsJsonAsync(url, command);
 
         // Verifica se a resposta HTTP está correta
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -127,14 +130,13 @@ public class ApiCatalogoIntegrationTests
     [Trait("Integracao", "CreateUserEndpoint")]
     public async Task CreateUserError1()
     {
-        await using var application = new AdminApiApplication();
-        await UserMockData.DeleteUser(application, true);
+
+        await UserMockData.DeleteUser(_factory, true);
 
         var command = UserFake.CreateUserInvalidDataCommand();
-        var client = application.CreateClient();
-        var url = "/api/user";
+        var url = "/api/v1/user";
 
-        var response = await client.PostAsJsonAsync(url, command);
+        var response = await _client.PostAsJsonAsync(url, command);
 
         // Verifica se a resposta HTTP é 400 - Bad Request
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -171,15 +173,14 @@ public class ApiCatalogoIntegrationTests
     [Trait("Integracao", "CreateUserEndpoint")]
     public async Task CreateUserError2()
     {
-        await using var application = new AdminApiApplication();
-        await UserMockData.DeleteUser(application, true);
-        await UserMockData.CreateUserExistingData(application);
+
+        await UserMockData.DeleteUser(_factory, true);
+        await UserMockData.CreateUserExistingData(_factory);
 
         var command = UserFake.CreateUserExistingDataCommand();
-        var client = application.CreateClient();
-        var url = "/api/user";
+        var url = "/api/v1/user";
 
-        var response = await client.PostAsJsonAsync(url, command);
+        var response = await _client.PostAsJsonAsync(url, command);
 
         // Verifica se a resposta HTTP é 400 - Bad Request
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -209,18 +210,17 @@ public class ApiCatalogoIntegrationTests
     [Trait("Integração", "UpdateUserEndpoint")]
     public async Task UpdateUser()
     {
-        await using var application = new AdminApiApplication();
 
-        await UserMockData.DeleteUser(application, true);
 
-        var idUser = await UserMockData.CreateUser(application);
+        await UserMockData.DeleteUser(_factory, true);
+
+        var idUser = await UserMockData.CreateUser(_factory);
 
         var command = UserFake.UpdateUserCommand(idUser);
-        var client = application.CreateClient();
-        var url = "/api/user";
+        var url = "/api/v1/user";
 
         // Envia o comando para criar um usuário
-        var response = await client.PutAsJsonAsync(url, command);
+        var response = await _client.PutAsJsonAsync(url, command);
 
         // Verifica se a resposta HTTP está correta
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -236,25 +236,24 @@ public class ApiCatalogoIntegrationTests
 
 
         // Limpa a base
-        await UserMockData.DeleteUser(application, true);
+        await UserMockData.DeleteUser(_factory, true);
     }
 
     [Fact(DisplayName = "08 - API Update User ERROR")]
     [Trait("Integração", "UpdateUserEndpoint")]
     public async Task UpdateUserError1()
     {
-        await using var application = new AdminApiApplication();
 
-        await UserMockData.DeleteUser(application, true);
 
-        var idUser = await UserMockData.CreateUser(application);
+        await UserMockData.DeleteUser(_factory, true);
+
+        var idUser = await UserMockData.CreateUser(_factory);
 
         var command = UserFake.UpdateUserInvalidDataCommand(idUser);
-        var client = application.CreateClient();
-        var url = "/api/user";
+        var url = "/api/v1/user";
 
         // Envia o comando para criar um usuário
-        var response = await client.PutAsJsonAsync(url, command);
+        var response = await _client.PutAsJsonAsync(url, command);
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
@@ -276,25 +275,24 @@ public class ApiCatalogoIntegrationTests
 
 
         // Limpa a base
-        await UserMockData.DeleteUser(application, true);
+        await UserMockData.DeleteUser(_factory, true);
     }
 
     [Fact(DisplayName = "09 - API Update User ERROR")]
     [Trait("Integração", "UpdateUserEndpoint")]
     public async Task UpdateUserError2()
     {
-        await using var application = new AdminApiApplication();
 
-        await UserMockData.DeleteUser(application, true);
+
+        await UserMockData.DeleteUser(_factory, true);
 
         Guid id = Guid.NewGuid();
 
         var command = UserFake.UpdateUserCommand(id);
-        var client = application.CreateClient();
-        var url = "/api/user";
+        var url = "/api/v1/user";
 
         // Envia o comando para criar um usuário
-        var response = await client.PutAsJsonAsync(url, command);
+        var response = await _client.PutAsJsonAsync(url, command);
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
@@ -315,7 +313,7 @@ public class ApiCatalogoIntegrationTests
 
 
         // Limpa a base
-        await UserMockData.DeleteUser(application, true);
+        await UserMockData.DeleteUser(_factory, true);
     }
     #endregion
 
@@ -324,18 +322,17 @@ public class ApiCatalogoIntegrationTests
     [Trait("Integração", "UpdatePasswordUserEndpoint")]
     public async Task UpdatePasswordUser()
     {
-        await using var application = new AdminApiApplication();
 
-        await UserMockData.DeleteUser(application, true);
 
-        var idUser = await UserMockData.CreateUser(application);
+        await UserMockData.DeleteUser(_factory, true);
+
+        var idUser = await UserMockData.CreateUser(_factory);
 
         var command = UserFake.UpdatePasswordUserCommand(idUser);
-        var client = application.CreateClient();
-        var url = "/api/user/updatepassword";
+        var url = "/api/v1/user/updatepassword";
 
         // Envia o comando para criar um usuário
-        var response = await client.PutAsJsonAsync(url, command);
+        var response = await _client.PutAsJsonAsync(url, command);
 
         // Verifica se a resposta HTTP está correta
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -350,25 +347,24 @@ public class ApiCatalogoIntegrationTests
         Assert.Empty(jsonResponse.Errors);
 
         // Limpa a base
-        await UserMockData.DeleteUser(application, true);
+        await UserMockData.DeleteUser(_factory, true);
     }
 
     [Fact(DisplayName = "11 - API Update Password User ERROR")]
     [Trait("Integração", "UpdatePasswordUserEndpoint")]
     public async Task UpdatePasswordUserError1()
     {
-        await using var application = new AdminApiApplication();
 
-        await UserMockData.DeleteUser(application, true);
 
-        var idUser = await UserMockData.CreateUser(application);
+        await UserMockData.DeleteUser(_factory, true);
+
+        var idUser = await UserMockData.CreateUser(_factory);
 
         var command = UserFake.UpdatePasswordUserInvalidCommand(idUser);
-        var client = application.CreateClient();
-        var url = "/api/user/updatepassword";
+        var url = "/api/v1/user/updatepassword";
 
         // Envia o comando para criar um usuário
-        var response = await client.PutAsJsonAsync(url, command);
+        var response = await _client.PutAsJsonAsync(url, command);
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
@@ -389,25 +385,24 @@ public class ApiCatalogoIntegrationTests
 
 
         // Limpa a base
-        await UserMockData.DeleteUser(application, true);
+        await UserMockData.DeleteUser(_factory, true);
     }
 
     [Fact(DisplayName = "12 - API Update Password User ERROR")]
     [Trait("Integração", "UpdatePasswordUserEndpoint")]
     public async Task UpdatePasswordUserError2()
     {
-        await using var application = new AdminApiApplication();
 
-        await UserMockData.DeleteUser(application, true);
+
+        await UserMockData.DeleteUser(_factory, true);
 
         Guid id = Guid.NewGuid();
 
         var command = UserFake.UpdatePasswordUserCommand(id);
-        var client = application.CreateClient();
-        var url = "/api/user/updatepassword";
+        var url = "/api/v1/user/updatepassword";
 
         // Envia o comando para criar um usuário
-        var response = await client.PutAsJsonAsync(url, command);
+        var response = await _client.PutAsJsonAsync(url, command);
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
@@ -428,7 +423,7 @@ public class ApiCatalogoIntegrationTests
 
 
         // Limpa a base
-        await UserMockData.DeleteUser(application, true);
+        await UserMockData.DeleteUser(_factory, true);
     }
     #endregion
 
@@ -437,18 +432,17 @@ public class ApiCatalogoIntegrationTests
     [Trait("Integração", "UpdateEmailUserEndpoint")]
     public async Task UpdateEmail()
     {
-        await using var application = new AdminApiApplication();
 
-        await UserMockData.DeleteUser(application, true);
 
-        var idUser = await UserMockData.CreateUser(application);
+        await UserMockData.DeleteUser(_factory, true);
+
+        var idUser = await UserMockData.CreateUser(_factory);
 
         var command = UserFake.UpdateEmailUserCommand(idUser);
-        var client = application.CreateClient();
-        var url = "/api/user/updateemail";
+        var url = "/api/v1/user/updateemail";
 
         // Envia o comando para criar um usuário
-        var response = await client.PutAsJsonAsync(url, command);
+        var response = await _client.PutAsJsonAsync(url, command);
 
         // Verifica se a resposta HTTP está correta
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -463,25 +457,24 @@ public class ApiCatalogoIntegrationTests
         Assert.Empty(jsonResponse.Errors);
 
         // Limpa a base
-        await UserMockData.DeleteUser(application, true);
+        await UserMockData.DeleteUser(_factory, true);
     }
 
     [Fact(DisplayName = "14 - API Update Email ERROR")]
     [Trait("Integração", "UpdateEmailUserEndpoint")]
     public async Task UpdateEmailError1()
     {
-        await using var application = new AdminApiApplication();
 
-        await UserMockData.DeleteUser(application, true);
 
-        var idUser = await UserMockData.CreateUser(application);
+        await UserMockData.DeleteUser(_factory, true);
+
+        var idUser = await UserMockData.CreateUser(_factory);
 
         var command = UserFake.UpdateEmailUserInvalidCommand(idUser);
-        var client = application.CreateClient();
-        var url = "/api/user/updateemail";
+        var url = "/api/v1/user/updateemail";
 
         // Envia o comando para criar um usuário
-        var response = await client.PutAsJsonAsync(url, command);
+        var response = await _client.PutAsJsonAsync(url, command);
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
@@ -501,25 +494,24 @@ public class ApiCatalogoIntegrationTests
         Assert.Equal(expectedErrors.Count, jsonResponse.Errors.Count());
 
         // Limpa a base
-        await UserMockData.DeleteUser(application, true);
+        await UserMockData.DeleteUser(_factory, true);
     }
 
     [Fact(DisplayName = "15 - API Update Email ERROR")]
     [Trait("Integração", "UpdateEmailUserEndpoint")]
     public async Task UpdateEmailError2()
     {
-        await using var application = new AdminApiApplication();
 
-        await UserMockData.DeleteUser(application, true);
+
+        await UserMockData.DeleteUser(_factory, true);
 
         Guid id = Guid.NewGuid();
 
         var command = UserFake.UpdateEmailUserCommand(id);
-        var client = application.CreateClient();
-        var url = "/api/user/updateemail";
+        var url = "/api/v1/user/updateemail";
 
         // Envia o comando para criar um usuário
-        var response = await client.PutAsJsonAsync(url, command);
+        var response = await _client.PutAsJsonAsync(url, command);
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
@@ -540,32 +532,31 @@ public class ApiCatalogoIntegrationTests
 
 
         // Limpa a base
-        await UserMockData.DeleteUser(application, true);
+        await UserMockData.DeleteUser(_factory, true);
     }
 
     [Fact(DisplayName = "16 - API Update Email ERROR")]
     [Trait("Integração", "UpdateEmailUserEndpoint")]
     public async Task UpdateEmailError3()
     {
-        await using var application = new AdminApiApplication();
 
-        await UserMockData.DeleteUser(application, true);
+
+        await UserMockData.DeleteUser(_factory, true);
 
         var faker = new Faker("pt_BR");
 
         string email = faker.Person.Email;
 
         // Email ja existente
-        await UserMockData.CreateUser(application, email);
+        await UserMockData.CreateUser(_factory, email);
 
-        var id = await UserMockData.CreateUser(application);
+        var id = await UserMockData.CreateUser(_factory);
 
         var command = UserFake.UpdateEmailUserCommand(id, email);
-        var client = application.CreateClient();
-        var url = "/api/user/updateemail";
+        var url = "/api/v1/user/updateemail";
 
         // Envia o comando para criar um usuário
-        var response = await client.PutAsJsonAsync(url, command);
+        var response = await _client.PutAsJsonAsync(url, command);
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
@@ -586,7 +577,7 @@ public class ApiCatalogoIntegrationTests
 
 
         // Limpa a base
-        await UserMockData.DeleteUser(application, true);
+        await UserMockData.DeleteUser(_factory, true);
     }
     #endregion
 
@@ -595,18 +586,17 @@ public class ApiCatalogoIntegrationTests
     [Trait("Integração", "UpdateRoleUserEndpoint")]
     public async Task UpdateRoleUser()
     {
-        await using var application = new AdminApiApplication();
 
-        await UserMockData.DeleteUser(application, true);
 
-        var idUser = await UserMockData.CreateUser(application);
+        await UserMockData.DeleteUser(_factory, true);
+
+        var idUser = await UserMockData.CreateUser(_factory);
 
         var command = UserFake.UpdateEmailUserCommand(idUser);
-        var client = application.CreateClient();
-        var url = "/api/user/updaterole";
+        var url = "/api/v1/user/updaterole";
 
         // Envia o comando para criar um usuário
-        var response = await client.PutAsJsonAsync(url, command);
+        var response = await _client.PutAsJsonAsync(url, command);
 
         // Verifica se a resposta HTTP está correta
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -621,25 +611,24 @@ public class ApiCatalogoIntegrationTests
         Assert.Empty(jsonResponse.Errors);
 
         // Limpa a base
-        await UserMockData.DeleteUser(application, true);
+        await UserMockData.DeleteUser(_factory, true);
     }
 
     [Fact(DisplayName = "18 - API Update Role User ERROR")]
     [Trait("Integração", "UpdateRoleUserEndpoint")]
     public async Task UpdateRoleUserError1()
     {
-        await using var application = new AdminApiApplication();
 
-        await UserMockData.DeleteUser(application, true);
+
+        await UserMockData.DeleteUser(_factory, true);
 
         Guid id = Guid.NewGuid();
 
         var command = UserFake.UpdateEmailUserCommand(id);
-        var client = application.CreateClient();
-        var url = "/api/user/updaterole";
+        var url = "/api/v1/user/updaterole";
 
         // Envia o comando para criar um usuário
-        var response = await client.PutAsJsonAsync(url, command);
+        var response = await _client.PutAsJsonAsync(url, command);
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
@@ -660,25 +649,24 @@ public class ApiCatalogoIntegrationTests
 
 
         // Limpa a base
-        await UserMockData.DeleteUser(application, true);
+        await UserMockData.DeleteUser(_factory, true);
     }
 
     [Fact(DisplayName = "19 - API Update Role User ERROR")]
     [Trait("Integração", "DeleteUserEndpoint")]
     public async Task UpdateRoleUserError2()
     {
-        await using var application = new AdminApiApplication();
 
-        await UserMockData.DeleteUser(application, true);
 
-        var idUser = await UserMockData.CreateUser(application);
+        await UserMockData.DeleteUser(_factory, true);
+
+        var idUser = await UserMockData.CreateUser(_factory);
 
         var command = new DeleteUserCommand(idUser);
-        var client = application.CreateClient();
-        var url = $"/api/user/{idUser}";
+        var url = $"/api/v1/user/{idUser}";
 
         // Envia o comando para criar um usuário
-        var response = await client.DeleteAsync(url);
+        var response = await _client.DeleteAsync(url);
 
         // Verifica se a resposta HTTP está correta
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -693,7 +681,7 @@ public class ApiCatalogoIntegrationTests
         Assert.Empty(jsonResponse.Errors);
 
         // Limpa a base
-        await UserMockData.DeleteUser(application, true);
+        await UserMockData.DeleteUser(_factory, true);
     }
     #endregion
 
@@ -702,18 +690,17 @@ public class ApiCatalogoIntegrationTests
     [Trait("Integração", "DeleteUserEndpoint")]
     public async Task DeleteUser()
     {
-        await using var application = new AdminApiApplication();
 
-        await UserMockData.DeleteUser(application, true);
+
+        await UserMockData.DeleteUser(_factory, true);
 
         var id = Guid.NewGuid();
 
         var command = new DeleteUserCommand(id);
-        var client = application.CreateClient();
-        var url = $"/api/user/{id}";
+        var url = $"/api/v1/user/{id}";
 
         // Envia o comando para criar um usuário
-        var response = await client.DeleteAsync(url);
+        var response = await _client.DeleteAsync(url);
 
         // Extrai o JSON da resposta
         var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
@@ -734,7 +721,7 @@ public class ApiCatalogoIntegrationTests
 
 
         // Limpa a base
-        await UserMockData.DeleteUser(application, true);
+        await UserMockData.DeleteUser(_factory, true);
     }
     #endregion
 

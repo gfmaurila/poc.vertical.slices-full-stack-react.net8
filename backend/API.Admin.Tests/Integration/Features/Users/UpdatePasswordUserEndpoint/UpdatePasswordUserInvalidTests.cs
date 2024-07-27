@@ -1,19 +1,19 @@
 ﻿using API.Admin.Tests.Integration.Features.Users.Data;
 using API.Admin.Tests.Integration.Features.Users.Fakes;
 using API.Admin.Tests.Integration.Utilities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using poc.core.api.net8.API.Models;
-using System.Net;
 using System.Net.Http.Json;
 
-namespace API.Admin.Tests.Integration.Features.Users.CreateUserEndpoint;
+namespace API.Admin.Tests.Integration.Features.Users.UpdatePasswordUserEndpoint;
 
-public class CreateUserInvalidTests : IClassFixture<CustomWebApplicationFactory<Program>>
+public class UpdatePasswordUserInvalidTests : IClassFixture<CustomWebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
     private readonly CustomWebApplicationFactory<Program> _factory;
 
-    public CreateUserInvalidTests(CustomWebApplicationFactory<Program> factory)
+    public UpdatePasswordUserInvalidTests(CustomWebApplicationFactory<Program> factory)
     {
         _factory = factory;
         _client = factory.CreateClient(new WebApplicationFactoryClientOptions
@@ -23,18 +23,22 @@ public class CreateUserInvalidTests : IClassFixture<CustomWebApplicationFactory<
     }
 
     [Fact]
-    public async Task ShouldUserUserInvalid()
+    public async Task ShouldUser()
     {
         // Limpa base
         await UserRepo.ClearDatabaseAsync(_factory);
 
         // Arrange
-        var command = CreateUserCommandFake.CreateUserInvalidCommand();
 
-        var httpResponse = await _client.PostAsJsonAsync("/api/v1/user", command);
+        //Arrange command
+        var id = await UserRepo.GetUserById(_factory);
 
-        // Verifica se a resposta HTTP é 400 - Bad Request
-        Assert.Equal(HttpStatusCode.BadRequest, httpResponse.StatusCode);
+        var command = CreateUserCommandFake.UpdatePasswordUserInvalidCommand(id);
+
+        var url = "/api/v1/user/updatepassword";
+
+        // Envia o comando para criar um usuário
+        var httpResponse = await _client.PutAsJsonAsync(url, command);
 
         // Extrai o JSON da resposta
         var jsonResponse = await httpResponse.Content.ReadFromJsonAsync<ApiResponse>();
@@ -45,16 +49,7 @@ public class CreateUserInvalidTests : IClassFixture<CustomWebApplicationFactory<
         // Verifica se a lista de erros contém as mensagens específicas
         var expectedErrors = new List<string>
         {
-            "'First Name' deve ser informado.",
-            "'Last Name' deve ser informado.",
-            "'Email' deve ser informado.",
-            "'Email' é um endereço de email inválido.",
-            "'Password' deve ser informado.",
-            "'Password' deve ser maior ou igual a 8 caracteres. Você digitou 0 caracteres.",
-            "'Password' não está no formato correto.",
-            "'Password' não está no formato correto.",
-            "'Password' não está no formato correto.",
-            "'Password' não está no formato correto."
+            "A confirmação da senha deve ser igual à senha."
         };
 
         Assert.All(expectedErrors, error => Assert.Contains(jsonResponse.Errors.Select(e => e.Message), e => e == error));
@@ -64,6 +59,5 @@ public class CreateUserInvalidTests : IClassFixture<CustomWebApplicationFactory<
 
         // Limpa base
         await UserRepo.ClearDatabaseAsync(_factory);
-        //_app.Dispose();
     }
 }

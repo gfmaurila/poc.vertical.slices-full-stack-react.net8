@@ -10,7 +10,7 @@ public class GetAllUsersEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("api/user", HandleGetAllUsers)
+        app.MapGet("api/v1/user", HandleGetAllUsers)
             .WithName("GetAllUsers")
             .Produces<ApiResponse<List<UserQueryModel>>>(StatusCodes.Status200OK)
             .Produces<ApiResponse>(StatusCodes.Status500InternalServerError)
@@ -57,7 +57,7 @@ public class GetAllUsersEndpoint : ICarterModule
 //    //[Authorize(Roles = $"{RoleUserAuthConstants.User}, {RoleUserAuthConstants.GetUser}")]
 //    public void AddRoutes(IEndpointRouteBuilder app)
 //    {
-//        app.MapGet("api/user", async (ISender sender) =>
+//        app.MapGet("api/v1/user", async (ISender sender) =>
 //        {
 //            var result = await sender.Send(new GetUserQuery());
 //            return Results.Ok(result.Value);

@@ -16,46 +16,19 @@ namespace API.Admin.Tests.Integration.Features.Users.Data;
 
 public static class UserRepo
 {
-    public static async Task PopulateTestData(ApiApplication application)
+    public static async Task CreateUser(CustomWebApplicationFactory<Program> factory)
     {
-        using var scope = application.Services.CreateScope();
-        var provider = scope.ServiceProvider;
-        using var dbContext = provider.GetRequiredService<EFSqlServerContext>();
-
-        string password = "Test123$";
-
-        var users = new List<UserEntity>()
-        {
-            CreateUser("teste01@teste.com.br", password),
-            CreateUser("teste02@teste.com.br", password),
-            CreateUser("teste03@teste.com.br", password),
-            CreateUser("teste04@teste.com.br", password),
-            CreateUser("teste05@teste.com.br", password),
-            CreateUser("teste06@teste.com.br", password),
-            CreateUser("teste07@teste.com.br", password),
-            CreateUser("teste08@teste.com.br", password),
-            CreateUser("teste09@teste.com.br", password),
-            CreateUser("teste010@teste.com.br", password),
-        };
-
-
-        dbContext.User.AddRange(users);
-        dbContext.SaveChanges();
-        dbContext.Dispose();
-    }
-
-    public static async Task PopulateTestExistingData(ApiApplication application)
-    {
-        using var scope = application.Services.CreateScope();
-
+        using var scope = factory.Services.CreateScope();
         var provider = scope.ServiceProvider;
         using var dbContext = provider.GetRequiredService<EFSqlServerContext>();
 
         await dbContext.Database.EnsureCreatedAsync();
 
-        await dbContext.User.AddAsync(InsertExistingData());
+        for (int i = 0; i < 10; i++)
+        {
+            await dbContext.User.AddAsync(InsertExistingData());
+        }
         await dbContext.SaveChangesAsync();
-        dbContext.Dispose();
     }
 
     public static async Task PopulateTestExistingData(CustomWebApplicationFactory<Program> factory)
@@ -70,22 +43,7 @@ public static class UserRepo
         await dbContext.SaveChangesAsync();
     }
 
-    public static async Task<Guid> PopulateTestDeleteData(ApiApplication application)
-    {
-        using var scope = application.Services.CreateScope();
-
-        var provider = scope.ServiceProvider;
-        using var dbContext = provider.GetRequiredService<EFSqlServerContext>();
-
-        await dbContext.Database.EnsureCreatedAsync();
-
-        var user = await dbContext.User.AddAsync(CreateUser("testedelete@teste.com.br", "Test123$"));
-        await dbContext.SaveChangesAsync();
-
-        return user.Entity.Id;
-    }
-
-    public static async Task<Guid> PopulateTestDeleteData(CustomWebApplicationFactory<Program> factory)
+    public static async Task<Guid> GetUserById(CustomWebApplicationFactory<Program> factory)
     {
         using var scope = factory.Services.CreateScope();
         var provider = scope.ServiceProvider;
@@ -139,41 +97,6 @@ public static class UserRepo
 
         return newUser;
     }
-
-    public static async Task ClearDatabaseAsync(ApiApplication application)
-    {
-        using var scope = application.Services.CreateScope();
-        var provider = scope.ServiceProvider;
-        using var dbContext = provider.GetRequiredService<EFSqlServerContext>();
-
-        await dbContext.Database.EnsureCreatedAsync();
-
-        var lista = dbContext.User.ToList();
-
-        foreach (var item in lista)
-        {
-            dbContext.User.Remove(item);
-            await dbContext.SaveChangesAsync();
-        }
-
-        // Limpa o redis
-        const string cacheKey = nameof(GetUserQuery);
-
-        // Obter a instância do cache service
-        var cacheService = provider.GetService<IRedisCacheService<List<UserQueryModel>>>();
-
-        // Instanciar UserTestRedisService com a instância do cache service
-        var redisDb = new UserTestRedisService(cacheService);
-
-        if (lista.Count() != 0)
-        {
-            // Usar o serviço
-            await redisDb.Delete(cacheKey);
-        }
-
-        await redisDb.ClearDatabaseAsync();
-    }
-
 
     public static async Task ClearDatabaseAsync(CustomWebApplicationFactory<Program> factory)
     {

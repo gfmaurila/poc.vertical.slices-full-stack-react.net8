@@ -10,7 +10,7 @@ public class UpdateRoleUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("api/user/updaterole", HandleUpdateUserRole)
+        app.MapPut("api/v1/user/updaterole", HandleUpdateUserRole)
             .WithName("UpdateUserRole")
             .Produces<ApiResponse>(StatusCodes.Status200OK)
             .Produces<ApiResponse>(StatusCodes.Status400BadRequest)
@@ -65,7 +65,7 @@ public class UpdateRoleUserEndpoint : ICarterModule
 //    //[Authorize(Roles = $"{RoleUserAuthConstants.User}, {RoleUserAuthConstants.PutUser}")]
 //    public void AddRoutes(IEndpointRouteBuilder app)
 //    {
-//        app.MapPut("api/user/updaterole", async (UpdateRoleUserCommand request, ISender sender) =>
+//        app.MapPut("api/v1/user/updaterole", async (UpdateRoleUserCommand request, ISender sender) =>
 //        {
 //            var result = await sender.Send(request.Adapt<UpdateRoleUserCommand>());
 //            if (!result.IsSuccess)

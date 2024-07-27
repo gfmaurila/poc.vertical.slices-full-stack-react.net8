@@ -10,7 +10,7 @@ public class UpdatePasswordUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("api/user/updatepassword", HandleUpdatePassword)
+        app.MapPut("api/v1/user/updatepassword", HandleUpdatePassword)
             .WithName("UpdateUserPassword")
             .Produces<ApiResponse>(StatusCodes.Status200OK)
             .Produces<ApiResponse>(StatusCodes.Status400BadRequest)
@@ -65,7 +65,7 @@ public class UpdatePasswordUserEndpoint : ICarterModule
 //    //[Authorize(Roles = $"{RoleUserAuthConstants.User}, {RoleUserAuthConstants.PutUser}")]
 //    public void AddRoutes(IEndpointRouteBuilder app)
 //    {
-//        app.MapPut("api/user/updatepassword", async (UpdatePasswordUserCommand request, ISender sender) =>
+//        app.MapPut("api/v1/user/updatepassword", async (UpdatePasswordUserCommand request, ISender sender) =>
 //        {
 //            var result = await sender.Send(request.Adapt<UpdatePasswordUserCommand>());
 //            if (!result.IsSuccess)

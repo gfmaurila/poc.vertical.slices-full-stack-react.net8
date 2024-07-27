@@ -1,19 +1,19 @@
 ﻿using API.Admin.Tests.Integration.Features.Users.Data;
 using API.Admin.Tests.Integration.Features.Users.Fakes;
 using API.Admin.Tests.Integration.Utilities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using poc.core.api.net8.API.Models;
-using System.Net;
 using System.Net.Http.Json;
 
-namespace API.Admin.Tests.Integration.Features.Users.CreateUserEndpoint;
+namespace API.Admin.Tests.Integration.Features.Users.UpdateUserEndpoint;
 
-public class CreateUserExistingTests : IClassFixture<CustomWebApplicationFactory<Program>>
+public class UpdateUserInvalidIdTests : IClassFixture<CustomWebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
     private readonly CustomWebApplicationFactory<Program> _factory;
 
-    public CreateUserExistingTests(CustomWebApplicationFactory<Program> factory)
+    public UpdateUserInvalidIdTests(CustomWebApplicationFactory<Program> factory)
     {
         _factory = factory;
         _client = factory.CreateClient(new WebApplicationFactoryClientOptions
@@ -23,22 +23,23 @@ public class CreateUserExistingTests : IClassFixture<CustomWebApplicationFactory
     }
 
     [Fact]
-    public async Task ShouldUserUserExisting()
+    public async Task ShouldUser()
     {
         // Limpa base
         await UserRepo.ClearDatabaseAsync(_factory);
-        await UserRepo.PopulateTestExistingData(_factory);
 
-        // Arrange
-        var command = CreateUserCommandFake.CreateUserExistingDataCommand();
+        //Arrange command
+        Guid id = Guid.NewGuid();
 
-        var httpResponse = await _client.PostAsJsonAsync("/api/v1/user", command);
+        var command = CreateUserCommandFake.UpdateUserCommand(id);
 
-        // Verifica se a resposta HTTP é 400 - Bad Request
-        Assert.Equal(HttpStatusCode.BadRequest, httpResponse.StatusCode);
+        var url = "/api/v1/user";
+
+        // Envia o comando para criar um usuário
+        var response = await _client.PutAsJsonAsync(url, command);
 
         // Extrai o JSON da resposta
-        var jsonResponse = await httpResponse.Content.ReadFromJsonAsync<ApiResponse>();
+        var jsonResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
 
         // Verifica se o campo "success" é false
         Assert.False(jsonResponse.Success);
@@ -46,7 +47,7 @@ public class CreateUserExistingTests : IClassFixture<CustomWebApplicationFactory
         // Verifica se a lista de erros contém as mensagens específicas
         var expectedErrors = new List<string>
         {
-            "O endereço de e-mail informado já está sendo utilizado."
+            $"Nenhum registro encontrado pelo Id: {id}"
         };
 
         Assert.All(expectedErrors, error => Assert.Contains(jsonResponse.Errors.Select(e => e.Message), e => e == error));
@@ -56,6 +57,5 @@ public class CreateUserExistingTests : IClassFixture<CustomWebApplicationFactory
 
         // Limpa base
         await UserRepo.ClearDatabaseAsync(_factory);
-        //_app.Dispose();
     }
 }

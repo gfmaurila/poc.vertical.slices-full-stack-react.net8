@@ -32,7 +32,7 @@ public class CreateUserTests : IClassFixture<CustomWebApplicationFactory<Program
         // Arrange
         var command = CreateUserCommandFake.CreateUserCommand();
 
-        var httpResponse = await _client.PostAsJsonAsync("/api/user", command);
+        var httpResponse = await _client.PostAsJsonAsync("/api/v1/user", command);
         httpResponse.EnsureSuccessStatusCode();
 
         Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);

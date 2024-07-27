@@ -10,7 +10,7 @@ public class GetUserByIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("api/user/{id}", HandleGetUserById)
+        app.MapGet("api/v1/user/{id}", HandleGetUserById)
             .WithName("GetUserById")
             .Produces<ApiResponse<UserQueryModel>>(StatusCodes.Status200OK)
             .Produces<ApiResponse>(StatusCodes.Status400BadRequest)

@@ -10,7 +10,7 @@ public class UpdateUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("api/user", HandleUpdateUser)
+        app.MapPut("api/v1/user", HandleUpdateUser)
             .WithName("UpdateUser")
             .Produces<ApiResponse>(StatusCodes.Status200OK)
             .Produces<ApiResponse>(StatusCodes.Status400BadRequest)
@@ -56,7 +56,7 @@ public class UpdateUserEndpoint : ICarterModule
 //    /// <response code="400">Retorna lista de erros, se a requisição for inválida.</response>
 //    /// <response code="404">Quando nenhum registro é encontrado pelo Id fornecido.</response>
 //    /// <response code="500">Quando ocorre um erro interno inesperado no servidor.</response>
-//    [HttpPut("api/user")]
+//    [HttpPut("api/v1/user")]
 //    [Consumes(MediaTypeNames.Application.Json)]
 //    [Produces(MediaTypeNames.Application.Json)]
 //    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
@@ -66,7 +66,7 @@ public class UpdateUserEndpoint : ICarterModule
 //    //[Authorize(Roles = $"{RoleUserAuthConstants.User}, {RoleUserAuthConstants.PutUser}")]
 //    public void AddRoutes(IEndpointRouteBuilder app)
 //    {
-//        app.MapPut("api/user", async (UpdateUserCommand request, ISender sender) =>
+//        app.MapPut("api/v1/user", async (UpdateUserCommand request, ISender sender) =>
 //        {
 //            var result = await sender.Send(request.Adapt<UpdateUserCommand>());
 //            if (!result.IsSuccess)

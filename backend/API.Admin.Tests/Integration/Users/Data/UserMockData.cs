@@ -1,18 +1,19 @@
-﻿using API.Admin.BKP.Tests.Feature.Users.Fakes;
-using API.Admin.BKP.Tests.Redis;
-using API.Admin.Feature.Users.GetUser;
+﻿using API.Admin.Feature.Users.GetUser;
 using API.Admin.Infrastructure.Database;
+using API.Admin.Tests.Integration.Users.Fakes;
+using API.Admin.Tests.Integration.Utilities;
+using API.Admin.Tests.Integration.Utilities.Redis;
 using Microsoft.Extensions.DependencyInjection;
 using poc.core.api.net8.Interface;
 using poc.core.api.net8.ValueObjects;
 
-namespace API.Admin.BKP.Tests.Feature.Users.Data;
+namespace API.Admin.Tests.Integration.Users.Data;
 
 public class UserMockData
 {
-    public static async Task CreateUser(AdminApiApplication application, bool create)
+    public static async Task CreateUser(CustomWebApplicationFactory<Program> factory, bool create)
     {
-        using var scope = application.Services.CreateScope();
+        using var scope = factory.Services.CreateScope();
         var provider = scope.ServiceProvider;
         using var dbContext = provider.GetRequiredService<EFSqlServerContext>();
 
@@ -28,10 +29,9 @@ public class UserMockData
         }
     }
 
-    public static async Task<Guid> CreateUser(AdminApiApplication application)
+    public static async Task<Guid> CreateUser(CustomWebApplicationFactory<Program> factory)
     {
-        using var scope = application.Services.CreateScope();
-
+        using var scope = factory.Services.CreateScope();
         var provider = scope.ServiceProvider;
         using var dbContext = provider.GetRequiredService<EFSqlServerContext>();
 
@@ -43,10 +43,9 @@ public class UserMockData
         return user.Entity.Id;
     }
 
-    public static async Task<Guid> CreateUser(AdminApiApplication application, string email)
+    public static async Task<Guid> CreateUser(CustomWebApplicationFactory<Program> factory, string email)
     {
-        using var scope = application.Services.CreateScope();
-
+        using var scope = factory.Services.CreateScope();
         var provider = scope.ServiceProvider;
         using var dbContext = provider.GetRequiredService<EFSqlServerContext>();
         await dbContext.Database.EnsureCreatedAsync();
@@ -59,22 +58,9 @@ public class UserMockData
         return user.Entity.Id;
     }
 
-    public static async Task CreateUserExistingData(AdminApiApplication application)
+    public static async Task DeleteUser(CustomWebApplicationFactory<Program> factory, bool delete)
     {
-        using var scope = application.Services.CreateScope();
-
-        var provider = scope.ServiceProvider;
-        using var dbContext = provider.GetRequiredService<EFSqlServerContext>();
-
-        await dbContext.Database.EnsureCreatedAsync();
-
-        await dbContext.User.AddAsync(UserFake.InsertExistingData());
-        await dbContext.SaveChangesAsync();
-    }
-
-    public static async Task DeleteUser(AdminApiApplication application, bool delete)
-    {
-        using var scope = application.Services.CreateScope();
+        using var scope = factory.Services.CreateScope();
         var provider = scope.ServiceProvider;
         using var dbContext = provider.GetRequiredService<EFSqlServerContext>();
 
@@ -103,4 +89,18 @@ public class UserMockData
         // Usar o serviço
         await redisDb.Delete(cacheKey);
     }
+
+    public static async Task CreateUserExistingData(CustomWebApplicationFactory<Program> factory)
+    {
+        using var scope = factory.Services.CreateScope();
+
+        var provider = scope.ServiceProvider;
+        using var dbContext = provider.GetRequiredService<EFSqlServerContext>();
+
+        await dbContext.Database.EnsureCreatedAsync();
+
+        await dbContext.User.AddAsync(UserFake.InsertExistingData());
+        await dbContext.SaveChangesAsync();
+    }
 }
+

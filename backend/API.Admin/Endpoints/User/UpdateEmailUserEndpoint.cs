@@ -10,7 +10,7 @@ public class UpdateEmailUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("api/user/updateemail", HandleUpdateEmail)
+        app.MapPut("api/v1/user/updateemail", HandleUpdateEmail)
             .WithName("UpdateUserEmail")
             .Produces<ApiResponse>(StatusCodes.Status200OK)
             .Produces<ApiResponse>(StatusCodes.Status400BadRequest)
@@ -64,7 +64,7 @@ public class UpdateEmailUserEndpoint : ICarterModule
 //    //[Authorize(Roles = $"{RoleUserAuthConstants.User}, {RoleUserAuthConstants.PutUser}")]
 //    public void AddRoutes(IEndpointRouteBuilder app)
 //    {
-//        app.MapPut("api/user/updateemail", async (UpdateEmailUserCommand request, ISender sender) =>
+//        app.MapPut("api/v1/user/updateemail", async (UpdateEmailUserCommand request, ISender sender) =>
 //        {
 //            var result = await sender.Send(request.Adapt<UpdateEmailUserCommand>());
 //            if (!result.IsSuccess)

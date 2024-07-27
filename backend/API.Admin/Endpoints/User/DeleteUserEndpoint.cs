@@ -9,7 +9,7 @@ public class DeleteUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("api/user/{id}", HandleDeleteUser)
+        app.MapDelete("api/v1/user/{id}", HandleDeleteUser)
             .WithName("DeleteUser")
             .Produces<ApiResponse>(StatusCodes.Status200OK)
             .Produces<ApiResponse>(StatusCodes.Status400BadRequest)

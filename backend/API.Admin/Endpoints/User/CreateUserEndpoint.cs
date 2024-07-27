@@ -10,7 +10,7 @@ public class CreateUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("api/User", HandleCreateUser)
+        app.MapPost("api/v1/user", HandleCreateUser)
             .WithName("CreateUser")
             .Produces<CreateUserResponse>(StatusCodes.Status200OK)
             .Produces<ApiResponse>(StatusCodes.Status400BadRequest)
