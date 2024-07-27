@@ -123,12 +123,11 @@
 <div>
     <h2>Swagger</h2>
     <ul>
-        <li>```
-curl -X 'GET' \
-'https://localhost:44375/api/v1/User' \
--H 'accept: application/json' \
--H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImdmbWF1cmlsYUBnbWFpbC5jb20iLCJpZCI6IjhhOGNhY2JlLTI2NDUtNDA5MC1hYzgwLTQwNTAyMTRkNGRlOSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6WyJVU0VSIiwiQ1JFQVRFX1VTRVIiLCJVUERBVEVfVVNFUiIsIkRFTEVURV9VU0VSIiwiR0VUX1VTRVIiLCJHRVRfQllfSURfVVNFUiIsIk5PVElGSUNBVElPTiIsIkNSRUFURV9OT1RJRklDQVRJT04iLCJERUxFVEVfTk9USUZJQ0FUSU9OIiwiR0VUX05PVElGSUNBVElPTiIsIlJFR0lPTiIsIkNPVU5UUkkiLCJERVBBUlRNRU5UIiwiRU1QTE9ZRUUiLCJKT0IiLCJKT0JfSElTVE9SWSIsIkxPQ0FUSU9OIiwiTUtUX1BPU1QiXSwiZXhwIjoxNzIxMjgwMjA3LCJpc3MiOiJKd3RBcGlBdXRoIiwiYXVkIjoiSnd0QXBpQXV0aCJ9.XQX5mkAxlMo8R29MOvuSiPEmRY29ANHz-OdwlL9-R1M'
-```</li>
+        <li>
+        ```bash
+            git clone https://github.com/gfmaurila/poc.cqrs.api.net8.git
+        ```
+        </li>
     </ul>    
 </div>
 
