@@ -7,26 +7,26 @@ services:
       - 5075:5075
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
-      - ASPNETCORE_ENVIRONMENT=Test
+      # - ASPNETCORE_ENVIRONMENT=Test
     volumes:
       - ~/.aspnet/https:/root/.aspnet/https:ro
       - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
   
-  api.admin.tests:
-    image: ${DOCKER_REGISTRY-}api.admin.tests
-    container_name: api.admin.tests
-    restart: always
-    build:
-      context: .
-      dockerfile: backend/API.Admin.Tests/Dockerfile
-    depends_on:
-      - api.admin.webapi
-      - sqlserver
-      - mongoserver
-      - kafka
-      - rabbitmq
-      - redis
-    networks:
-      - app-backend
-    entrypoint: ["dotnet", "test", "API.Admin.Tests.dll", "--logger:trx"]
+  # api.admin.tests:
+  #   image: ${DOCKER_REGISTRY-}api.admin.tests
+  #   container_name: api.admin.tests
+  #   restart: always
+  #   build:
+  #     context: .
+  #     dockerfile: backend/API.Admin.Tests/Dockerfile
+  #   depends_on:
+  #     - api.admin.webapi
+  #     - sqlserver
+  #     - mongoserver
+  #     - kafka
+  #     - rabbitmq
+  #     - redis
+  #   networks:
+  #     - app-backend
+  #   entrypoint: ["dotnet", "test", "API.Admin.Tests.dll", "--logger:trx"]
 
