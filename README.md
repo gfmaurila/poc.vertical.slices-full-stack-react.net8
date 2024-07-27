@@ -1,33 +1,17 @@
 
 ## API C# Vertical Slice Architecture
-## Estrutura do Projeto
-
-- `Infrastructure/Database/`: Configurações de banco de dados e mapeamentos do Entity Framework.
-- `Domain/`: Entidades de domínio.
-- `Endpoints/`: Definições dos endpoints da API.
-- `Extensions/`: Métodos de extensão para configuração e Entity Framework.
-- `Feature/`: Implementações das funcionalidades relacionadas a artigos.
-- `Migrations/`: Migrações de banco de dados do Entity Framework.
-- `Program.cs`: Ponto de entrada da aplicação.
-
 
 <div>
-    <h2>Features</h2>
+    <h2>Estrutura do Projeto</h2>
     <ul>
-        <li>Entity Framework (code first)</li>               
-        <li>MediatR</li>
-        <li>JWT auth</li>
-        <li>Automapper</li>
-        <li>Autofac</li>
-        <li>Fluent Validation</li>
-        <li>Swagger</li>
-        <li>Integration Tests</li>
-        <ul>
-        <li>In-memory DB</li>
-        <li>XUnit</li>
-        <li>Shouldly</li>
-        </ul>
-    </ul>        
+        <li>`Infrastructure/Database/`: Configurações de banco de dados e mapeamentos do Entity Framework.</li>               
+        <li>`Domain/`: Entidades de domínio.</li>
+        <li>`Endpoints/`: Definições dos endpoints da API.</li>
+        <li>`Extensions/`: Métodos de extensão para configuração e Entity Framework.</li>
+        <li>`Feature/`: Implementações das funcionalidades relacionadas a artigos.</li>
+        <li>`Migrations/`: Migrações de banco de dados do Entity Framework.</li>
+        <li>`Program.cs`: Ponto de entrada da aplicação.</li>
+    </ul>    
 </div>
 
 ## Configuração e Instalação
