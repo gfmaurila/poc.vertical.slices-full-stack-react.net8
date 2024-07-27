@@ -1,8 +1,10 @@
 ﻿using API.Admin.Feature.Users.GetUser;
 using Carter;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 using poc.core.api.net8.API.Models;
+using poc.core.api.net8.User;
 
 namespace poc.vertical.slices.net8.Endpoints.User;
 
@@ -26,7 +28,7 @@ public class GetAllUsersEndpoint : ICarterModule
                     }
                 }
             })
-            //.RequireAuthorization(new AuthorizeAttribute { Roles = $"{RoleUserAuthConstants.User}, {RoleUserAuthConstants.GetUser}" })
+            .RequireAuthorization(new AuthorizeAttribute { Roles = $"{RoleUserAuthConstants.User}, {RoleUserAuthConstants.GetUser}" })
             ;
     }
 

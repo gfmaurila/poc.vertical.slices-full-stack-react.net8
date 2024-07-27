@@ -43,6 +43,20 @@ public static class UserRepo
         await dbContext.SaveChangesAsync();
     }
 
+    public static async Task<Guid> GetAuth(CustomWebApplicationFactory<Program> factory)
+    {
+        using var scope = factory.Services.CreateScope();
+        var provider = scope.ServiceProvider;
+        using var dbContext = provider.GetRequiredService<EFSqlServerContext>();
+
+        await dbContext.Database.EnsureCreatedAsync();
+
+        var user = await dbContext.User.AddAsync(CreateUser("auth@auth.com.br", "Test123$"));
+        await dbContext.SaveChangesAsync();
+
+        return user.Entity.Id;
+    }
+
     public static async Task<Guid> GetUserById(CustomWebApplicationFactory<Program> factory)
     {
         using var scope = factory.Services.CreateScope();

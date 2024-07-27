@@ -4,6 +4,8 @@ using API.Admin.Feature.Users.GetUser;
 using API.Admin.Feature.Users.UpdateEmail;
 using API.Admin.Feature.Users.UpdatePassword;
 using API.Admin.Feature.Users.UpdateUser;
+using API.Admin.Tests.Integration.Features.Auth.AuthEndpoint;
+using API.Admin.Tests.Integration.Features.Users.Data;
 using API.Admin.Tests.Integration.Users.Data;
 using API.Admin.Tests.Integration.Users.Fakes;
 using API.Admin.Tests.Integration.Utilities;
@@ -12,17 +14,20 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using poc.core.api.net8.API.Models;
 using poc.core.api.net8.Response;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace API.Admin.Tests.Integration.Users;
 
-public class ApiCatalogoIntegrationTests : IClassFixture<CustomWebApplicationFactory<Program>>
+public class ApiUserIntegrationTests : IClassFixture<CustomWebApplicationFactory<Program>>
 {
+    private readonly AuthToken _auth;
     private readonly HttpClient _client;
     private readonly CustomWebApplicationFactory<Program> _factory;
 
-    public ApiCatalogoIntegrationTests(CustomWebApplicationFactory<Program> factory)
+    public ApiUserIntegrationTests(CustomWebApplicationFactory<Program> factory)
     {
+        _auth = new AuthToken();
         _factory = factory;
         _client = factory.CreateClient(new WebApplicationFactoryClientOptions
         {
@@ -39,8 +44,16 @@ public class ApiCatalogoIntegrationTests : IClassFixture<CustomWebApplicationFac
         await UserMockData.DeleteUser(_factory, true);
         var url = "/api/v1/user";
 
+        var token = await _auth.GetAuthAsync(_factory, _client);
+
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
+
+        await UserRepo.ClearDatabaseAsync(_factory);
+
         var result = await _client.GetAsync(url);
         var json = await _client.GetFromJsonAsync<ApiResult<List<UserQueryModel>>>(url);
+
+        _client.DefaultRequestHeaders.Clear();
 
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.NotNull(json);
@@ -56,10 +69,16 @@ public class ApiCatalogoIntegrationTests : IClassFixture<CustomWebApplicationFac
         await UserMockData.DeleteUser(_factory, true);
         await UserMockData.CreateUser(_factory, true);
 
+        var token = await _auth.GetAuthAsync(_factory, _client);
+
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Data.Token);
+
         var url = "/api/v1/user";
 
         var result = await _client.GetAsync(url);
         var json = await _client.GetFromJsonAsync<ApiResult<List<UserQueryModel>>>(url);
+
+        _client.DefaultRequestHeaders.Clear();
 
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.NotNull(json);
@@ -77,8 +96,6 @@ public class ApiCatalogoIntegrationTests : IClassFixture<CustomWebApplicationFac
     [Trait("Integração", "GetUserByIdEndpoint")]
     public async Task GetUserById()
     {
-
-
         await UserMockData.DeleteUser(_factory, true);
 
         var id = await UserMockData.CreateUser(_factory);

@@ -5,6 +5,18 @@ namespace API.Admin.Tests.Integration.Features.Auth.Fakes;
 
 public static class AuthFake
 {
+    public static AuthCommand GetAuthAsync()
+    {
+        var faker = new Faker("pt_BR");
+
+        var command = new AuthCommand()
+        {
+            Email = "auth@auth.com.br",
+            Password = "Test123$"
+        };
+        return command;
+    }
+
     public static AuthCommand AuthCommand()
     {
         var faker = new Faker("pt_BR");

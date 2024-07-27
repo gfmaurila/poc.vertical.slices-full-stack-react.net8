@@ -3,7 +3,7 @@ using API.Admin.Tests.Integration.Features.Auth.Fakes;
 using API.Admin.Tests.Integration.Features.Users.Data;
 using API.Admin.Tests.Integration.Utilities;
 using Microsoft.AspNetCore.Mvc.Testing;
-using poc.core.api.net8.API.Models;
+using poc.core.api.net8.Response;
 using System.Net;
 using System.Net.Http.Json;
 
@@ -37,7 +37,7 @@ public class AuthTests : IClassFixture<CustomWebApplicationFactory<Program>>
         httpResponse.EnsureSuccessStatusCode();
 
         Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
-        var jsonResponse = await httpResponse.Content.ReadFromJsonAsync<ApiResponse<AuthTokenResponse>>();
+        var jsonResponse = await httpResponse.Content.ReadFromJsonAsync<ApiResult<AuthTokenResponse>>();
 
         //Assert
         Assert.NotNull(jsonResponse);
@@ -48,4 +48,6 @@ public class AuthTests : IClassFixture<CustomWebApplicationFactory<Program>>
         // Limpa base
         await UserRepo.ClearDatabaseAsync(_factory);
     }
+
+
 }
