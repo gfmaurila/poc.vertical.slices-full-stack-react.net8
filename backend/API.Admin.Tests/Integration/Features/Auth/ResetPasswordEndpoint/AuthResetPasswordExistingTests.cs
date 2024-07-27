@@ -1,5 +1,4 @@
-﻿using API.Admin.Feature.Auth.Login;
-using API.Admin.Feature.Auth.ResetPassword;
+﻿using API.Admin.Feature.Auth.ResetPassword;
 using API.Admin.Tests.Integration.Features.Auth.Fakes;
 using API.Admin.Tests.Integration.Features.Users.Data;
 using API.Admin.Tests.Integration.Utilities;

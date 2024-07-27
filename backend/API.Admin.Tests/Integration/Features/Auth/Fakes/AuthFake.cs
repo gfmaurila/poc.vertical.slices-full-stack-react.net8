@@ -1,4 +1,5 @@
-﻿using API.Admin.Feature.Auth.Login;
+﻿using API.Admin.Feature.Auth.AuthNewPassword;
+using API.Admin.Feature.Auth.Login;
 using API.Admin.Feature.Auth.ResetPassword;
 using Bogus;
 
@@ -6,6 +7,20 @@ namespace API.Admin.Tests.Integration.Features.Auth.Fakes;
 
 public static class AuthFake
 {
+    public static AuthNewPasswordCommand AuthNewPasswordCommand()
+    {
+        var faker = new Faker("pt_BR");
+
+        var command = new AuthNewPasswordCommand()
+        {
+            Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImdmbWF1cmlsYTEwQGdtYWlsLmNvbSIsImlkIjoiYzdhMTE1MGYtYmNmMC00M2EzLTkxNzctODcwNmViNGVkMDQzIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQVVUSF9SRVNFVCIsImV4cCI6MTcxMTY5MTYzMSwiaXNzIjoiSnd0QXBpQXV0aCIsImF1ZCI6Ikp3dEFwaUF1dGgifQ.j98quhsXmzjAJfCDYM-ollc7Oe4l95UTbAYuU13qbbA",
+            Password = "@Teste1L5a9",
+            ConfirmPassword = "@Teste1L5a9"
+        };
+        return command;
+    }
+
+
     public static AuthResetPasswordCommand AuthResetPasswordInvalidCommand()
     {
         var faker = new Faker("pt_BR");
