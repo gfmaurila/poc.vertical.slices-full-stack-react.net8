@@ -159,27 +159,98 @@
     ```
 
 ## API - Swagger - User
-### 1.1 - POST - login
+### 1.1 - POST
     ```
     curl -X 'POST' \
-  'https://localhost:44375/api/v1/user' \
-  -H 'accept: application/json' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "firstName": "string",
-  "lastName": "string",
-  "gender": 0,
-  "notification": 0,
-  "dateOfBirth": "2024-07-27",
-  "email": "user@example.com",
-  "phone": "string",
-  "password": "string",
-  "confirmPassword": "string",
-  "roleUserAuth": [
-    "string"
-  ]
-}'
+    'https://localhost:44375/api/v1/user' \
+    -H 'accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -d '{
+    "firstName": "string",
+    "lastName": "string",
+    "gender": 0,
+    "notification": 0,
+    "dateOfBirth": "2024-07-27",
+    "email": "user@example.com",
+    "phone": "string",
+    "password": "string",
+    "confirmPassword": "string",
+    "roleUserAuth": [
+        "string"
+    ]
+    }'
     ```
+
+### 1.2 - GET
+    ```
+    curl -X 'GET' \
+    'https://localhost:44375/api/v1/user' \
+    -H 'accept: application/json'
+    ```
+
+### 1.3 - PUT
+    ```
+    curl -X 'PUT' \
+    'https://localhost:44375/api/v1/user' \
+    -H 'accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -d '{
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "firstName": "string",
+    "lastName": "string",
+    "gender": 0,
+    "notification": 0,
+    "phone": "string",
+    "dateOfBirth": "2024-07-27"
+    }'
+    ```
+
+### 1.4 - DELETE
+    ```
+    curl -X 'DELETE' \
+    'https://localhost:44375/api/v1/user/fa49952f-e0c9-4ea4-aab0-2aaebe0275cc' \
+    -H 'accept: application/json'
+    ```
+
+### 1.5 - PUT
+    ```
+    curl -X 'PUT' \
+    'https://localhost:44375/api/v1/user/updateemail' \
+    -H 'accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -d '{
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "email": "user@example.com"
+    }'
+    ```
+
+### 1.6 - PUT
+    ```
+    curl -X 'PUT' \
+    'https://localhost:44375/api/v1/user/updatepassword' \
+    -H 'accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -d '{
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "password": "string",
+    "confirmPassword": "string"
+    }'
+    ```
+
+### 1.7 - PUT
+    ```
+    curl -X 'PUT' \
+    'https://localhost:44375/api/v1/user/updaterole' \
+    -H 'accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -d '{
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "roleUserAuth": [
+        "string"
+    ]
+    }'
+    ```
+
 
 
 
