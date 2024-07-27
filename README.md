@@ -122,7 +122,8 @@
 ## API - Swagger
 
 ## API - Swagger - Auth
-### 1.1 - POST - login
+
+### 1.1 - POST - Login de Usuário via API
     ```
     curl -X 'POST' \
     'https://localhost:44375/api/v1/login' \
@@ -134,7 +135,7 @@
     }'
     ```
 
-### 1.2 - POST - resetpassword
+### 1.2 - POST - Solicitar Redefinição de Senha via API
     ```
     curl -X 'POST' \
     'https://localhost:44375/api/v1/resetpassword' \
@@ -145,7 +146,7 @@
     }'
     ```
 
-### 1.3 - POST - newpassword
+### 1.3 - POST  - Redefinir Senha via API
     ```
     curl -X 'POST' \
     'https://localhost:44375/api/v1/newpassword' \
@@ -159,7 +160,8 @@
     ```
 
 ## API - Swagger - User
-### 1.1 - POST
+
+### 1.1 - POST - Criar Novo Usuário via API
     ```
     curl -X 'POST' \
     'https://localhost:44375/api/v1/user' \
@@ -181,14 +183,14 @@
     }'
     ```
 
-### 1.2 - GET
+### 1.2 - GET - Obter Lista de Usuários via API
     ```
     curl -X 'GET' \
     'https://localhost:44375/api/v1/user' \
     -H 'accept: application/json'
     ```
 
-### 1.3 - PUT
+### 1.3 - PUT - Atualizar Detalhes do Usuário via API
     ```
     curl -X 'PUT' \
     'https://localhost:44375/api/v1/user' \
@@ -205,14 +207,14 @@
     }'
     ```
 
-### 1.4 - DELETE
+### 1.4 - DELETE - Excluir Usuário via API
     ```
     curl -X 'DELETE' \
     'https://localhost:44375/api/v1/user/fa49952f-e0c9-4ea4-aab0-2aaebe0275cc' \
     -H 'accept: application/json'
     ```
 
-### 1.5 - PUT
+### 1.5 - PUT - Atualizar Email de Usuário via API
     ```
     curl -X 'PUT' \
     'https://localhost:44375/api/v1/user/updateemail' \
@@ -224,7 +226,7 @@
     }'
     ```
 
-### 1.6 - PUT
+### 1.6 - PUT - Atualizar Senha de Usuário via API
     ```
     curl -X 'PUT' \
     'https://localhost:44375/api/v1/user/updatepassword' \
@@ -237,7 +239,7 @@
     }'
     ```
 
-### 1.7 - PUT
+### 1.7 - PUT - Permissões de Usuário via API
     ```
     curl -X 'PUT' \
     'https://localhost:44375/api/v1/user/updaterole' \
