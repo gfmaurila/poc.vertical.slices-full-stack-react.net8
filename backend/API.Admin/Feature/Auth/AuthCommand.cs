@@ -1,10 +1,10 @@
-﻿using Ardalis.Result;
-using MediatR;
+﻿using MediatR;
+using poc.core.api.net8.Response;
 using System.ComponentModel.DataAnnotations;
 
 namespace API.Admin.Feature.Auth;
 
-public class AuthCommand : IRequest<Result<AuthTokenResponse>>
+public class AuthCommand : IRequest<ApiResult<AuthTokenResponse>>
 {
     [Required]
     [MaxLength(200)]

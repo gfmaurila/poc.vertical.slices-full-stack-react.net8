@@ -31,7 +31,7 @@ public class UpdateUserInvalidIdTests : IClassFixture<CustomWebApplicationFactor
         //Arrange command
         Guid id = Guid.NewGuid();
 
-        var command = CreateUserCommandFake.UpdateUserCommand(id);
+        var command = UserFake.UpdateUserCommand(id);
 
         var url = "/api/v1/user";
 

@@ -30,7 +30,7 @@ public class CreateUserExistingTests : IClassFixture<CustomWebApplicationFactory
         await UserRepo.PopulateTestExistingData(_factory);
 
         // Arrange
-        var command = CreateUserCommandFake.CreateUserExistingDataCommand();
+        var command = UserFake.CreateUserExistingDataCommand();
 
         var httpResponse = await _client.PostAsJsonAsync("/api/v1/user", command);
 

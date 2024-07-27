@@ -32,7 +32,7 @@ public class DeleteUserTests : IClassFixture<CustomWebApplicationFactory<Program
         var id = await UserRepo.GetUserById(_factory);
 
         // Arrange
-        var command = CreateUserCommandFake.CreateUserCommand();
+        var command = UserFake.CreateUserCommand();
 
         var httpResponse = await _client.DeleteAsync($"/api/v1/user/{id}");
         httpResponse.EnsureSuccessStatusCode();

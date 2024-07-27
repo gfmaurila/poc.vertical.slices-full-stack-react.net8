@@ -11,5 +11,6 @@ public interface IUserRepository : IBaseRepository<UserEntity>
     Task<bool> ExistsByEmailAsync(Email email, Guid currentId);
     Task<List<UserQueryModel>> GetAllAsync();
     Task<UserQueryModel> GetByIdAsync(Guid id);
+    Task<UserEntity> GetAuthByEmailPassword(string email, string passwordHash);
 }
 

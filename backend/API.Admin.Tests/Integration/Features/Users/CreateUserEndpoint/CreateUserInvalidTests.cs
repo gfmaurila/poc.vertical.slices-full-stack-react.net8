@@ -29,7 +29,7 @@ public class CreateUserInvalidTests : IClassFixture<CustomWebApplicationFactory<
         await UserRepo.ClearDatabaseAsync(_factory);
 
         // Arrange
-        var command = CreateUserCommandFake.CreateUserInvalidCommand();
+        var command = UserFake.CreateUserInvalidCommand();
 
         var httpResponse = await _client.PostAsJsonAsync("/api/v1/user", command);
 

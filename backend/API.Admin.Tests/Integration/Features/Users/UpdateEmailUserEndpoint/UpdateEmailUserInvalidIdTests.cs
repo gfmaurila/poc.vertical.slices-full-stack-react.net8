@@ -31,7 +31,7 @@ public class UpdatePasswordUserInvalidIdTests : IClassFixture<CustomWebApplicati
         //Arrange command
         Guid id = Guid.NewGuid();
 
-        var command = CreateUserCommandFake.UpdateEmailUserCommand(id);
+        var command = UserFake.UpdateEmailUserCommand(id);
 
         var url = "/api/v1/user/updateemail";
 

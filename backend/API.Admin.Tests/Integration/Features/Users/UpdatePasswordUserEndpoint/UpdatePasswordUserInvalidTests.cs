@@ -33,7 +33,7 @@ public class UpdatePasswordUserInvalidTests : IClassFixture<CustomWebApplication
         //Arrange command
         var id = await UserRepo.GetUserById(_factory);
 
-        var command = CreateUserCommandFake.UpdatePasswordUserInvalidCommand(id);
+        var command = UserFake.UpdatePasswordUserInvalidCommand(id);
 
         var url = "/api/v1/user/updatepassword";
 

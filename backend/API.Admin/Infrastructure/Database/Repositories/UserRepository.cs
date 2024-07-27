@@ -34,6 +34,18 @@ public class UserRepository : BaseRepository<UserEntity>, IUserRepository
         return null;
     }
 
+    public async Task<UserEntity> GetAuthByEmailPassword(string email, string passwordHash)
+    {
+        var entity = await _context.User.AsNoTracking()
+                                   .Where(u => u.Email.Address == email &&
+                                               u.Password == passwordHash)
+                                   .FirstOrDefaultAsync();
+
+        //var model = MapperModelToEntity(entity);
+
+        return entity;
+    }
+
     #region Mapper
     private UserQueryModel MapperModelToEntity(UserEntity entity)
     {

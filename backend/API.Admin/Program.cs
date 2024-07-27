@@ -5,6 +5,7 @@ using API.Admin.Infrastructure.Database.Repositories.Interfaces;
 using Carter;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using poc.core.api.net8;
 using poc.core.api.net8.DistributedCache;
 using poc.vertical.slices.net8.Extensions;
 using Serilog;
@@ -26,6 +27,7 @@ var assembly = typeof(Program).Assembly;
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(assembly));
 
 DistributedCacheInitializer.Initialize(builder.Services, builder.Configuration);
+CoreInitializer.Initialize(builder.Services);
 
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 //builder.Services.Configure<CacheOptions1>(builder.Configuration.GetSection("CacheOptions"));

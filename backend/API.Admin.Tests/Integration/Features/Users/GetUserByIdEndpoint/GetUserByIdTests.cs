@@ -32,7 +32,7 @@ public class GetUserByIdTests : IClassFixture<CustomWebApplicationFactory<Progra
         var id = await UserRepo.GetUserById(_factory);
 
         // Arrange
-        var command = CreateUserCommandFake.CreateUserCommand();
+        var command = UserFake.CreateUserCommand();
 
         var result = await _client.GetAsync($"/api/v1/user/{id}");
         var json = await _client.GetFromJsonAsync<ApiResult<UserQueryModel>>($"/api/v1/user/{id}");

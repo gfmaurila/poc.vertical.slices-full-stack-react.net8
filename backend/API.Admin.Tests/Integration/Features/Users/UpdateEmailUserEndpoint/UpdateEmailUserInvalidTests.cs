@@ -33,7 +33,7 @@ public class UpdateEmailUserInvalidTests : IClassFixture<CustomWebApplicationFac
         //Arrange command
         var id = await UserRepo.GetUserById(_factory);
 
-        var command = CreateUserCommandFake.UpdateEmailUserInvalidCommand(id);
+        var command = UserFake.UpdateEmailUserInvalidCommand(id);
 
         var url = "/api/v1/user/updateemail";
 

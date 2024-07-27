@@ -33,7 +33,7 @@ public class UpdateRoleUserTests : IClassFixture<CustomWebApplicationFactory<Pro
         // Arrange
         var id = await UserRepo.GetUserById(_factory);
 
-        var command = CreateUserCommandFake.UpdateEmailUserCommand(id);
+        var command = UserFake.UpdateEmailUserCommand(id);
 
         var url = "/api/v1/user/updaterole";
 

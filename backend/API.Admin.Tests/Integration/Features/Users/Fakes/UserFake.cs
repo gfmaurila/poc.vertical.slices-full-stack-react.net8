@@ -8,7 +8,7 @@ using poc.core.api.net8.Enumerado;
 
 namespace API.Admin.Tests.Integration.Features.Users.Fakes;
 
-public static class CreateUserCommandFake
+public static class UserFake
 {
 
     public static UpdateEmailUserCommand UpdateEmailUserInvalidCommand(Guid id)

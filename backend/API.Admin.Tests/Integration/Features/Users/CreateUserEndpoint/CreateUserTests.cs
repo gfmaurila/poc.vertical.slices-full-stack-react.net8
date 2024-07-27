@@ -30,7 +30,7 @@ public class CreateUserTests : IClassFixture<CustomWebApplicationFactory<Program
         await UserRepo.ClearDatabaseAsync(_factory);
 
         // Arrange
-        var command = CreateUserCommandFake.CreateUserCommand();
+        var command = UserFake.CreateUserCommand();
 
         var httpResponse = await _client.PostAsJsonAsync("/api/v1/user", command);
         httpResponse.EnsureSuccessStatusCode();

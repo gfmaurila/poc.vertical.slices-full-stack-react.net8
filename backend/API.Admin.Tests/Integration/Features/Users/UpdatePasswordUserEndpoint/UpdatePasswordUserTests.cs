@@ -35,7 +35,7 @@ public class UpdatePasswordUserTests : IClassFixture<CustomWebApplicationFactory
         //Arrange command
         var id = await UserRepo.GetUserById(_factory);
 
-        var command = CreateUserCommandFake.UpdatePasswordUserCommand(id);
+        var command = UserFake.UpdatePasswordUserCommand(id);
 
         var url = "/api/v1/user/updatepassword";
 

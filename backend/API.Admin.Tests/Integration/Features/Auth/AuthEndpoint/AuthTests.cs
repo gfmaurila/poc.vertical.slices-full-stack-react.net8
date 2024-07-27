@@ -1,21 +1,20 @@
-﻿using API.Admin.Feature.Users.UpdateUser;
+﻿using API.Admin.Feature.Auth;
+using API.Admin.Tests.Integration.Features.Auth.Fakes;
 using API.Admin.Tests.Integration.Features.Users.Data;
-using API.Admin.Tests.Integration.Features.Users.Fakes;
 using API.Admin.Tests.Integration.Utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using poc.core.api.net8.API.Models;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace API.Admin.Tests.Integration.Features.Users.UpdateUserEndpoint;
+namespace API.Admin.Tests.Integration.Features.Auth.AuthEndpoint;
 
-public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program>>
+public class AuthTests : IClassFixture<CustomWebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
     private readonly CustomWebApplicationFactory<Program> _factory;
 
-    public UpdateUserTests(CustomWebApplicationFactory<Program> factory)
+    public AuthTests(CustomWebApplicationFactory<Program> factory)
     {
         _factory = factory;
         _client = factory.CreateClient(new WebApplicationFactoryClientOptions
@@ -29,28 +28,20 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program
     {
         // Limpa base
         await UserRepo.ClearDatabaseAsync(_factory);
+        await UserRepo.GetUserById(_factory);
 
         // Arrange
+        var command = AuthFake.AuthCommand();
 
-        //Arrange command
-        var id = await UserRepo.GetUserById(_factory);
-
-        var command = UserFake.UpdateUserCommand(id);
-
-        var url = "/api/v1/user";
-
-        // Envia o comando para criar um usuário
-        var httpResponse = await _client.PutAsJsonAsync(url, command);
+        var httpResponse = await _client.PostAsJsonAsync("/api/v1/login", command);
         httpResponse.EnsureSuccessStatusCode();
 
-        // Verifica se a resposta HTTP está correta
         Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
+        var jsonResponse = await httpResponse.Content.ReadFromJsonAsync<ApiResponse<AuthTokenResponse>>();
 
-        var jsonResponse = await httpResponse.Content.ReadFromJsonAsync<ApiResponse<UpdateUserResponse>>();
-
-        // Verifica se o JSON tem os resultados esperados
+        //Assert
         Assert.NotNull(jsonResponse);
-        Assert.Equal("Atualizado com sucesso!", jsonResponse.SuccessMessage);
+        Assert.Equal("Sucesso!", jsonResponse.SuccessMessage);
         Assert.True(jsonResponse.Success);
         Assert.Empty(jsonResponse.Errors);
 
