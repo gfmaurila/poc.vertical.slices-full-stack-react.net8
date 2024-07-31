@@ -34,7 +34,7 @@ jobs:
         image: mcr.microsoft.com/mssql/server:2019-latest
         env:
           ACCEPT_EULA: Y
-          SA_PASSWORD: "@Poc2Minimal@Api"
+          SA_PASSWORD: "Your_password123"
         ports:
           - 1433:1433
     
@@ -51,6 +51,10 @@ jobs:
     # Restore dependencies for backend
     - name: Restore backend dependencies
       run: dotnet restore backend/API.Admin/API.Admin.csproj
+
+    # Restore dependencies for tests
+    - name: Restore test dependencies
+      run: dotnet restore backend/API.Admin.Tests/API.Admin.Tests.csproj
 
     # Build the backend
     - name: Build backend
@@ -77,4 +81,3 @@ jobs:
       run: npm run build
 
     # Deploy steps can be added here for backend and frontend
-
