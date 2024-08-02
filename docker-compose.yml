@@ -1,6 +1,10 @@
 version: '3.9'
+
 # docker-compose up --build
-# docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
+# export COMPOSE_PROJECT_NAME=Dizz
+# docker-compose -p dizz_project up --build
+# Update-Database -Context MainContext 
+
 networks:
   app-backend:
     driver: bridge
