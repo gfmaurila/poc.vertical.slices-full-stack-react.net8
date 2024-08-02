@@ -1,7 +1,6 @@
 ﻿using API.Admin.Feature.Auth.Login;
 using API.Admin.Tests.Integration.Features.Auth.Fakes;
 using API.Admin.Tests.Integration.Features.Users.Data;
-using API.Admin.Tests.Integration.Utilities;
 using poc.core.api.net8.Response;
 using System.Net.Http.Json;
 
@@ -9,7 +8,7 @@ namespace API.Admin.Tests.Integration.Features.Auth.AuthEndpoint;
 
 public class AuthToken
 {
-    public async Task<ApiResult<AuthTokenResponse>> GetAuthAsync(CustomWebApplicationFactory<Program> factory, HttpClient client)
+    public async Task<ApiResult<AuthTokenResponse>> GetAuthAsync(UseSqliteWebApplicationFactory<Program> factory, HttpClient client)
     {
         var command = AuthFake.GetAuthAsync();
         await UserRepo.GetAuth(factory);

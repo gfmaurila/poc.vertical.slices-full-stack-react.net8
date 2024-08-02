@@ -1,7 +1,6 @@
 ﻿using API.Admin.Feature.Auth.ResetPassword;
 using API.Admin.Tests.Integration.Features.Auth.Fakes;
 using API.Admin.Tests.Integration.Features.Users.Data;
-using API.Admin.Tests.Integration.Utilities;
 using Microsoft.AspNetCore.Mvc.Testing;
 using poc.core.api.net8.Response;
 using System.Net;
@@ -9,12 +8,12 @@ using System.Net.Http.Json;
 
 namespace API.Admin.Tests.Integration.Features.Auth.AuthNewPassword;
 
-public class AuthNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Program>>
+public class AuthNewPasswordTests : IClassFixture<UseSqliteWebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
-    private readonly CustomWebApplicationFactory<Program> _factory;
+    private readonly UseSqliteWebApplicationFactory<Program> _factory;
 
-    public AuthNewPasswordTests(CustomWebApplicationFactory<Program> factory)
+    public AuthNewPasswordTests(UseSqliteWebApplicationFactory<Program> factory)
     {
         _factory = factory;
         _client = factory.CreateClient(new WebApplicationFactoryClientOptions

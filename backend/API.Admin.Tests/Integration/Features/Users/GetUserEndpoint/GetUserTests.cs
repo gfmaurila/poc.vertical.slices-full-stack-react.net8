@@ -1,7 +1,6 @@
 ﻿using API.Admin.Feature.Users.GetUser;
 using API.Admin.Tests.Integration.Features.Auth.AuthEndpoint;
 using API.Admin.Tests.Integration.Features.Users.Data;
-using API.Admin.Tests.Integration.Utilities;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using poc.core.api.net8.Response;
@@ -10,13 +9,13 @@ using System.Net.Http.Headers;
 
 namespace API.Admin.Tests.Integration.Features.Users.GetUserEndpoint;
 
-public class GetUserTests : IClassFixture<CustomWebApplicationFactory<Program>>
+public class GetUserTests : IClassFixture<UseSqliteWebApplicationFactory<Program>>
 {
     private readonly AuthToken _auth;
     private readonly HttpClient _client;
-    private readonly CustomWebApplicationFactory<Program> _factory;
+    private readonly UseSqliteWebApplicationFactory<Program> _factory;
 
-    public GetUserTests(CustomWebApplicationFactory<Program> factory)
+    public GetUserTests(UseSqliteWebApplicationFactory<Program> factory)
     {
         _auth = new AuthToken();
         _factory = factory;

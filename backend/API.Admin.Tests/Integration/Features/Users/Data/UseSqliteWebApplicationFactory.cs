@@ -6,16 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data.Common;
 
-namespace API.Admin.Tests.Integration.Utilities;
+namespace API.Admin.Tests.Integration.Features.Users.Data;
 
-public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
+public class UseSqliteWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
 {
-    //protected override void ConfigureWebHost(IWebHostBuilder builder)
-    //{
-    //    Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Test");
-    //    builder.UseEnvironment("Test");
-    //}
-
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureServices(services =>
@@ -44,18 +38,6 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
                 var connection = container.GetRequiredService<DbConnection>();
                 options.UseSqlite(connection);
             });
-
-            // Não funciona 
-            //services.AddDbContext<EFSqlServerContext>(options =>
-            //{
-            //    options.UseInMemoryDatabase("InMemoryDbForTesting");
-            //});
-
-            // Não funciona 
-            //services.AddDbContext<EFSqlServerContext>(options =>
-            //{
-            //    options.UseSqlServer(Config.ConnectionString());
-            //});
         });
 
         builder.UseEnvironment("Test");

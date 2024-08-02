@@ -2,7 +2,6 @@
 using API.Admin.Tests.Integration.Features.Auth.AuthEndpoint;
 using API.Admin.Tests.Integration.Features.Users.Data;
 using API.Admin.Tests.Integration.Features.Users.Fakes;
-using API.Admin.Tests.Integration.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using poc.core.api.net8.API.Models;
@@ -12,13 +11,13 @@ using System.Net.Http.Json;
 
 namespace API.Admin.Tests.Integration.Features.Users.UpdatePasswordUserEndpoint;
 
-public class UpdatePasswordUserTests : IClassFixture<CustomWebApplicationFactory<Program>>
+public class UpdatePasswordUserTests : IClassFixture<UseSqliteWebApplicationFactory<Program>>
 {
     private readonly AuthToken _auth;
     private readonly HttpClient _client;
-    private readonly CustomWebApplicationFactory<Program> _factory;
+    private readonly UseSqliteWebApplicationFactory<Program> _factory;
 
-    public UpdatePasswordUserTests(CustomWebApplicationFactory<Program> factory)
+    public UpdatePasswordUserTests(UseSqliteWebApplicationFactory<Program> factory)
     {
         _auth = new AuthToken();
         _factory = factory;

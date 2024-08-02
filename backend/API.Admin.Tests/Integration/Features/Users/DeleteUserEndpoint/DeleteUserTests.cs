@@ -2,7 +2,6 @@
 using API.Admin.Tests.Integration.Features.Auth.AuthEndpoint;
 using API.Admin.Tests.Integration.Features.Users.Data;
 using API.Admin.Tests.Integration.Features.Users.Fakes;
-using API.Admin.Tests.Integration.Utilities;
 using Microsoft.AspNetCore.Mvc.Testing;
 using poc.core.api.net8.API.Models;
 using System.Net;
@@ -11,13 +10,13 @@ using System.Net.Http.Json;
 
 namespace API.Admin.Tests.Integration.Features.Users.DeleteUserEndpoint;
 
-public class DeleteUserTests : IClassFixture<CustomWebApplicationFactory<Program>>
+public class DeleteUserTests : IClassFixture<UseSqliteWebApplicationFactory<Program>>
 {
     private readonly AuthToken _auth;
     private readonly HttpClient _client;
-    private readonly CustomWebApplicationFactory<Program> _factory;
+    private readonly UseSqliteWebApplicationFactory<Program> _factory;
 
-    public DeleteUserTests(CustomWebApplicationFactory<Program> factory)
+    public DeleteUserTests(UseSqliteWebApplicationFactory<Program> factory)
     {
         _auth = new AuthToken();
         _factory = factory;

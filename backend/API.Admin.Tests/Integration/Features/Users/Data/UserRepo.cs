@@ -1,7 +1,6 @@
 ﻿using API.Admin.Domain.User;
 using API.Admin.Feature.Users.GetUser;
 using API.Admin.Infrastructure.Database;
-using API.Admin.Tests.Integration.Utilities;
 using API.Admin.Tests.Integration.Utilities.Redis;
 using Bogus;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +15,7 @@ namespace API.Admin.Tests.Integration.Features.Users.Data;
 
 public static class UserRepo
 {
-    public static async Task CreateUser(CustomWebApplicationFactory<Program> factory)
+    public static async Task CreateUser(UseSqliteWebApplicationFactory<Program> factory)
     {
         using var scope = factory.Services.CreateScope();
         var provider = scope.ServiceProvider;
@@ -31,7 +30,7 @@ public static class UserRepo
         await dbContext.SaveChangesAsync();
     }
 
-    public static async Task PopulateTestExistingData(CustomWebApplicationFactory<Program> factory)
+    public static async Task PopulateTestExistingData(UseSqliteWebApplicationFactory<Program> factory)
     {
         using var scope = factory.Services.CreateScope();
         var provider = scope.ServiceProvider;
@@ -43,7 +42,7 @@ public static class UserRepo
         await dbContext.SaveChangesAsync();
     }
 
-    public static async Task<Guid> GetAuth(CustomWebApplicationFactory<Program> factory)
+    public static async Task<Guid> GetAuth(UseSqliteWebApplicationFactory<Program> factory)
     {
         using var scope = factory.Services.CreateScope();
         var provider = scope.ServiceProvider;
@@ -57,7 +56,7 @@ public static class UserRepo
         return user.Entity.Id;
     }
 
-    public static async Task<Guid> GetUserById(CustomWebApplicationFactory<Program> factory)
+    public static async Task<Guid> GetUserById(UseSqliteWebApplicationFactory<Program> factory)
     {
         using var scope = factory.Services.CreateScope();
         var provider = scope.ServiceProvider;
@@ -112,7 +111,7 @@ public static class UserRepo
         return newUser;
     }
 
-    public static async Task ClearDatabaseAsync(CustomWebApplicationFactory<Program> factory)
+    public static async Task ClearDatabaseAsync(UseSqliteWebApplicationFactory<Program> factory)
     {
         using var scope = factory.Services.CreateScope();
         var provider = scope.ServiceProvider;
