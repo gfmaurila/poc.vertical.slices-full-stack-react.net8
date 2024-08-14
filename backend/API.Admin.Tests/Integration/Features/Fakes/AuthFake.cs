@@ -3,8 +3,7 @@ using API.Admin.Feature.Auth.Login;
 using API.Admin.Feature.Auth.ResetPassword;
 using Bogus;
 
-namespace API.Admin.Tests.Integration.Features.Auth.Fakes;
-
+namespace API.Admin.Tests.Integration.Features.Fakes;
 public static class AuthFake
 {
     public static AuthNewPasswordCommand AuthNewPasswordCommand()
@@ -32,6 +31,17 @@ public static class AuthFake
         return command;
     }
 
+    public static AuthResetPasswordCommand AuthNewPasswordPostCommand()
+    {
+        var faker = new Faker("pt_BR");
+
+        var command = new AuthResetPasswordCommand()
+        {
+            Email = "emailteste-9@teste.com.br"
+        };
+        return command;
+    }
+
     public static AuthResetPasswordCommand AuthResetPasswordCommand()
     {
         var faker = new Faker("pt_BR");
@@ -55,13 +65,25 @@ public static class AuthFake
         return command;
     }
 
-    public static AuthCommand AuthCommand()
+    public static AuthCommand AuthExistingCommand()
     {
         var faker = new Faker("pt_BR");
 
         var command = new AuthCommand()
         {
             Email = "testedelete@teste.com.br",
+            Password = "Test123$"
+        };
+        return command;
+    }
+
+    public static AuthCommand AuthCommand()
+    {
+        var faker = new Faker("pt_BR");
+
+        var command = new AuthCommand()
+        {
+            Email = "auth@auth.com.br",
             Password = "Test123$"
         };
         return command;

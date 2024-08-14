@@ -1,33 +1,32 @@
 ﻿using API.Admin.Feature.Auth.ResetPassword;
-using API.Admin.Tests.Integration.Features.Auth.Fakes;
-using API.Admin.Tests.Integration.Features.Users.Data;
+using API.Admin.Tests.Integration.Features.Fakes;
 using Microsoft.AspNetCore.Mvc.Testing;
 using poc.core.api.net8.API.Models;
-using System.Net;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http.Json;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using API.Admin.Tests.Integration.Utilities;
 
-namespace API.Admin.Tests.Integration.Features.Auth.ResetPasswordEndpoint;
+namespace API.Admin.Tests.Integration.Features.Auth;
 
-public class ResetPasswordInvalidTests : IClassFixture<UseSqliteWebApplicationFactory<Program>>
+public class ResetPasswordInvalidTests : IClassFixture<DatabaseFixture>
 {
     private readonly HttpClient _client;
-    private readonly UseSqliteWebApplicationFactory<Program> _factory;
+    private readonly DatabaseFixture _fixture;
 
-    public ResetPasswordInvalidTests(UseSqliteWebApplicationFactory<Program> factory)
+    public ResetPasswordInvalidTests(DatabaseFixture fixture)
     {
-        _factory = factory;
-        _client = factory.CreateClient(new WebApplicationFactoryClientOptions
-        {
-            AllowAutoRedirect = false
-        });
+        _fixture = fixture;
+        _client = fixture.Client;
     }
 
     [Fact]
     public async Task ShouldUser()
     {
-        // Limpa base
-        await UserRepo.ClearDatabaseAsync(_factory);
-
         // Arrange
         var command = AuthFake.AuthResetPasswordInvalidCommand();
 
@@ -40,8 +39,5 @@ public class ResetPasswordInvalidTests : IClassFixture<UseSqliteWebApplicationFa
         Assert.NotNull(jsonResponse);
         Assert.False(jsonResponse.Success);
         Assert.NotEmpty(jsonResponse.Errors);
-
-        // Limpa base
-        await UserRepo.ClearDatabaseAsync(_factory);
     }
 }
