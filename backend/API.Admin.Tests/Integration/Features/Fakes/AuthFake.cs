@@ -48,7 +48,7 @@ public static class AuthFake
 
         var command = new AuthResetPasswordCommand()
         {
-            Email = "testedelete@teste.com.br"
+            Email = "testedelete1@teste.com.br"
         };
         return command;
     }
@@ -71,7 +71,7 @@ public static class AuthFake
 
         var command = new AuthCommand()
         {
-            Email = "testedelete@teste.com.br",
+            Email = "emailteste-2@teste.com.br",
             Password = "Test123$"
         };
         return command;

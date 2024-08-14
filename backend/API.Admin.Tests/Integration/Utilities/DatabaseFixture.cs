@@ -20,6 +20,11 @@ public class DatabaseFixture : IAsyncLifetime
 
     public async Task InitializeAsync() { }
 
+    public TestWebApplicationFactory<Program> Factory()
+    {
+        return _factory;
+    }
+
     public async Task DisposeAsync()
     {
         //await Dispose.DropTables(_factory);
