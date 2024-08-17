@@ -1,17 +1,10 @@
 ﻿using API.Admin.Feature.Users.UpdateUser;
 using API.Admin.Tests.Integration.Features.Fakes;
-using API.Admin.Tests.Integration.Utilities.Auth;
-using Microsoft.AspNetCore.Mvc.Testing;
+using API.Admin.Tests.Integration.Utilities;
 using poc.core.api.net8.API.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using API.Admin.Tests.Integration.Utilities;
 
 namespace API.Admin.Tests.Integration.Features.Users;
 

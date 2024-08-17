@@ -11,22 +11,15 @@ services:
     volumes:
       - ~/.aspnet/https:/root/.aspnet/https:ro
       - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
-  
-  # api.admin.tests:
-  #   image: ${DOCKER_REGISTRY-}api.admin.tests
-  #   container_name: api.admin.tests
-  #   restart: always
-  #   build:
-  #     context: .
-  #     dockerfile: backend/API.Admin.Tests/Dockerfile
-  #   depends_on:
-  #     - api.admin.webapi
-  #     - sqlserver
-  #     - mongoserver
-  #     - kafka
-  #     - rabbitmq
-  #     - redis
-  #   networks:
-  #     - app-backend
-  #   entrypoint: ["dotnet", "test", "API.Admin.Tests.dll", "--logger:trx"]
+
+  poc.twilio.api.webapi:
+    ports:
+      - 5079:5079
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    volumes:
+      - ~/.aspnet/https:/root/.aspnet/https:ro
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+
+
 

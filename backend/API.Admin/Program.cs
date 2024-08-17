@@ -2,6 +2,7 @@ using API.Admin.Extensions;
 using API.Admin.Infrastructure.Database;
 using API.Admin.Infrastructure.Database.Repositories;
 using API.Admin.Infrastructure.Database.Repositories.Interfaces;
+using API.Admin.RabbiMQ;
 using Carter;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -28,15 +29,9 @@ builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(assemb
 
 DistributedCacheInitializer.Initialize(builder.Services, builder.Configuration);
 CoreInitializer.Initialize(builder.Services);
+RabbiMQInitializer.Initialize(builder.Services);
 
 builder.Services.AddTransient<IUserRepository, UserRepository>();
-//builder.Services.Configure<CacheOptions1>(builder.Configuration.GetSection("CacheOptions"));
-
-//builder.Services.AddSingleton<IConfiguration>(provider => builder.Configuration);
-//builder.Services.AddSingleton<RedisConnection>();
-
-//builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("CacheConnection")));
-//builder.Services.AddScoped(typeof(IRedisCacheService<>), typeof(RedisCacheService<>));
 
 builder.Services.AddCarter();
 

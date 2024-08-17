@@ -59,6 +59,26 @@ services:
       - mongoserver
       - kafka
       - rabbitmq 
+
+  poc.twilio.api.webapi:
+    image: ${DOCKER_REGISTRY-}poc.twilio.api.webapi
+    container_name: poc.twilio.api.webapi
+    restart: always
+    build:
+      context: .
+      dockerfile: backend/poc.cqrs.api.twilio.net8/src/01-Presentation/Poc.Twilio.API/Dockerfile
+    expose:
+      - 5079
+    ports:
+      - 5079:5079
+    links:
+      - redis
+      - mongoserver
+    networks:
+      - app-backend
+    depends_on:
+      - redis
+      - mongoserver  
   
 
 # APIS END -----------------------------------------------------------------------------

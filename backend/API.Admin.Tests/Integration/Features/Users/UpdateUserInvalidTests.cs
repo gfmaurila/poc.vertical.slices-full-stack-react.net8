@@ -1,15 +1,8 @@
 ﻿using API.Admin.Tests.Integration.Features.Fakes;
 using API.Admin.Tests.Integration.Utilities;
-using API.Admin.Tests.Integration.Utilities.Auth;
-using Microsoft.AspNetCore.Mvc.Testing;
 using poc.core.api.net8.API.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace API.Admin.Tests.Integration.Features.Users;
 
