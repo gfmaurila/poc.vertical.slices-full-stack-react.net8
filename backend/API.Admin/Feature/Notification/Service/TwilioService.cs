@@ -34,7 +34,7 @@ public class TwilioService : ITwilioService
 
     public async Task TwilioAsync(TwilioRequest request)
     {
-        
+
         await _retryPolicy.ExecuteAsync(async () =>
         {
             request.Auth = new AuthDTO()

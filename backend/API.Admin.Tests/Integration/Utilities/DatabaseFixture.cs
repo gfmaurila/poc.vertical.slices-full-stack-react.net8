@@ -1,4 +1,5 @@
-﻿using API.Admin.Tests.Integration.Utilities.Auth;
+﻿using API.Admin.Infrastructure.Database;
+using API.Admin.Tests.Integration.Utilities.Auth;
 
 namespace API.Admin.Tests.Integration.Utilities;
 
@@ -8,6 +9,7 @@ public class DatabaseFixture : IAsyncLifetime
 
     public HttpClient Client { get; }
     private readonly AuthToken1 _auth;
+    private EFSqlServerContext _context;
 
     private static Random random = new Random();
 
@@ -18,7 +20,11 @@ public class DatabaseFixture : IAsyncLifetime
         Client = _factory.CreateClient();
     }
 
-    public async Task InitializeAsync() { }
+    public async Task InitializeAsync()
+    {
+        //await _context.Database.EnsureDeletedAsync();
+        //await _context.Database.MigrateAsync();
+    }
 
     public TestWebApplicationFactory<Program> Factory()
     {
@@ -27,7 +33,7 @@ public class DatabaseFixture : IAsyncLifetime
 
     public async Task DisposeAsync()
     {
-        //await Dispose.DropTables(_factory);
+        //await _context.Database.EnsureDeletedAsync();
     }
 
     public async Task<AuthResponse> GetAuthAsync()
