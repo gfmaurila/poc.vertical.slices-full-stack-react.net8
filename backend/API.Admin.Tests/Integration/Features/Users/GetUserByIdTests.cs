@@ -29,8 +29,10 @@ public class GetUserByIdTests : IClassFixture<DatabaseSQLServerFixture>
         // Arrange
         var command = UserFake.CreateUserCommand();
 
-        var result = await _client.GetAsync("/api/v1/user/C523CF8F-9230-4FA1-9B2A-378D16FD0822");
-        var json = await _client.GetFromJsonAsync<ApiResult<UserQueryModel>>("/api/v1/user/C523CF8F-9230-4FA1-9B2A-378D16FD0822");
+        var id = await UserFake.GetUserById(_fixture);
+
+        var result = await _client.GetAsync($"/api/v1/user/{id}");
+        var json = await _client.GetFromJsonAsync<ApiResult<UserQueryModel>>($"/api/v1/user/{id}");
         _client.DefaultRequestHeaders.Clear();
 
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
