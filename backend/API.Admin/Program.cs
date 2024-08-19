@@ -8,7 +8,6 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using poc.core.api.net8;
 using poc.core.api.net8.DistributedCache;
-using poc.vertical.slices.net8.Extensions;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -68,7 +67,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 
-await app.MigrateAsync(); // Aqui faz migrations
+//await app.MigrateAsync(); // Aqui faz migrations
 
 app.Run();
 

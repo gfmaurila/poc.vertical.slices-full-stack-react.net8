@@ -19,8 +19,20 @@ public class EFSqlServerContext : DbContext
         modelBuilder.ApplyConfiguration(new UserConfiguration());
     }
 
+    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //{
+    //    optionsBuilder.UseLoggerFactory(_loggerFactory);
+    //    base.OnConfiguring(optionsBuilder);
+    //}
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        //if (!optionsBuilder.IsConfigured)
+        //{
+        //    // Defina o provedor de banco de dados SQL Server ou outro aqui.
+        //    optionsBuilder.UseSqlServer("Server=127.0.0.1;Integrated Security=true;Initial Catalog=core_test;User Id=sa;Password=@Poc2Minimal@Api;Trusted_Connection=false;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;");
+        //}
+
         optionsBuilder.UseLoggerFactory(_loggerFactory);
         base.OnConfiguring(optionsBuilder);
     }

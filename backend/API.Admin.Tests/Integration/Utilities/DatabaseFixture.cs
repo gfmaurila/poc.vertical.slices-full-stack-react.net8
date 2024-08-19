@@ -18,6 +18,13 @@ public class DatabaseFixture : IAsyncLifetime
         _auth = new AuthToken1();
         _factory = new TestWebApplicationFactory<Program>();
         Client = _factory.CreateClient();
+
+        // Configurando o DbContext para usar SQL Server
+        //var options = new DbContextOptionsBuilder<EFSqlServerContext>()
+        //    .UseSqlServer("Server=127.0.0.1;Integrated Security=true;Initial Catalog=core_test;User Id=sa;Password=@Poc2Minimal@Api;Trusted_Connection=false;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;")
+        //    .Options;
+
+        //_context = new EFSqlServerContext(options);
     }
 
     public async Task InitializeAsync()
