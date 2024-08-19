@@ -83,8 +83,8 @@ public static class AuthFake
 
         var command = new AuthCommand()
         {
-            Email = "auth@auth.com.br",
-            Password = "Test123$"
+            Email = "auth1@auth.com.br",
+            Password = "1Test123$"
         };
         return command;
     }

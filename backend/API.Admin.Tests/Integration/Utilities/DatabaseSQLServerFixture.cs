@@ -1,9 +1,10 @@
 ﻿using API.Admin.Infrastructure.Database;
 using API.Admin.Tests.Integration.Utilities.Auth;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Admin.Tests.Integration.Utilities;
 
-public class DatabaseFixture : IAsyncLifetime
+public class DatabaseSQLServerFixture : IAsyncLifetime
 {
     private readonly TestWebApplicationFactory<Program> _factory;
 
@@ -13,24 +14,24 @@ public class DatabaseFixture : IAsyncLifetime
 
     private static Random random = new Random();
 
-    public DatabaseFixture()
+    public DatabaseSQLServerFixture()
     {
         _auth = new AuthToken1();
         _factory = new TestWebApplicationFactory<Program>();
         Client = _factory.CreateClient();
 
         // Configurando o DbContext para usar SQL Server
-        //var options = new DbContextOptionsBuilder<EFSqlServerContext>()
-        //    .UseSqlServer("Server=127.0.0.1;Integrated Security=true;Initial Catalog=core_test;User Id=sa;Password=@Poc2Minimal@Api;Trusted_Connection=false;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;")
-        //    .Options;
+        var options = new DbContextOptionsBuilder<EFSqlServerContext>()
+            .UseSqlServer($"Server=127.0.0.1;Integrated Security=true;Initial Catalog=core_test_{random.Next()};User Id=sa;Password=@Poc2Minimal@Api;Trusted_Connection=false;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;")
+            .Options;
 
-        //_context = new EFSqlServerContext(options);
+        _context = new EFSqlServerContext(options);
     }
 
     public async Task InitializeAsync()
     {
         //await _context.Database.EnsureDeletedAsync();
-        //await _context.Database.MigrateAsync();
+        await _context.Database.MigrateAsync();
     }
 
     public TestWebApplicationFactory<Program> Factory()
@@ -40,7 +41,7 @@ public class DatabaseFixture : IAsyncLifetime
 
     public async Task DisposeAsync()
     {
-        //await _context.Database.EnsureDeletedAsync();
+        await _context.Database.EnsureDeletedAsync();
     }
 
     public async Task<AuthResponse> GetAuthAsync()

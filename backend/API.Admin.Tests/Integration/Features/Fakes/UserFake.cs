@@ -16,7 +16,7 @@ namespace API.Admin.Tests.Integration.Features.Fakes;
 
 public static class UserFake
 {
-    public static async Task<Guid> GetUserById(DatabaseFixture _fixture)
+    public static async Task<Guid> GetUserById(DatabaseSQLServerFixture _fixture)
     {
         using var scope = _fixture.Factory().Services.CreateScope();
         var provider = scope.ServiceProvider;
@@ -27,7 +27,17 @@ public static class UserFake
         return user.Entity.Id;
     }
 
-    public static async Task Delete(DatabaseFixture _fixture, HttpClient _client, Guid id)
+    public static async Task CreateUserAuth(DatabaseSQLServerFixture _fixture, UserEntity entity)
+    {
+        using var scope = _fixture.Factory().Services.CreateScope();
+        var provider = scope.ServiceProvider;
+        using var dbContext = provider.GetRequiredService<EFSqlServerContext>();
+        await dbContext.Database.EnsureCreatedAsync();
+        var user = await dbContext.User.AddAsync(entity);
+        await dbContext.SaveChangesAsync();
+    }
+
+    public static async Task Delete(DatabaseSQLServerFixture _fixture, HttpClient _client, Guid id)
     {
         var token = await _fixture.GetAuthAsync();
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);

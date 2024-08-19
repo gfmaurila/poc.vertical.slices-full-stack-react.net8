@@ -7,12 +7,12 @@ using System.Net.Http.Json;
 
 namespace API.Admin.Tests.Integration.Features.Auth;
 
-public class AuthTests : IClassFixture<DatabaseFixture>
+public class AuthTests : IClassFixture<DatabaseSQLServerFixture>
 {
     private readonly HttpClient _client;
-    private readonly DatabaseFixture _fixture;
+    private readonly DatabaseSQLServerFixture _fixture;
 
-    public AuthTests(DatabaseFixture fixture)
+    public AuthTests(DatabaseSQLServerFixture fixture)
     {
         _fixture = fixture;
         _client = fixture.Client;
@@ -21,10 +21,10 @@ public class AuthTests : IClassFixture<DatabaseFixture>
     [Fact]
     public async Task ShouldUser()
     {
-        var token = await _fixture.GetAuthAsync();
-
         // Arrange
         var command = AuthFake.AuthCommand();
+
+        await UserFake.CreateUserAuth(_fixture, UserFake.CreateUser(command.Email, command.Password));
 
         var httpResponse = await _client.PostAsJsonAsync("/api/v1/login", command);
         httpResponse.EnsureSuccessStatusCode();

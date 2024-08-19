@@ -8,12 +8,12 @@ using System.Net.Http.Json;
 
 namespace API.Admin.Tests.Integration.Features.Users;
 
-public class GetUserByIdTests : IClassFixture<DatabaseFixture>
+public class GetUserByIdTests : IClassFixture<DatabaseSQLServerFixture>
 {
     private readonly HttpClient _client;
-    private readonly DatabaseFixture _fixture;
+    private readonly DatabaseSQLServerFixture _fixture;
 
-    public GetUserByIdTests(DatabaseFixture fixture)
+    public GetUserByIdTests(DatabaseSQLServerFixture fixture)
     {
         _fixture = fixture;
         _client = fixture.Client;

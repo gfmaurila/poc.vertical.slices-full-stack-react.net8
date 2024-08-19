@@ -6,7 +6,7 @@ using System.Text;
 
 namespace API.Admin.Tests.Integration.Utilities.Auth;
 
-public class AuthToken1 : IClassFixture<DatabaseFixture>
+public class AuthToken1 : IClassFixture<DatabaseSQLServerFixture>
 {
     public string GenerateJwtToken()
     {

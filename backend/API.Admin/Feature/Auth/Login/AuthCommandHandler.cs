@@ -32,7 +32,9 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ApiResult<AuthTok
                 validationResult.Errors.Select(e => new ErrorDetail(e.ErrorMessage)).ToList(),
                 400);
 
-        var auth = await _repo.GetAuthByEmailPassword(request.Email, Password.ComputeSha256Hash(request.Password));
+        var senha = Password.ComputeSha256Hash(request.Password);
+
+        var auth = await _repo.GetAuthByEmailPassword(request.Email, senha);
 
         //Se não existir, erro no login
         if (auth is null)

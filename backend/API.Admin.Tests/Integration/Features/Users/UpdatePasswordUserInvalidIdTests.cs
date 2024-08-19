@@ -6,12 +6,12 @@ using System.Net.Http.Json;
 
 namespace API.Admin.Tests.Integration.Features.Users;
 
-public class UpdatePasswordUserInvalidIdTests : IClassFixture<DatabaseFixture>
+public class UpdatePasswordUserInvalidIdTests : IClassFixture<DatabaseSQLServerFixture>
 {
     private readonly HttpClient _client;
-    private readonly DatabaseFixture _fixture;
+    private readonly DatabaseSQLServerFixture _fixture;
 
-    public UpdatePasswordUserInvalidIdTests(DatabaseFixture fixture)
+    public UpdatePasswordUserInvalidIdTests(DatabaseSQLServerFixture fixture)
     {
         _fixture = fixture;
         _client = fixture.Client;

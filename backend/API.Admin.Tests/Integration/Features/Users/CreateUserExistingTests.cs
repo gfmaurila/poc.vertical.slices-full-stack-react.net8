@@ -7,12 +7,12 @@ using System.Net.Http.Json;
 
 namespace API.Admin.Tests.Integration.Features.Users;
 
-public class CreateUserExistingTests : IClassFixture<DatabaseFixture>
+public class CreateUserExistingTests : IClassFixture<DatabaseSQLServerFixture>
 {
     private readonly HttpClient _client;
-    private readonly DatabaseFixture _fixture;
+    private readonly DatabaseSQLServerFixture _fixture;
 
-    public CreateUserExistingTests(DatabaseFixture fixture)
+    public CreateUserExistingTests(DatabaseSQLServerFixture fixture)
     {
         _fixture = fixture;
         _client = fixture.Client;

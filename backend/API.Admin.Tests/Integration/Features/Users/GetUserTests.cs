@@ -7,12 +7,12 @@ using System.Net.Http.Headers;
 
 namespace API.Admin.Tests.Integration.Features.Users;
 
-public class GetUserTests : IClassFixture<DatabaseFixture>
+public class GetUserTests : IClassFixture<DatabaseSQLServerFixture>
 {
     private readonly HttpClient _client;
-    private readonly DatabaseFixture _fixture;
+    private readonly DatabaseSQLServerFixture _fixture;
 
-    public GetUserTests(DatabaseFixture fixture)
+    public GetUserTests(DatabaseSQLServerFixture fixture)
     {
         _fixture = fixture;
         _client = fixture.Client;

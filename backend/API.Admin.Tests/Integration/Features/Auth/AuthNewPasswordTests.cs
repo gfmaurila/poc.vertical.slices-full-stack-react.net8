@@ -7,12 +7,12 @@ using System.Net.Http.Json;
 
 namespace API.Admin.Tests.Integration.Features.Auth;
 
-public class AuthNewPasswordTests : IClassFixture<DatabaseFixture>
+public class AuthNewPasswordTests : IClassFixture<DatabaseSQLServerFixture>
 {
     private readonly HttpClient _client;
-    private readonly DatabaseFixture _fixture;
+    private readonly DatabaseSQLServerFixture _fixture;
 
-    public AuthNewPasswordTests(DatabaseFixture fixture)
+    public AuthNewPasswordTests(DatabaseSQLServerFixture fixture)
     {
         _fixture = fixture;
         _client = fixture.Client;
@@ -23,6 +23,8 @@ public class AuthNewPasswordTests : IClassFixture<DatabaseFixture>
     {
         // Arrange
         var command = AuthFake.AuthNewPasswordPostCommand();
+
+        await UserFake.CreateUserAuth(_fixture, UserFake.CreateUser(command.Email, "1Test123$"));
 
         var httpResponse = await _client.PostAsJsonAsync("/api/v1/resetpassword", command);
         httpResponse.EnsureSuccessStatusCode();

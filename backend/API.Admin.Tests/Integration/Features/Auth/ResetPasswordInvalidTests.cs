@@ -7,12 +7,12 @@ using System.Net.Http.Json;
 
 namespace API.Admin.Tests.Integration.Features.Auth;
 
-public class ResetPasswordInvalidTests : IClassFixture<DatabaseFixture>
+public class ResetPasswordInvalidTests : IClassFixture<DatabaseSQLServerFixture>
 {
     private readonly HttpClient _client;
-    private readonly DatabaseFixture _fixture;
+    private readonly DatabaseSQLServerFixture _fixture;
 
-    public ResetPasswordInvalidTests(DatabaseFixture fixture)
+    public ResetPasswordInvalidTests(DatabaseSQLServerFixture fixture)
     {
         _fixture = fixture;
         _client = fixture.Client;

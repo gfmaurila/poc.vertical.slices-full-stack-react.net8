@@ -7,12 +7,12 @@ using System.Net.Http.Json;
 namespace API.Admin.Tests.Integration.Features.Users;
 
 
-public class UpdateEmailUserInvalidTests : IClassFixture<DatabaseFixture>
+public class UpdateEmailUserInvalidTests : IClassFixture<DatabaseSQLServerFixture>
 {
     private readonly HttpClient _client;
-    private readonly DatabaseFixture _fixture;
+    private readonly DatabaseSQLServerFixture _fixture;
 
-    public UpdateEmailUserInvalidTests(DatabaseFixture fixture)
+    public UpdateEmailUserInvalidTests(DatabaseSQLServerFixture fixture)
     {
         _fixture = fixture;
         _client = fixture.Client;
