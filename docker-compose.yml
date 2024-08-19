@@ -104,6 +104,21 @@ services:
     networks:
       - app-backend
 
+  mysql:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_USER: teste_mysql
+      MYSQL_PASSWORD: 123456
+      MYSQL_DATABASE: teste_mysql
+    restart: always
+    expose:
+      - 3306
+    ports:
+      - "3306:3306"
+    networks:
+      - app-backend
 
   # Redis Cache Server
   redis:
