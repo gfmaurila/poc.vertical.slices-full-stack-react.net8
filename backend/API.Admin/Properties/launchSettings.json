@@ -1,7 +1,7 @@
 {
   "profiles": {
 
-    "poc.vertical.slices.net8": {
+    "Vertical Slices Net8": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
