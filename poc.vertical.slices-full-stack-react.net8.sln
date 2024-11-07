@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Worker", "Worker", "{3AC425
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Webhooks", "Webhooks", "{9ABFFB37-6E0C-4F19-958C-A81DDB02C148}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webhook.App", "backend\Webhook.App\Webhook.App.csproj", "{4A8E4ECC-9B94-4026-9E23-6DB3865E14A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Webhook.App", "backend\Webhook.App\Webhook.App.csproj", "{4A8E4ECC-9B94-4026-9E23-6DB3865E14A4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.Gateway", "backend\API.Gateway\API.Gateway.csproj", "{8D5CA2C7-F31E-4D41-A6C6-E71FDDAE30E0}"
 EndProject
