@@ -17,6 +17,6 @@ public class RabbiMQInitializer
         services.AddScoped<ITwilioProducer, TwilioProducer>();
 
         // Subscribe
-        services.AddHostedService<TwilioWhatsAppConsumer>();
+        // services.AddHostedService<TwilioWhatsAppConsumer>();
     }
 }
