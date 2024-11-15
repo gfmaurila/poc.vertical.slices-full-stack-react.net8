@@ -1,5 +1,4 @@
 ﻿using API.Admin.Infrastructure.Database.Repositories.Interfaces;
-using Common.Net8.Interface;
 using Common.Net8.Response;
 using MediatR;
 
@@ -8,17 +7,14 @@ namespace API.Admin.Feature.Users.GetUser;
 public class GetUserQueryHandler : IRequestHandler<GetUserQuery, ApiResult<List<UserQueryModel>>>
 {
     private readonly IUserRepository _repo;
-    private readonly IRedisCacheService<List<UserQueryModel>> _cacheService;
-    public GetUserQueryHandler(IUserRepository repo, IRedisCacheService<List<UserQueryModel>> cacheService)
+    public GetUserQueryHandler(IUserRepository repo)
     {
         _repo = repo;
-        _cacheService = cacheService;
     }
 
     public async Task<ApiResult<List<UserQueryModel>>> Handle(GetUserQuery request, CancellationToken cancellationToken)
     {
-        const string cacheKey = nameof(GetUserQuery);
-        var users = await _cacheService.GetOrCreateAsync(cacheKey, () => _repo.GetAllAsync(), TimeSpan.FromHours(2));
+        var users = await _repo.GetAllAsync();
 
         if (users is not null && users.Any())
             return ApiResult<List<UserQueryModel>>.CreateSuccess(users, "Usuários recuperados com sucesso.");

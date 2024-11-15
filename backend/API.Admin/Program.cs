@@ -2,10 +2,8 @@ using API.Admin.Extensions;
 using API.Admin.Infrastructure.Database;
 using API.Admin.Infrastructure.Database.Repositories;
 using API.Admin.Infrastructure.Database.Repositories.Interfaces;
-using API.Admin.RabbiMQ;
 using Carter;
 using Common.Net8;
-using Common.Net8.DistributedCache;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using poc.vertical.slices.net8.Extensions;
@@ -27,9 +25,7 @@ var assembly = typeof(Program).Assembly;
 
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(assembly));
 
-DistributedCacheInitializer.Initialize(builder.Services, builder.Configuration);
 CoreInitializer.Initialize(builder.Services);
-RabbiMQInitializer.Initialize(builder.Services);
 
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 
@@ -47,8 +43,7 @@ builder.Host.UseSerilog((context, config) =>
 
 var app = builder.Build();
 
-if (app.Environment.IsEnvironment("Test") ||
-    app.Environment.IsDevelopment() ||
+if (app.Environment.IsDevelopment() ||
     app.Environment.IsEnvironment("Docker") ||
     app.Environment.IsStaging() ||
     app.Environment.IsProduction())
