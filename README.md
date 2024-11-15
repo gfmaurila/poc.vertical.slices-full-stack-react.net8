@@ -45,15 +45,6 @@
         <li>Kafka</li>
         <li>Docker & Docker Compose</li>
         <li>Integration Tests</li>
-            <ul>
-                <li>In-memory DB</li>
-                <li>Sqlite</li>
-                <li>Sql Server</li>
-                <li>XUnit</li>
-                <li>NUnit</li>
-                <li>Moq</li>
-                <li>Bogus</li>
-            </ul>
         </ul>    
 </div>
 
