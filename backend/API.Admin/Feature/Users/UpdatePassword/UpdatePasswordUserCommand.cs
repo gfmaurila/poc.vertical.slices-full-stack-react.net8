@@ -1,5 +1,5 @@
-﻿using MediatR;
-using poc.core.api.net8.Response;
+﻿using Common.Net8.Response;
+using MediatR;
 using System.ComponentModel.DataAnnotations;
 
 namespace API.Admin.Feature.Users.UpdatePassword;

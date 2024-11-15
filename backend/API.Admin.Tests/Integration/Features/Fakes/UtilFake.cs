@@ -1,4 +1,4 @@
-﻿using poc.core.api.net8.User;
+﻿using Common.Net8.User;
 
 namespace API.Admin.Tests.Integration.Features.Fakes;
 

@@ -1,7 +1,7 @@
 ﻿using API.Admin.Feature.Notification.Events;
 using API.Admin.RabbiMQ;
-using poc.core.api.net8.Enumerado;
-using poc.core.api.net8.Interface;
+using Common.Net8.Enumerado;
+using Common.Net8.Interface;
 using System.Text;
 using System.Text.Json;
 

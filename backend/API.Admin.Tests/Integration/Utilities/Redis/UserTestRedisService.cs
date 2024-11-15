@@ -1,5 +1,5 @@
 ﻿using API.Admin.Feature.Users.GetUser;
-using poc.core.api.net8.Interface;
+using Common.Net8.Interface;
 
 namespace API.Admin.Tests.Integration.Utilities.Redis;
 

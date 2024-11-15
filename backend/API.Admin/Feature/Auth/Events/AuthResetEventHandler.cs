@@ -1,10 +1,10 @@
 ﻿using API.Admin.Domain.User.Events.Auth;
 using API.Admin.Feature.Notification;
+using Common.Net8.AppSettings;
+using Common.Net8.Enumerado;
+using Common.Net8.Helper;
+using Common.Net8.Interface;
 using MediatR;
-using poc.core.api.net8.AppSettings;
-using poc.core.api.net8.Enumerado;
-using poc.core.api.net8.Helper;
-using poc.core.api.net8.Interface;
 
 namespace API.Admin.Feature.Auth.Events;
 

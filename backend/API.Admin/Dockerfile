@@ -14,6 +14,7 @@ WORKDIR /backend
 
 # Copia o arquivo .csproj para o diret rio de trabalho atual no cont iner
 COPY backend/API.Admin/API.Admin.csproj .
+COPY backend/Common.Net8/Common.Net8.csproj .
 
 # Restaura as depend ncias do projeto
 RUN dotnet restore API.Admin.csproj

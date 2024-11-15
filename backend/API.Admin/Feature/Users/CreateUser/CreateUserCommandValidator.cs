@@ -1,5 +1,5 @@
-﻿using FluentValidation;
-using poc.core.api.net8.Enumerado;
+﻿using Common.Net8.Enumerado;
+using FluentValidation;
 
 namespace API.Admin.Feature.Users.CreateUser;
 

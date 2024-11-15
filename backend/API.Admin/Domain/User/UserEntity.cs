@@ -1,10 +1,10 @@
 ﻿using API.Admin.Domain.User.Events;
 using API.Admin.Domain.User.Events.Auth;
 using API.Admin.Feature.Users.UpdateUser;
-using poc.core.api.net8;
-using poc.core.api.net8.api.net8.api.net8.Abstractions;
-using poc.core.api.net8.Enumerado;
-using poc.core.api.net8.ValueObjects;
+using Common.Net8;
+using Common.Net8.Abstractions;
+using Common.Net8.Enumerado;
+using Common.Net8.ValueObjects;
 
 namespace API.Admin.Domain.User;
 

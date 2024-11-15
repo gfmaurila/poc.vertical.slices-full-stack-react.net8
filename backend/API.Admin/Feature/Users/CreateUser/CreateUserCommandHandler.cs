@@ -1,9 +1,9 @@
 ﻿using API.Admin.Domain.User;
 using API.Admin.Infrastructure.Database.Repositories.Interfaces;
+using Common.Net8.Extensions;
+using Common.Net8.Response;
+using Common.Net8.ValueObjects;
 using MediatR;
-using poc.core.api.net8.Extensions;
-using poc.core.api.net8.Response;
-using poc.core.api.net8.ValueObjects;
 
 namespace API.Admin.Feature.Users.CreateUser;
 

@@ -1,7 +1,7 @@
 ﻿using API.Admin.Feature.Users.GetUser;
 using API.Admin.Tests.Integration.Utilities;
+using Common.Net8.Response;
 using Newtonsoft.Json;
-using poc.core.api.net8.Response;
 using System.Net;
 using System.Net.Http.Headers;
 

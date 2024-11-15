@@ -1,10 +1,6 @@
 ﻿using API.Admin.Feature.Notification.Request;
 using API.Admin.Feature.Notification.Service;
-using API.Admin.RabbiMQ;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using System.Text;
-using System.Text.Json;
 
 namespace API.Admin.Feature.Notification.Consumers;
 

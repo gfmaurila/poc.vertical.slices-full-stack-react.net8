@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
+using Common.Net8.Enumerado;
 using MediatR;
-using poc.core.api.net8.Enumerado;
 
 namespace API.Admin.Feature.Notification;
 

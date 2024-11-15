@@ -1,4 +1,4 @@
-﻿using poc.core.api.net8;
+﻿using Common.Net8;
 
 namespace API.Admin.Feature.Users.CreateUser;
 
@@ -11,7 +11,7 @@ public class CreateUserResponse : BaseResponse
 
 
 
-//using poc.core.api.net8;
+//using Common.Net8;
 
 //namespace API.Admin.Feature.Users.CreateUser;
 

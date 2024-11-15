@@ -1,7 +1,7 @@
 ﻿using API.Admin.Infrastructure.Database.Repositories.Interfaces;
+using Common.Net8.Interface;
+using Common.Net8.Response;
 using MediatR;
-using poc.core.api.net8.Interface;
-using poc.core.api.net8.Response;
 
 namespace API.Admin.Feature.Users.GetUser;
 

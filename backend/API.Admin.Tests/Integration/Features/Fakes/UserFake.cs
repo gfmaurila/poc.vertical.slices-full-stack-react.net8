@@ -6,10 +6,10 @@ using API.Admin.Feature.Users.UpdateUser;
 using API.Admin.Infrastructure.Database;
 using API.Admin.Tests.Integration.Utilities;
 using Bogus;
+using Common.Net8.Enumerado;
+using Common.Net8.Extensions;
+using Common.Net8.ValueObjects;
 using Microsoft.Extensions.DependencyInjection;
-using poc.core.api.net8.Enumerado;
-using poc.core.api.net8.Extensions;
-using poc.core.api.net8.ValueObjects;
 using System.Net.Http.Headers;
 
 namespace API.Admin.Tests.Integration.Features.Fakes;

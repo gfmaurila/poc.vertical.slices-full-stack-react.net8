@@ -1,4 +1,4 @@
-﻿using poc.core.api.net8.Enumerado;
+﻿using Common.Net8.Enumerado;
 
 namespace API.Admin.Feature.Notification.Request;
 

@@ -76,7 +76,7 @@ namespace API.Admin.Migrations
 
             modelBuilder.Entity("API.Admin.Domain.User.UserEntity", b =>
                 {
-                    b.OwnsOne("poc.core.api.net8.ValueObjects.Email", "Email", b1 =>
+                    b.OwnsOne("Common.Net8.ValueObjects.Email", "Email", b1 =>
                         {
                             b1.Property<Guid>("UserEntityId")
                                 .HasColumnType("uniqueidentifier");
@@ -96,7 +96,7 @@ namespace API.Admin.Migrations
                                 .HasForeignKey("UserEntityId");
                         });
 
-                    b.OwnsOne("poc.core.api.net8.ValueObjects.PhoneNumber", "Phone", b1 =>
+                    b.OwnsOne("Common.Net8.ValueObjects.PhoneNumber", "Phone", b1 =>
                         {
                             b1.Property<Guid>("UserEntityId")
                                 .HasColumnType("uniqueidentifier");

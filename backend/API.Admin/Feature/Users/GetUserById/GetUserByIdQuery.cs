@@ -1,6 +1,6 @@
 ﻿using API.Admin.Feature.Users.GetUser;
+using Common.Net8.Response;
 using MediatR;
-using poc.core.api.net8.Response;
 
 namespace API.Admin.Feature.Users.GetUserById;
 

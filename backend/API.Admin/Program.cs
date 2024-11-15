@@ -4,10 +4,10 @@ using API.Admin.Infrastructure.Database.Repositories;
 using API.Admin.Infrastructure.Database.Repositories.Interfaces;
 using API.Admin.RabbiMQ;
 using Carter;
+using Common.Net8;
+using Common.Net8.DistributedCache;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using poc.core.api.net8;
-using poc.core.api.net8.DistributedCache;
 using poc.vertical.slices.net8.Extensions;
 using Serilog;
 

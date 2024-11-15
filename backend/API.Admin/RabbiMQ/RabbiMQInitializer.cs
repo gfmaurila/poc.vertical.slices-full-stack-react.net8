@@ -1,7 +1,6 @@
-﻿using API.Admin.Feature.Notification.Consumers;
-using API.Admin.Feature.Notification.Producer;
+﻿using API.Admin.Feature.Notification.Producer;
 using API.Admin.Feature.Notification.Service;
-using poc.core.api.net8.Interface;
+using Common.Net8.Interface;
 
 namespace API.Admin.RabbiMQ;
 

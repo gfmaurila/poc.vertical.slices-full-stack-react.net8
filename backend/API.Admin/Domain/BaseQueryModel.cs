@@ -1,4 +1,4 @@
-﻿using poc.core.api.net8.Abstractions;
+﻿using Common.Net8.Abstractions;
 
 namespace API.Admin.Domain;
 

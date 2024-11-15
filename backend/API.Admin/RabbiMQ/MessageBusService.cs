@@ -1,4 +1,4 @@
-﻿using poc.core.api.net8.Interface;
+﻿using Common.Net8.Interface;
 using RabbitMQ.Client;
 
 namespace API.Admin.RabbiMQ;
