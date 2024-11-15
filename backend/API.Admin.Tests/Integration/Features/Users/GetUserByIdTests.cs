@@ -1,7 +1,7 @@
 ﻿using API.Admin.Feature.Users.GetUser;
 using API.Admin.Tests.Integration.Features.Fakes;
 using API.Admin.Tests.Integration.Utilities;
-using poc.core.api.net8.Response;
+using Common.Net8.Response;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;

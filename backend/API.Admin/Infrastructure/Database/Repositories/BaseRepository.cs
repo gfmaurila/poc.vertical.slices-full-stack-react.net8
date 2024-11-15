@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using poc.core.api.net8;
-using poc.core.api.net8.Abstractions;
+﻿using Common.Net8;
+using Common.Net8.Abstractions;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Admin.Infrastructure.Database.Repositories;
 

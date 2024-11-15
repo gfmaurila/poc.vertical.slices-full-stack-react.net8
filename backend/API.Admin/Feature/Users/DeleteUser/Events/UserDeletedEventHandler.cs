@@ -1,8 +1,8 @@
 ﻿using API.Admin.Domain.User.Events;
 using API.Admin.Feature.Users.GetUser;
 using API.Admin.Infrastructure.Database.Repositories.Interfaces;
+using Common.Net8.Interface;
 using MediatR;
-using poc.core.api.net8.Interface;
 
 namespace API.Admin.Feature.Users.DeleteUser.Events;
 

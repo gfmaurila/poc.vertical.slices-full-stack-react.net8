@@ -1,8 +1,8 @@
 ﻿using API.Admin.Feature.Auth.AuthNewPassword;
 using Carter;
+using Common.Net8.API.Models;
 using MediatR;
 using Microsoft.OpenApi.Models;
-using poc.core.api.net8.API.Models;
 
 namespace poc.vertical.slices.net8.Endpoints.Auth;
 

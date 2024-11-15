@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using poc.core.api.net8.Enumerado;
-using poc.core.api.net8.Extensions;
-using poc.core.api.net8.User;
+﻿using Common.Net8.Enumerado;
+using Common.Net8.Extensions;
+using Common.Net8.User;
+using Microsoft.EntityFrameworkCore.Migrations;
 using System.Text.Json;
 
 #nullable disable

@@ -1,5 +1,5 @@
-﻿using MediatR;
-using poc.core.api.net8.Response;
+﻿using Common.Net8.Response;
+using MediatR;
 
 namespace API.Admin.Feature.Auth.AuthNewPassword;
 

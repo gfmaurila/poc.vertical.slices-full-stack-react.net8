@@ -1,11 +1,11 @@
 ﻿using API.Admin.Feature.Users.GetUser;
 using API.Admin.Feature.Users.GetUserById;
 using Carter;
+using Common.Net8.API.Models;
+using Common.Net8.User;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
-using poc.core.api.net8.API.Models;
-using poc.core.api.net8.User;
 
 namespace poc.vertical.slices.net8.Endpoints.User;
 public class GetUserByIdEndpoint : ICarterModule

@@ -1,6 +1,6 @@
 ﻿using API.Admin.Tests.Integration.Features.Fakes;
 using API.Admin.Tests.Integration.Utilities;
-using poc.core.api.net8.API.Models;
+using Common.Net8.API.Models;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 

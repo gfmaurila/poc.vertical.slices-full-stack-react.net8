@@ -1,5 +1,5 @@
-﻿using poc.core.api.net8.Enumerado;
-using poc.core.api.net8.Events;
+﻿using Common.Net8.Enumerado;
+using Common.Net8.Events;
 
 namespace API.Admin.Domain.User.Events;
 

@@ -1,8 +1,8 @@
 ﻿using API.Admin.Domain.User;
 using API.Admin.Feature.Users.GetUser;
 using API.Admin.Infrastructure.Database.Repositories.Interfaces;
+using Common.Net8.ValueObjects;
 using Microsoft.EntityFrameworkCore;
-using poc.core.api.net8.ValueObjects;
 
 namespace API.Admin.Infrastructure.Database.Repositories;
 

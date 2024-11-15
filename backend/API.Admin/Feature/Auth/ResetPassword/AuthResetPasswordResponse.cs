@@ -1,4 +1,4 @@
-﻿using poc.core.api.net8;
+﻿using Common.Net8;
 
 namespace API.Admin.Feature.Auth.ResetPassword;
 

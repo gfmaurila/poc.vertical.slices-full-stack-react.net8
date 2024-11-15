@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using poc.core.api.net8;
+﻿using Common.Net8;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace poc.vertical.slices.net8.Extensions;
 

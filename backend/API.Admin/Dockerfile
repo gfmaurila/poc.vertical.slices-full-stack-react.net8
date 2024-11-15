@@ -1,8 +1,8 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 5075
+EXPOSE 5061
 
-ENV ASPNETCORE_URLS=http://+:5075
+ENV ASPNETCORE_URLS=http://+:5061
 ENV DOTNET_NOLOGO=true
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=true
 
@@ -14,6 +14,7 @@ WORKDIR /backend
 
 # Copia o arquivo .csproj para o diret rio de trabalho atual no cont iner
 COPY backend/API.Admin/API.Admin.csproj .
+COPY backend/Common.Net8/Common.Net8.csproj .
 
 # Restaura as depend ncias do projeto
 RUN dotnet restore API.Admin.csproj

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Admin.Tests.Integration.Utilities;
 
-public class DatabaseInMemoryFixture : IAsyncLifetime
+public class DatabaseSQLServerFixture : IAsyncLifetime
 {
     private readonly TestWebApplicationFactory<Program> _factory;
 
@@ -14,7 +14,7 @@ public class DatabaseInMemoryFixture : IAsyncLifetime
 
     private static Random random = new Random();
 
-    public DatabaseInMemoryFixture()
+    public DatabaseSQLServerFixture()
     {
         _auth = new AuthToken1();
         _factory = new TestWebApplicationFactory<Program>();
