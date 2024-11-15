@@ -73,16 +73,6 @@
             <td>docker-compose up --build</td>
         </tr>
         <tr>
-            <td>React</td>
-            <td>
-                <ul>
-                    <li>npm install ou yarn install</li>
-                    <li>npm install</li>
-                    <li>npm start ou yarn start</li>
-                </ul>
-            </td>
-        </tr>
-        <tr>
             <td>SQL Server</td>
             <td>
                 <ul>
