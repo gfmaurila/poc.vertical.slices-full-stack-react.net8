@@ -37,22 +37,10 @@
         <li>Fluent Validation</li>
         <li>Swagger</li>
         <li>Serilog</li>
-        <li>MongoDB</li>
-        <li>Redis</li>
         <li>SQL Server</li>
         <li>Serilog</li>
-        <li>RabbitMQ</li>
-        <li>Kafka</li>
         <li>Docker & Docker Compose</li>
-        <li>Integration Tests</li>
         </ul>    
-</div>
-
-<div>
-    <h2>Frontend - Ainda não foi concluido</h2>
-    <ul>
-        <li>React</li>
-    </ul>    
 </div>
 
 <div>
@@ -72,10 +60,6 @@
 <div>
     <h2>Configurando projeto</h2>
     <table>
-        <tr>
-            <td>Frontend:</td>
-            <td>http://localhost/</td>
-        </tr>
         <tr>
             <td>Backend:</td>
             <td>http://localhost:5075/swagger/index.html</td>
@@ -110,23 +94,7 @@
     </table>    
 </div>
 
-<div>
-    <h2>Teste Unitário</h2>
-    <table>
-        <tr>
-            <th>Projeto</th>
-            <th>Desenvolvedor</th>
-            <th>-</th>
-            <th>Line Coverage %</th>
-        </tr>
-        <tr>
-            <th>API.Admin</th>
-            <th>Guilherme F Maurila</th>
-            <th>-</th>
-            <th>96.4%</th>
-        </tr>
-    </table>    
-</div>
+
 
 ## API - Swagger
 
